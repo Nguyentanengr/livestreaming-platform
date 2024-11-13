@@ -6,9 +6,9 @@ import { lightTheme, darkTheme } from "./assets/styles/Theme";
 import { useState } from "react";
 import { useEffect } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
+import Home from "./views/Home";
 
 const App = () => {
-
   const [mySize, setMySize] = useState(window.innerWidth);
   const { darkStatus, sideBarStatus } = useSelector((state) => state.site);
 
