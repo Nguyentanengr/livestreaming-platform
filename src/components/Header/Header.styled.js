@@ -1,19 +1,21 @@
 import styled from "styled-components";
 
 export const StyledHeader = styled.header`
-  
+  display: none;
   width: 100%;
   position: fixed;
   top: 0px;
-  z-index: 20px;
+  z-index: 20;
+  width: 100%;
 
   .header-box {
-    display: block;
     position: relative;
     height: 50px;
+    display: block;
     width: 100%;
     background-color: ${(props) => props.theme.headerDesktop};
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+    z-index: 10;
 
     header {
       background-color: ${(props) => props.theme.headerDesktop};

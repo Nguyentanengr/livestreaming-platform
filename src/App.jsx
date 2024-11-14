@@ -6,7 +6,8 @@ import { lightTheme, darkTheme } from "./assets/styles/Theme";
 import { useState } from "react";
 import { useEffect } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import Home from "./views/Home";
+import Home from "./views/Home/Home";
+import LiveStream from "./views/LiveStream/LiveStream";
 
 const App = () => {
   const [mySize, setMySize] = useState(window.innerWidth);
@@ -27,8 +28,8 @@ const App = () => {
         <Header mySize={mySize} />
         <div className={`main ${sideBarStatus && mySize > 1199 ? "sidebar-open" : ""}`}>
           <Routes>
-            <Route path="*" element={<Navigate to="/" replace />} />
             <Route path="/" element={<Home />} />
+            <Route path="/:username" element={<LiveStream />} />
           </Routes>
         </div>
       </div>
