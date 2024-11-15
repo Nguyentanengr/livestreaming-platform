@@ -1,14 +1,14 @@
 import { useSelector } from "react-redux";
 import Chanel from "./Chanel";
-import { StyledChanels } from "./StyledChanels.styled";
+import { ChanelListContainer } from "./ChanelList.styled";
 
 
-const Chanels = ({ title }) => {
+const ChanelList = ({ title }) => {
 
     const { users } = useSelector((state) => state.user)
 
     return (
-        <StyledChanels>
+        <ChanelListContainer>
             <div className="chanels-box">
                 {title && <h1>{title}</h1>}
                 <div className="list">
@@ -20,8 +20,8 @@ const Chanels = ({ title }) => {
                     })}
                 </div>
             </div>
-        </StyledChanels>
+        </ChanelListContainer>
     )
 }
 
-export default Chanels;
+export default ChanelList;

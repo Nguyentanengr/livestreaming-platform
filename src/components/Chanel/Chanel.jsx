@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { StyledChanel } from "./StyledChanel.styled";
+import { ChanelContainer } from "./Chanel.styled";
 
 import { FaEllipsisV } from "react-icons/fa";
 
@@ -12,7 +12,7 @@ const Chanel = ({ user }) => {
     }
 
     return (
-        <StyledChanel>
+        <ChanelContainer>
             <div className="channel-box">
                 <div className="live-screen" onClick={() => handleLiveScreenClick(user.username)}>
                     <img src={user.liveScreen} alt="" />
@@ -41,7 +41,7 @@ const Chanel = ({ user }) => {
                     </div>
                 </div>
             </div>
-        </StyledChanel>
+        </ChanelContainer>
     )
 }
 

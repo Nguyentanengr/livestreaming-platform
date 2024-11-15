@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 
-export const StyledChanel = styled.div`
+export const ChanelContainer = styled.div`
     .channel-box {
         margin-top: 10px;
         flex: 1;

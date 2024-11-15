@@ -1,4 +1,4 @@
-import { StyledHeader } from "./Header.styled";
+import { HeaderContainer } from "./Header.styled";
 
 //React
 import { Link, useLocation } from "react-router-dom";
@@ -13,7 +13,7 @@ const Header = ({ mySize }) => {
   const { pathname } = useLocation();
 
   return (
-    <StyledHeader>
+    <HeaderContainer>
       <>
         <div className="header-box">
           <header>
@@ -76,7 +76,7 @@ const Header = ({ mySize }) => {
           </header>
         </div>
       </>
-    </StyledHeader>
+    </HeaderContainer>
   );
 };
 

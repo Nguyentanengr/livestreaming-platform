@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Home from "./views/Home/Home";
-import LiveStream from "./views/LiveStream/LiveStream";
+import LiveRoom from "./views/LiveRoom/LiveRoom";
 
 const App = () => {
   const [mySize, setMySize] = useState(window.innerWidth);
@@ -29,7 +29,7 @@ const App = () => {
         <div className={`main ${sideBarStatus && mySize > 1199 ? "sidebar-open" : ""}`}>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/:username" element={<LiveStream />} />
+            <Route path="/:username" element={<LiveRoom />} />
           </Routes>
         </div>
       </div>

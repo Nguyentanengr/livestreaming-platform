@@ -1,14 +1,14 @@
-import Chanels from "../../components/Chanel/Chanels";
-import { StyledHome } from "./Home.styled";
+import Chanels from "../../components/Chanel/ChanelList";
+import { HomeContainer } from "./Home.styled";
 
 
 const Home = () => {
     return (
-        <StyledHome>
+        <HomeContainer>
             <div className="home-box">
                 <Chanels title="Live chanels we think you'll like" />
             </div>
-        </StyledHome>
+        </HomeContainer>
     );
 }
 

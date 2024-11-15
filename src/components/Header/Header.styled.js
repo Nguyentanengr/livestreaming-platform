@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const StyledHeader = styled.header`
+export const HeaderContainer = styled.header`
   display: none;
   width: 100%;
   position: fixed;
@@ -10,7 +10,7 @@ export const StyledHeader = styled.header`
 
   .header-box {
     position: relative;
-    height: 50px;
+    height: 55px;
     display: block;
     width: 100%;
     background-color: ${(props) => props.theme.headerDesktop};

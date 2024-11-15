@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 
-export const StyledChanels = styled.div`
+export const ChanelListContainer = styled.div`
     .chanels-box {
         display: block;
         margin-top: 30px;
