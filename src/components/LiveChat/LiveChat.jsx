@@ -9,16 +9,16 @@ const LiveChat = () => {
   const [messages, setMessages] = useState([
     { id: 1, user: 'Alatrey', text: '​​why she trying not to laugh', time: '2:09', pp: 'https://i.pravatar.cc/' },
     { id: 2, user: 'Mr_Bigls', text: 'Mahima finna go broke bro tryna get a shoutout', time: '2:11', pp: 'https://i.pravatar.cc/' },
-    { id: 3, user: 'snowden_88', text: '​​ Nah this last with her mom is crazy', time: '2:12', pp: 'https://i.pravatar.cc/' },
-    { id: 4, user: 'snowden_88', text: '​​ Nah this last with her mom is crazy', time: '2:12', pp: 'https://i.pravatar.cc/' },
-    { id: 5, user: 'snowden_88', text: '​​ Nah this last with her mom is crazy', time: '2:12', pp: 'https://i.pravatar.cc/' },
-    { id: 6, user: 'snowden_88', text: '​​ Nah this last with her mom is crazy', time: '2:12', pp: 'https://i.pravatar.cc/' },
-    { id: 7, user: 'snowden_88', text: '​​ Nah this last with her mom is crazy', time: '2:12', pp: 'https://i.pravatar.cc/' },
-    { id: 8, user: 'snowden_88', text: '​​ Nah this last with her mom is crazy', time: '2:12', pp: 'https://i.pravatar.cc/' },
-    { id: 9, user: 'snowden_88', text: '​​ Nah this last with her mom is crazy', time: '2:12', pp: 'https://i.pravatar.cc/' },
-    { id: 10, user: 'snowden_88', text: '​​ Nah this last with her mom is crazy', time: '2:12', pp: 'https://i.pravatar.cc/' },
-    { id: 11, user: 'snowden_88', text: '​​ Nah this last with her mom is crazy', time: '2:12', pp: 'https://i.pravatar.cc/' },
-    { id: 12, user: 'snowden_88', text: '​​ Nah this last with her mom is crazy', time: '2:12', pp: 'https://i.pravatar.cc/' },
+    { id: 3, user: 'Agradyean', text: '​​ best your time', time: '2:12', pp: 'https://i.pravatar.cc/' },
+    { id: 4, user: 'swidenhilend', text: '​​ love you <3333', time: '2:12', pp: 'https://i.pravatar.cc/' },
+    { id: 5, user: 'redian', text: '​​ really funny', time: '2:12', pp: 'https://i.pravatar.cc/' },
+    { id: 6, user: 'alicejust', text: '​​ oh, wtf very nice of fence', time: '2:12', pp: 'https://i.pravatar.cc/' },
+    { id: 7, user: 'er44conjan', text: '​​ read read hilen confesstival', time: '2:12', pp: 'https://i.pravatar.cc/' },
+    { id: 8, user: 'rondonket', text: '​​ Nathy and colic team restauic', time: '2:12', pp: 'https://i.pravatar.cc/' },
+    { id: 9, user: 'sunak335', text: '​​ sytem haha and colapse with kyou', time: '2:12', pp: 'https://i.pravatar.cc/' },
+    { id: 10, user: 'historier', text: '​​ oh kios redumse co memlapse', time: '2:12', pp: 'https://i.pravatar.cc/' },
+    { id: 11, user: 'supercateri', text: '​​ jakata regend sicher at be lost', time: '2:12', pp: 'https://i.pravatar.cc/' },
+    { id: 12, user: 'bayjan', text: '​​ oh, wtf very nice of fence', time: '2:12', pp: 'https://i.pravatar.cc/' },
   ]);
 
   const [inputValue, setInputValue] = useState('');

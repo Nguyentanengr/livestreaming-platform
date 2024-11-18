@@ -12,7 +12,7 @@ export const LiveChatContainer = styled.div`
   display: flex;
   flex-direction: column;
   font-family: Arial, sans-serif;
-  z-index: 1000; /* Ensures the chat is always on top */
+  z-index: 10;
 
   .chat-header {
     display: flex;

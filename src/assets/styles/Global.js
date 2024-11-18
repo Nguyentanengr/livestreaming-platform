@@ -19,12 +19,20 @@ body::-webkit-scrollbar-thumb {
   outline: 1px solid slategrey;
 }
 
+body.no-scroll {
+  overflow: hidden; /* Tắt cuộn */
+}
+
 a {
   color: ${(props) => props.theme.text};
 }
 
 .app {
   display: block;
+}
+
+.main-ex {
+  padding: 55px 0px 55px 75px;
 }
 
 @media (min-width: 768px) {

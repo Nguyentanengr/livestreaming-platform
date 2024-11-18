@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Home from "./views/Home/Home";
 import LiveRoom from "./views/LiveRoom/LiveRoom";
+import PresentRoom from "./views/PresentRoom/PresentRoom";
 
 const App = () => {
   const [mySize, setMySize] = useState(window.innerWidth);
@@ -30,6 +31,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/:username" element={<LiveRoom />} />
+            <Route path="/:username/creator-dashboard" element={<PresentRoom />} />
           </Routes>
         </div>
       </div>

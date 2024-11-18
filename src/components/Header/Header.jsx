@@ -8,6 +8,7 @@ import { BsTwitch, BsSuitDiamondFill } from "react-icons/bs";
 import { FaEllipsisV } from "react-icons/fa";
 import { BiSearch, BiMessageAlt, BiArchive } from "react-icons/bi";
 import { CgCrown } from "react-icons/cg";
+import Profile from "./Profile";
 
 const Header = ({ mySize }) => {
   const { pathname } = useLocation();
@@ -72,6 +73,9 @@ const Header = ({ mySize }) => {
                   </li>
                 </ul>
               </div>
+            </div>
+            <div className="profile">
+              <Profile />
             </div>
           </header>
         </div>
