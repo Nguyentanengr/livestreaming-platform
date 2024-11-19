@@ -19,7 +19,7 @@ export const LiveAuthorContainer = styled.div`
         border-radius: 5px;
         
         .followers {
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 600;
             color: ${(props) => props.theme.textColor};
         }

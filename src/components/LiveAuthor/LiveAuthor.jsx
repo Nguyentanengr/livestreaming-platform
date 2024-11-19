@@ -8,7 +8,7 @@ import { BsYoutube } from "react-icons/bs";
 const LiveAuthor = () => {
     return (
         <LiveAuthorContainer>
-            <h1>About frenzy_riz</h1>
+            {/* <h1>About frenzy_riz</h1> */}
             <div className="author-info">
                 <div className="followers">
                     7.2M Followers

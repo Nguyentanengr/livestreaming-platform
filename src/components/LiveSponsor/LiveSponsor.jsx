@@ -12,7 +12,7 @@ const LiveSponsor = () => {
 
     return (
         <LiveSponsorContainer>
-            <h1>Sponsored by</h1>
+            {/* <h1>Sponsored by</h1> */}
             <div className="sponsor-box">
                 {sponsors.map((sponsor, index) => (
                     <div className="sponsor" key={index}>

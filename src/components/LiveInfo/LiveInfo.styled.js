@@ -26,7 +26,7 @@ export const LiveInfoContainer = styled.div`
             justify-content: center;
             align-items: center;
             gap: 5px;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 700;
             color: ${(props) => props.theme.textColor};
             cursor: pointer;

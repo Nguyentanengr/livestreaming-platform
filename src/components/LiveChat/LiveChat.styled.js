@@ -7,7 +7,7 @@ export const LiveChatContainer = styled.div`
   bottom: 0;
   flex: 1;
   width: 415px;
-  border-right: 1px solid #ccc;
+  border-left: 1px solid rgba(0, 0, 0, 0.2);
   background-color: ${(props) => props.theme.header};
   display: flex;
   flex-direction: column;
@@ -138,7 +138,7 @@ export const LiveChatContainer = styled.div`
     display: flex;
     align-items: center;
     gap: 10px;
-    margin: 5px 10px 10px;
+    margin: 5px 10px 20px;
 
     input {
       height: 35px;

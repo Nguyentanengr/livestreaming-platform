@@ -20,17 +20,23 @@ export const PresentPreviewContainer = styled.div`
         padding: 20px 20px;
         background-color:  ${(props) => props.theme.header};
 
-        .timer {
+        .counters {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            font-size: 25px;
+            gap: 20px;
 
-            .time {
-                font-size: 14px;
-                color: ${(props) => props.theme.textColor};
-                opacity: 0.9;
+            .counter {
+                padding: 3px 20px;
+                border-radius: 3px;
+                background-color: ${(props) => props.theme.hover};
+
+                .value {
+                    font-size: 16px;
+                    font-weight: 500;
+                }
+
+                .name {
+                    font-size: 14px;
+                }
             }
         }
 

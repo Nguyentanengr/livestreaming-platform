@@ -13,6 +13,15 @@ import { BiPlus } from "react-icons/bi";
 const PresentPreview = () => {
 
     const [liveStatus, setLiveStatus] = useState(false);
+    const [session, setSession] = useState(0);
+    const [viewers, setViewers] = useState(0);
+    const [follows, setFollowers] = useState(0);
+
+    const counterList = [
+        {"name" : "Session", "value" : session},
+        {"name" : "Viewers", "value" : viewers},
+        {"name" : "Follows", "value" : follows},
+    ]
 
     const handleGoLiveClick = () => {
         setLiveStatus(!liveStatus);
@@ -25,12 +34,19 @@ const PresentPreview = () => {
                 <LiveScreen />
             </div>
 
-            <div className="go-stream" onClick={() => handleGoLiveClick()}>
-                <div className="timer">
-                    <BiVideo />
-                    <div className="time">00:00:00</div>
+            <div className="go-stream" >
+                <div className="counters">
+                    {counterList.map((counter, index) => {
+                        return (
+                            <div className="counter" key={index}>
+                                <div className="value">{counter.value == 0 ? "_" : counter.value}</div>
+                                <div className="name">{counter.name}</div>
+                            </div>
+                        )
+                    })}
                 </div>
-                <div className={`go-live ${liveStatus ? "on" : ""}`}>
+                <div className={`go-live ${liveStatus ? "on" : ""}`} onClick={() => handleGoLiveClick()}>
+
                     <BsCircleFill className="live-icon" />
                     <div className={`live-text ${liveStatus ? "on" : ""}`}>{liveStatus ? "Stop" : "Go live"}</div>
                 </div>
@@ -42,7 +58,7 @@ const PresentPreview = () => {
                 <div className="action-list">
                     <ul>
                         <li className="item">
-                            <BiPencil className="icon"/>
+                            <BiPencil className="icon" />
                             <div className="action-name">Edit Stream Info</div>
                         </li>
                         <li className="item">
@@ -50,7 +66,7 @@ const PresentPreview = () => {
                             <div className="action-name">Manage Goals</div>
                         </li>
                         <li className="item-blank">
-                            <BiPlus className="icon"/>
+                            <BiPlus className="icon" />
                         </li>
                     </ul>
                 </div>
