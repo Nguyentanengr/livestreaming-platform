@@ -1,11 +1,10 @@
 import { LiveScreenContainer } from "./LiveScreen.styled";
 
-import video from "/videos/streamvideo1.mp4";
 
 const LiveScreen = () => {
     return (
         <LiveScreenContainer>
-            <video src={video} controls></video>
+            <video src={null} controls></video>
             <div className="live">live</div>
         </LiveScreenContainer>
     )

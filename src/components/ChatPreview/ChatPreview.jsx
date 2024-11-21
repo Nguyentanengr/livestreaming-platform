@@ -7,10 +7,7 @@ import { RiSettings3Line } from "react-icons/ri";
 
 const ChatPreview = () => {
 
-    const [messages, setMessages] = useState([
-        { id: 1, user: 'Alatrey', text: '​​why she trying not to laugh', time: '2:09', pp: 'https://i.pravatar.cc/' },
-        { id: 2, user: 'Mr_Bigls', text: 'Mahima finna go broke bro ', time: '2:11', pp: 'https://i.pravatar.cc/' },
-    ]);
+    const [messages, setMessages] = useState([]);
 
     const [inputValue, setInputValue] = useState('');
 
