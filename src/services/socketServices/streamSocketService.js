@@ -20,6 +20,7 @@ export const present = (videoRef) => {
                 console.log("[Info] Start generate SDP offer.");
                 webRtcPeer.generateOffer(onOfferPresenter);
             });
+            console.error("[Error] videoRef is null or undefined.");
             console.log("[Info] Connected with kurento media server.");
         }
     }
@@ -87,7 +88,7 @@ const handleIceCandidate = (message) => {
     });
 }
 
-const stopStream = () => {
+export const stopStream = () => {
     if (webRtcPeer) {
         webRtcPeer.dispose();
         webRtcPeer = null;

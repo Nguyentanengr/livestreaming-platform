@@ -10,6 +10,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.0",
     "@stomp/stompjs": "^7.0.0",
+    "kurento-client": "^7.1.0",
     "kurento-utils": "^7.1.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -22,6 +23,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^1.0.7",
-    "vite": "^2.9.18"
+    "vite": "^2.9.18",
+    "vite-plugin-node-polyfills": "^0.22.0"
   }
 }

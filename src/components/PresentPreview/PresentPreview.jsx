@@ -10,8 +10,9 @@ import { BiPencil } from "react-icons/bi";
 import { BiStar } from "react-icons/bi";
 import { BiPlus } from "react-icons/bi";
 
-import { present, receiveMessage } from "../../services/socketServices/streamSocketService";
+import { present, receiveMessage, stopStream } from "../../services/socketServices/streamSocketService";
 import { useEffect } from "react";
+import { useRef } from "react";
 
 const PresentPreview = () => {
 
@@ -19,6 +20,8 @@ const PresentPreview = () => {
     const [session, setSession] = useState(0);
     const [viewers, setViewers] = useState(0);
     const [follows, setFollowers] = useState(0);
+
+    const videoRef = useRef(null);
 
     const counterList = [
         {"name" : "Session", "value" : session},
@@ -28,18 +31,23 @@ const PresentPreview = () => {
 
     const handleGoLiveClick = () => {
         setLiveStatus(!liveStatus);
-        present();
+        if (!liveStatus) {
+            present(videoRef);
+        } else {
+            stopStream();
+        }
     };
 
     useEffect(() => {
         receiveMessage("topic/presenter");
+        receiveMessage("topic/connect");
     }, [])
 
     return (
         <PresentPreviewContainer>
             <TitleBar title={"Stream Preview"} />
             <div className="present-screen">
-                <LiveScreen />
+                <LiveScreen videoRef={videoRef}/>
             </div>
 
             <div className="go-stream" >

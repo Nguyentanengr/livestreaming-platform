@@ -1,10 +1,10 @@
 import { LiveScreenContainer } from "./LiveScreen.styled";
+import { useRef } from "react";
 
-
-const LiveScreen = () => {
+const LiveScreen = ( {videoRef} ) => {
     return (
         <LiveScreenContainer>
-            <video src={null} controls></video>
+            <video ref={videoRef} autoPlay controls></video>
             <div className="live">live</div>
         </LiveScreenContainer>
     )
