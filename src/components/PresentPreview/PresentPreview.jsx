@@ -10,6 +10,9 @@ import { BiPencil } from "react-icons/bi";
 import { BiStar } from "react-icons/bi";
 import { BiPlus } from "react-icons/bi";
 
+import { present, receiveMessage } from "../../services/socketServices/streamSocketService";
+import { useEffect } from "react";
+
 const PresentPreview = () => {
 
     const [liveStatus, setLiveStatus] = useState(false);
@@ -25,7 +28,12 @@ const PresentPreview = () => {
 
     const handleGoLiveClick = () => {
         setLiveStatus(!liveStatus);
+        present();
     };
+
+    useEffect(() => {
+        receiveMessage("topic/presenter");
+    }, [])
 
     return (
         <PresentPreviewContainer>
