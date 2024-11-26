@@ -12,7 +12,7 @@ export const getSocket = () => {
 export const connectSocket = (url) => {
 
     if (!stompClient) {
-        const socket = new WebSocket('ws://localhost:8080/ws');
+        const socket = new WebSocket(url);
         stompClient = new Client({
             webSocketFactory: () => socket,
             onConnect: () => {

@@ -39,8 +39,7 @@ const PresentPreview = () => {
     };
 
     useEffect(() => {
-        receiveMessage("topic/presenter");
-        receiveMessage("topic/connect");
+        receiveMessage("/topic/connect");
     }, [])
 
     return (
