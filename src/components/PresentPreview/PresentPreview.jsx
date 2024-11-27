@@ -10,7 +10,7 @@ import { BiPencil } from "react-icons/bi";
 import { BiStar } from "react-icons/bi";
 import { BiPlus } from "react-icons/bi";
 
-import { present, receiveMessage, stopStream } from "../../services/socketServices/streamSocketService";
+import { present, stopStream } from "../../services/socketServices/streamSocketService";
 import { useEffect } from "react";
 import { useRef } from "react";
 
@@ -39,7 +39,6 @@ const PresentPreview = () => {
     };
 
     useEffect(() => {
-        receiveMessage("/topic/connect");
     }, [])
 
     return (
