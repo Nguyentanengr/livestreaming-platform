@@ -32,7 +32,32 @@ export const present = (videoRef) => {
     }
 };
 
-const onSdpOffer = (error, sdpOffer) => {
+
+export const view = (liveId, videoRef) => {
+    stompClient = getSocket();
+    onSdpResponse("/topic/sdp");
+    onIceResponse("/topic/ice");
+
+    if (stompClient || stompClient.connected) {
+        if (!webRtcPeer) {
+            var options = {
+                localVideo: videoRef.current,
+                onicecandidate: onIceCandidate,
+            };
+            webRtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerRecvonly(options, function (error) {
+                if (error) {
+                    console.error("[Error] Occur error while connecting with media.")
+                    return console.error(error);
+                }
+                console.log("[Info] Start generate SDP offer.");
+                this.generateOffer((error, offerSdp) => onSdpOfferViewer(error, offerSdp, liveId));
+            });
+            console.log("[Info] Connected with kurento media server.");
+        }
+    }
+}
+
+const onSdpOffer = (error, sdpOffer, liveId) => {
     if (error) {
         stopStream();
         return console.error("[Error] Occur error while generate the SDP offer.");
@@ -44,6 +69,18 @@ const onSdpOffer = (error, sdpOffer) => {
     console.info("[Info] Sending SDP Offer to server.");
     sendMessage(message, "/app/stream");
 };
+
+const onSdpOfferViewer = (error, offerSdp) => {
+    if (error) {
+        return console.error('[Error] Error generating the offer'); 
+    }
+    var message = {
+        id: "sdp-viewer",
+        sessionId: liveId,
+        data: offerSdp,
+    }
+    sendMessage(message, "/app/stream");
+}
 
 const onIceCandidate = (candidate) => {
     if (isSDPExchange) {
@@ -103,6 +140,9 @@ export const sendMessage = (message, destination) => {
     if (stompClient && stompClient.connected) {
         stompClient.publish({
             destination: destination,
+            headers: {
+                username: "abcxyz"
+            },
             body: JSON.stringify(message),
         });
     }

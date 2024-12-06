@@ -1,10 +1,17 @@
+import { view } from "../../services/socketServices/streamSocketService";
 import { LiveScreenContainer } from "./LiveScreen.styled";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
-const LiveScreen = ( {videoRef} ) => {
+const LiveScreen = ( { liveSession} ) => {
+
+    const videoRef = useRef(null);
+
+    useEffect(() => {
+        view(liveSession.id, videoRef)
+    })
     return (
         <LiveScreenContainer>
-            <video ref={videoRef} autoPlay controls></video>
+            <video ref={ videoRef } autoPlay controls></video>
             <div className="live">live</div>
         </LiveScreenContainer>
     )

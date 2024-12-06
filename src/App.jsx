@@ -40,7 +40,7 @@ const App = () => {
         <div className={`main ${sideBarStatus && mySize > 1199 ? "sidebar-open" : ""}`}>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/:username" element={<LiveRoom />} />
+            <Route path="/:id" element={<LiveRoom />} />
             <Route path="/:username/creator-dashboard" element={<PresentRoom />} />
           </Routes>
         </div>

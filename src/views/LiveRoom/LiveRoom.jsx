@@ -8,18 +8,27 @@ import LiveScreen from "../../components/LiveScreen/LiveScreen";
 import LiveInfo from "../../components/LiveInfo/LiveInfo";
 import LiveAuthor from "../../components/LiveAuthor/LiveAuthor";
 import LiveSponsor from "../../components/LiveSponsor/LiveSponsor";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const LiveRoom = () => {
 
-    const namepath = useLocation();
+    const { id } = useParams();
+    const { liveSessions } = useSelector((state) => state.liveSession);
+    const [liveSession, setLiveSession] = useState(null);
 
+    useEffect(() => {
+        const foundSession = liveSessions.find((l) => l.id === id);
+        setLiveSession(foundSession || null);
+    }, [liveSessions, id])
+    
     return (
         <LiveRoomContainer>
             <div className="live">
-                <LiveScreen />
-                <LiveInfo />                
-                <LiveAuthor />
-                <LiveSponsor />
+                <LiveScreen liveSession = {liveSession} />
+                <LiveInfo liveSession = {liveSession} />                
+                <LiveAuthor liveSession = {liveSession} />
+                <LiveSponsor liveSession = {liveSession} />
             </div>
             <LiveChat />
 

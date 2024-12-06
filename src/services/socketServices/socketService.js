@@ -16,6 +16,7 @@ export const connectSocket = (url) => {
         stompClient = new Client({
             webSocketFactory: () => socket,
             onConnect: () => {
+                
                 console.log("Connected to WebSocket via STOMP");
             },
             onDisconnect: () => {

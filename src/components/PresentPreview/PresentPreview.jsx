@@ -38,9 +38,6 @@ const PresentPreview = () => {
         }
     };
 
-    useEffect(() => {
-    }, [])
-
     return (
         <PresentPreviewContainer>
             <TitleBar title={"Stream Preview"} />
