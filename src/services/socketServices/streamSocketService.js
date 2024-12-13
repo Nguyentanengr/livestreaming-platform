@@ -1,138 +1,244 @@
-import { getSocket } from "./socketService"
-
-import kurentoUtils from 'kurento-utils'
+import { getSocket, getUserSession } from './socketService';
+import kurentoUtils from 'kurento-utils';
 
 let webRtcPeer = null;
 let stompClient = null;
+let video = null;
 
 let isSDPExchange = false;
 let candidateQueues = [];
 
+
+const onMessage = (privateQueue) => {
+    if (stompClient && stompClient.connected) {
+        stompClient.subscribe(privateQueue, (response) => {
+            const message = JSON.parse(response.body);
+
+            switch (message.id) {
+                case 'createPeerPresenter':
+                    createPeerPresenter(message);
+                    break;
+                case 'createPeerViewer':
+                    createPeerViewer(message);
+                    break;
+                case 'processAnswer':
+                    processAnswerPresenter(message);
+                case 'processCandidate':
+                    processCandidatePresenter(message);
+                case 'sdpViewer':
+                    onAnswerViewer(message);
+                    break;
+
+                default:
+                    console.error('Unrecognized message', message);
+            }
+        });
+    }
+}
+
 export const present = (videoRef) => {
+    video = videoRef;
     stompClient = getSocket();
-    onSdpResponse("/topic/sdp");
-    onIceResponse("/topic/ice");
+    onMessage('/queue/' + getUserSession());
 
     if (stompClient || stompClient.connected) {
-        if (!webRtcPeer) {
-            var options = {
-                localVideo: videoRef.current,
-                onicecandidate: onIceCandidate,
-            };
-            webRtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendonly(options, function (error) {
-                if (error) {
-                    console.error("[Error] Occur error while connecting with media.")
-                    return console.error(error);
-                }
-                console.log("[Info] Start generate SDP offer.");
-                webRtcPeer.generateOffer(onSdpOffer);
-            });
-            console.log("[Info] Connected with kurento media server.");
-        }
-    }
-};
-
-
-export const view = (liveId, videoRef) => {
-    stompClient = getSocket();
-    onSdpResponse("/topic/sdp");
-    onIceResponse("/topic/ice");
-
-    if (stompClient || stompClient.connected) {
-        if (!webRtcPeer) {
-            var options = {
-                localVideo: videoRef.current,
-                onicecandidate: onIceCandidate,
-            };
-            webRtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerRecvonly(options, function (error) {
-                if (error) {
-                    console.error("[Error] Occur error while connecting with media.")
-                    return console.error(error);
-                }
-                console.log("[Info] Start generate SDP offer.");
-                this.generateOffer((error, offerSdp) => onSdpOfferViewer(error, offerSdp, liveId));
-            });
-            console.log("[Info] Connected with kurento media server.");
-        }
+        var message = {
+            id: 'registryPresenter',
+            userSession: getUserSession(),
+        };
+        sendMessage(message, 'app/stream/registry');
     }
 }
 
-const onSdpOffer = (error, sdpOffer, liveId) => {
-    if (error) {
-        stopStream();
-        return console.error("[Error] Occur error while generate the SDP offer.");
+export const createPeerPresenter = (message) => {
+    if (!webRtcPeer) {
+        var options = {
+            localVideo: video.current,
+            onicecandidate: (candidate) => onIceCandidate(candidate, message.liveSession),
+        };
+        webRtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendonly(options, function (error) {
+            if (error) {
+                return console.error('Occur error while creating webRtcPeer', error);
+            }
+            console.log('Start generate SDP offer');
+            webRtcPeer.generateOffer((error, sdpOffer) => onOfferPresenter(error, sdpOffer, message.liveSession));
+        });
     }
-    var message = {
-        id: "sdp-presenter",
-        data: sdpOffer,
-    }
-    console.info("[Info] Sending SDP Offer to server.");
-    sendMessage(message, "/app/stream");
 };
 
-const onSdpOfferViewer = (error, offerSdp) => {
+const onOfferPresenter = (error, sdpOffer, liveSession) => {
     if (error) {
-        return console.error('[Error] Error generating the offer'); 
+        return console.error('Occur error while generate the SDP offer', error);
     }
     var message = {
-        id: "sdp-viewer",
-        sessionId: liveId,
-        data: offerSdp,
+        id: 'exchangeOffer',
+        userSession: getUserSession(),
+        liveSession: liveSession,
+        data: {
+            sdpOffer: sdpOffer,
+        },
     }
-    sendMessage(message, "/app/stream");
-}
+    console.log('Sending SDP Offer to server');
+    sendMessage(message, '/app/stream/exchange');
+};
 
-const onIceCandidate = (candidate) => {
+const onIceCandidate = (candidate, liveSession) => {
     if (isSDPExchange) {
         var message = {
-            id: "ice",
-            data: candidate,
+            id: 'exchangeCandidate',
+            userSession: getUserSession(),
+            liveSession: liveSession,
+            data: {
+                candidate: candidate,
+            },
         };
-        console.info("[Info] Detect a ICE candidate from event listener and send to server");
-        sendMessage(message, "/app/stream");
+        console.log('Detect a ICE candidate from event listener and send to server');
+        sendMessage(message, '/app/stream/exchange');
     } else {
         candidateQueues.push(candidate);
-        console.info("[Info] Add ICE into queue cause SDP has not exchange yet");
+        console.info('Push ICE into queue cause SDP has not exchange yet');
     }
 }
 
-const onSdpResponse = (destination) => {
+export const processAnswerPresenter = (message) => {
+    console.log('Receive SDP answer from server');
+    webRtcPeer.processAnswer(message.data.sdpAnswer, (error) => {
+        if (error)
+            return console.error('Occur error while process sdpAnswer', error);
+        isSDPExchange = true;
+    });
+
+    // Send all iceCandidate in queue to server
+    console.log('Send all iceCandidates in queue to server');
+    candidateQueues.forEach(candidate => {
+        var message = {
+            id: 'exchangeCandidate',
+            userSession: getUserSession(),
+            liveSession: message.liveSession,
+            data: {
+                candidate: candidate,
+            },
+        };
+        sendMessage(message, '/app/stream/exchange');
+    })
+}
+
+export const processCandidatePresenter = (message) => {
+    webRtcPeer.addIceCandidate(message.data.onIceCandidate, function (error) {
+        if (error) return console.error('Occur error while add IceCandidate' + error);
+    });
+    console.log('Starting connect between RTC Peer Client and RTC Endpoint');
+}
+
+
+export const view = (liveSessionId, videoRef) => {
+    video = videoRef;
+    stompClient = getSocket();
+    onMessage('/queue/' + getUserSession());
+
     if (stompClient || stompClient.connected) {
-        stompClient.subscribe(destination, (message) => {
-            const response = JSON.parse(message.body);
-            if (response.response === "accepted") {
-                console.info("[Info] Receive SDP answer and process it");
-                webRtcPeer.processAnswer(response.data, (error) => {
-                    if (error) {
-                        stopStream();
-                        return console.error("[Error] " + error);
-                    }
-                });
-                // Send all ice in queue to server
-                console.info("[Info] Send all ices in queue to server");
-                candidateQueues.forEach(candidate => {
-                    var message = {
-                        id: "ice",
-                        data: candidate,
-                    };
-                    sendMessage(message, "/app/stream");
-                })
-            } else {
-                stopStream();
-                return console.error("[Error] " + response.data);
-            }
-        })
+        var message = {
+            id: 'registryViewer',
+            liveSessionId: liveSessionId,
+            userSession: getUserSession(),
+        };
+        sendMessage(message, 'app/stream/registry');
     }
 }
-export const onIceResponse = (destination) => {
-    if (stompClient && stompClient.connected) {
-        stompClient.subscribe(destination, (message) => {
-            const response = JSON.parse(message.body);
-            webRtcPeer.addIceCandidate(response.data, function (error) {
-                if (error) return console.error("[Error] " + error);
-            });
-            console.log("[Info] Starting connect between RTC Peer Client and RTC Endpoint.");
+
+export const createPeerViewer = (message) => {
+    if (!webRtcPeer) {
+        var options = {
+            localVideo: video.current,
+            onicecandidate: (candidate) => onIceCandidate(candidate, message.liveSession),
+        };
+        webRtcPeer = kurentoUtils.WebRtcPeer.WebRtcPeerRecvonly(options, function (error) {
+            if (error) {
+                return console.error('Occur error while creating webRtcPeer', error);
+            }
+            console.log('Start generate SDP offer');
+            this.generateOffer((error, sdpOffer) => onOfferViewer(error, sdpOffer, message.liveSession));
         });
+    }
+}
+
+
+
+const onOfferViewer = (error, sdpOffer, liveSessionId) => {
+    if (error) {
+        return console.error('Occur error while generate the SDP offer', error);
+    }
+    var message = {
+        wsId: getUserSession(),
+        type: 'sdpViewer',
+        data: {
+            liveSessionId: liveSessionId,
+            sdpOffer: sdpOffer,
+        }
+    }
+    console.log('Sending SDP Offer to server');
+    sendMessage(message, '/app/stream');
+}
+
+
+
+const onAnswerPresenter = (response) => {
+    if (response.result === 'accepted') {
+        console.log('Receive SDP answer from server');
+        webRtcPeer.processAnswer(response.sdpAnswer, (error) => {
+            if (error)
+                return console.error('Occur error while process sdpAnswer', error);
+        });
+        // Send all iceCandidate in queue to server
+        console.log('Send all iceCandidates in queue to server');
+        candidateQueues.forEach(candidate => {
+            var message = {
+                wsId: getUserSession(),
+                type: 'iceCandidate',
+                data: {
+                    candidate: candidate,
+                },
+            };
+            sendMessage(message, '/app/stream');
+        })
+    } else {
+        console.error('Can not accepted sdpOffer in server side', response.message);
+        stopStream();
+    }
+}
+
+const onAnswerViewer = (response) => {
+    if (response.result === 'accepted') {
+        console.log('Receive SDP answer from server');
+        webRtcPeer.processAnswer(response.sdpAnswer, (error) => {
+            if (error)
+                return console.error('Occur error while process sdpAnswer', error);
+        });
+        // Send all iceCandidate in queue to server
+        console.log('Send all iceCandidates in queue to server');
+        candidateQueues.forEach(candidate => {
+            var message = {
+                wsId: getUserSession(),
+                type: 'iceCandidate',
+                data: {
+                    candidate: candidate,
+                },
+            };
+            sendMessage(message, '/app/stream');
+        })
+    } else {
+        console.error('Can not accepted sdpOffer in server side', response.message);
+        stopStream();
+    }
+}
+
+
+export const onIceResponse = (response) => {
+    if (stompClient && stompClient.connected) {
+        webRtcPeer.addIceCandidate(response.onIceCandidate, function (error) {
+            if (error) return console.error('Occur error while add IceCandidate' + error);
+        });
+        console.log('Starting connect between RTC Peer Client and RTC Endpoint');
     }
 };
 
@@ -140,9 +246,6 @@ export const sendMessage = (message, destination) => {
     if (stompClient && stompClient.connected) {
         stompClient.publish({
             destination: destination,
-            headers: {
-                username: "abcxyz"
-            },
             body: JSON.stringify(message),
         });
     }
@@ -150,6 +253,9 @@ export const sendMessage = (message, destination) => {
 
 export const stopStream = () => {
     if (webRtcPeer) {
+
+        // send stop message to server
+
         webRtcPeer.dispose();
         webRtcPeer = null;
     }

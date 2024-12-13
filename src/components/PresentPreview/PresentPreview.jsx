@@ -13,6 +13,7 @@ import { BiPlus } from "react-icons/bi";
 import { present, stopStream } from "../../services/socketServices/streamSocketService";
 import { useEffect } from "react";
 import { useRef } from "react";
+import PresentScreen from "./PresentScreen";
 
 const PresentPreview = () => {
 
@@ -42,7 +43,7 @@ const PresentPreview = () => {
         <PresentPreviewContainer>
             <TitleBar title={"Stream Preview"} />
             <div className="present-screen">
-                <LiveScreen videoRef={videoRef}/>
+                <PresentScreen videoRef = {videoRef }/>
             </div>
 
             <div className="go-stream" >
@@ -81,9 +82,6 @@ const PresentPreview = () => {
                         </li>
                     </ul>
                 </div>
-
-
-                {/* icons */}
             </div>
         </PresentPreviewContainer>
     )
