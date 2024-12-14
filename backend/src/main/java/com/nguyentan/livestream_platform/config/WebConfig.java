@@ -1,0 +1,27 @@
+package com.nguyentan.livestream_platform.config;
+
+import com.nguyentan.livestream_platform.stream.model.LiveSessionManager;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+
+@Configuration
+public class WebConfig {
+
+    @Bean
+    CorsFilter corsFilter() {
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.addAllowedOrigin("http://localhost:5073");
+        corsConfiguration.addAllowedHeader("*");
+        corsConfiguration.addAllowedMethod("*");
+        corsConfiguration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource urls = new UrlBasedCorsConfigurationSource();
+        urls.registerCorsConfiguration("/**", corsConfiguration);
+
+        return new CorsFilter(urls);
+    }
+}
