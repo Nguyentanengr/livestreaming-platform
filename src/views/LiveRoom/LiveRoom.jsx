@@ -21,6 +21,7 @@ const LiveRoom = () => {
     
     useEffect(() => {
         if (liveSession) {
+            console.log(liveSession.id);
             view(liveSession.id, videoRef);
         }
     }, [liveSession])

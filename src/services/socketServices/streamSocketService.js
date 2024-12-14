@@ -13,7 +13,6 @@ const onMessage = (privateQueue) => {
     if (stompClient && stompClient.connected) {
         stompClient.subscribe(privateQueue, (response) => {
             const message = JSON.parse(response.body);
-
             switch (message.id) {
                 case 'createPeerPresenter':
                     createPeerPresenter(message);
@@ -22,13 +21,11 @@ const onMessage = (privateQueue) => {
                     createPeerViewer(message);
                     break;
                 case 'processAnswer':
-                    processAnswerPresenter(message);
-                case 'processCandidate':
-                    processCandidatePresenter(message);
-                case 'sdpViewer':
-                    onAnswerViewer(message);
+                    processAnswer(message);
                     break;
-
+                case 'processCandidate':
+                    processCandidate(message);
+                    break;
                 default:
                     console.error('Unrecognized message', message);
             }
@@ -41,16 +38,17 @@ export const present = (videoRef) => {
     stompClient = getSocket();
     onMessage('/queue/' + getUserSession());
 
-    if (stompClient || stompClient.connected) {
+    if (stompClient && stompClient.connected) {
         var message = {
             id: 'registryPresenter',
             userSession: getUserSession(),
         };
-        sendMessage(message, 'app/stream/registry');
+        sendMessage(message, '/app/stream/registry');
     }
 }
 
 export const createPeerPresenter = (message) => {
+    console.log('Live session has bean created with id: ' + message.liveSession);
     if (!webRtcPeer) {
         var options = {
             localVideo: video.current,
@@ -71,7 +69,7 @@ const onOfferPresenter = (error, sdpOffer, liveSession) => {
         return console.error('Occur error while generate the SDP offer', error);
     }
     var message = {
-        id: 'exchangeOffer',
+        id: 'exchangeOfferPresenter',
         userSession: getUserSession(),
         liveSession: liveSession,
         data: {
@@ -100,7 +98,7 @@ const onIceCandidate = (candidate, liveSession) => {
     }
 }
 
-export const processAnswerPresenter = (message) => {
+export const processAnswer = (message) => {
     console.log('Receive SDP answer from server');
     webRtcPeer.processAnswer(message.data.sdpAnswer, (error) => {
         if (error)
@@ -110,8 +108,9 @@ export const processAnswerPresenter = (message) => {
 
     // Send all iceCandidate in queue to server
     console.log('Send all iceCandidates in queue to server');
+
     candidateQueues.forEach(candidate => {
-        var message = {
+        var mess = {
             id: 'exchangeCandidate',
             userSession: getUserSession(),
             liveSession: message.liveSession,
@@ -119,37 +118,37 @@ export const processAnswerPresenter = (message) => {
                 candidate: candidate,
             },
         };
-        sendMessage(message, '/app/stream/exchange');
-    })
+        sendMessage(mess, '/app/stream/exchange');
+    });
+    candidateQueues = [];
 }
 
-export const processCandidatePresenter = (message) => {
-    webRtcPeer.addIceCandidate(message.data.onIceCandidate, function (error) {
+export const processCandidate = (message) => {
+    webRtcPeer.addIceCandidate(message.data.candidate, function (error) {
         if (error) return console.error('Occur error while add IceCandidate' + error);
     });
     console.log('Starting connect between RTC Peer Client and RTC Endpoint');
 }
 
 
-export const view = (liveSessionId, videoRef) => {
+export const view = (liveSession, videoRef) => {
     video = videoRef;
     stompClient = getSocket();
     onMessage('/queue/' + getUserSession());
-
-    if (stompClient || stompClient.connected) {
+    if (stompClient && stompClient.connected) {
         var message = {
             id: 'registryViewer',
-            liveSessionId: liveSessionId,
+            liveSession: liveSession,
             userSession: getUserSession(),
         };
-        sendMessage(message, 'app/stream/registry');
+        sendMessage(message, '/app/stream/registry');
     }
 }
 
 export const createPeerViewer = (message) => {
     if (!webRtcPeer) {
         var options = {
-            localVideo: video.current,
+            remoteVideo: video.current,
             onicecandidate: (candidate) => onIceCandidate(candidate, message.liveSession),
         };
         webRtcPeer = kurentoUtils.WebRtcPeer.WebRtcPeerRecvonly(options, function (error) {
@@ -158,89 +157,41 @@ export const createPeerViewer = (message) => {
             }
             console.log('Start generate SDP offer');
             this.generateOffer((error, sdpOffer) => onOfferViewer(error, sdpOffer, message.liveSession));
+
+            // Kiểm tra trạng thái ICE
+            this.peerConnection.addEventListener('iceconnectionstatechange', () => {
+                console.log('ICE connection state:', this.peerConnection.iceConnectionState);
+                if (this.peerConnection.iceConnectionState === 'connected') {
+                    console.log('WebRTC connection established.');
+                }
+            });
+
+            // Kiểm tra sự kiện stream
+            this.peerConnection.addEventListener('track', (event) => {
+                console.log('Track event:', event);
+                if (event.track.kind === 'video') {
+                    console.log('Receiving video track');
+                }
+            });
         });
     }
 }
 
-
-
-const onOfferViewer = (error, sdpOffer, liveSessionId) => {
+const onOfferViewer = (error, sdpOffer, liveSession) => {
     if (error) {
         return console.error('Occur error while generate the SDP offer', error);
     }
     var message = {
-        wsId: getUserSession(),
-        type: 'sdpViewer',
+        id: 'exchangeOfferViewer',
+        userSession: getUserSession(),
+        liveSession: liveSession,
         data: {
-            liveSessionId: liveSessionId,
             sdpOffer: sdpOffer,
         }
     }
     console.log('Sending SDP Offer to server');
-    sendMessage(message, '/app/stream');
+    sendMessage(message, '/app/stream/exchange');
 }
-
-
-
-const onAnswerPresenter = (response) => {
-    if (response.result === 'accepted') {
-        console.log('Receive SDP answer from server');
-        webRtcPeer.processAnswer(response.sdpAnswer, (error) => {
-            if (error)
-                return console.error('Occur error while process sdpAnswer', error);
-        });
-        // Send all iceCandidate in queue to server
-        console.log('Send all iceCandidates in queue to server');
-        candidateQueues.forEach(candidate => {
-            var message = {
-                wsId: getUserSession(),
-                type: 'iceCandidate',
-                data: {
-                    candidate: candidate,
-                },
-            };
-            sendMessage(message, '/app/stream');
-        })
-    } else {
-        console.error('Can not accepted sdpOffer in server side', response.message);
-        stopStream();
-    }
-}
-
-const onAnswerViewer = (response) => {
-    if (response.result === 'accepted') {
-        console.log('Receive SDP answer from server');
-        webRtcPeer.processAnswer(response.sdpAnswer, (error) => {
-            if (error)
-                return console.error('Occur error while process sdpAnswer', error);
-        });
-        // Send all iceCandidate in queue to server
-        console.log('Send all iceCandidates in queue to server');
-        candidateQueues.forEach(candidate => {
-            var message = {
-                wsId: getUserSession(),
-                type: 'iceCandidate',
-                data: {
-                    candidate: candidate,
-                },
-            };
-            sendMessage(message, '/app/stream');
-        })
-    } else {
-        console.error('Can not accepted sdpOffer in server side', response.message);
-        stopStream();
-    }
-}
-
-
-export const onIceResponse = (response) => {
-    if (stompClient && stompClient.connected) {
-        webRtcPeer.addIceCandidate(response.onIceCandidate, function (error) {
-            if (error) return console.error('Occur error while add IceCandidate' + error);
-        });
-        console.log('Starting connect between RTC Peer Client and RTC Endpoint');
-    }
-};
 
 export const sendMessage = (message, destination) => {
     if (stompClient && stompClient.connected) {
@@ -253,9 +204,7 @@ export const sendMessage = (message, destination) => {
 
 export const stopStream = () => {
     if (webRtcPeer) {
-
         // send stop message to server
-
         webRtcPeer.dispose();
         webRtcPeer = null;
     }
