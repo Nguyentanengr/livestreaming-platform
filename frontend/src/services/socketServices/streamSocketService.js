@@ -8,6 +8,8 @@ let video = null;
 let isSDPExchange = false;
 let candidateQueues = [];
 
+let liveSession = null;
+
 
 const onMessage = (privateQueue) => {
     if (stompClient && stompClient.connected) {
@@ -26,6 +28,9 @@ const onMessage = (privateQueue) => {
                 case 'ICE_CANDIDATE':
                     processCandidate(message);
                     break;
+                case 'PEER_CANCEL':
+                    releasePeer(message);
+                    break;
                 default:
                     console.error('Unrecognized message', message);
             }
@@ -37,7 +42,6 @@ export const present = (videoRef) => {
     video = videoRef;
     stompClient = getSocket();
     onMessage('/queue/' + getUserSession());
-
     if (stompClient && stompClient.connected) {
         var message = {
             username: getUserSession(),
@@ -54,6 +58,8 @@ export const present = (videoRef) => {
 
 export const createPeerPresenter = (message) => {
     console.log('Live session has bean created with id: ' + message.liveSessionId);
+    liveSession = message.liveSessionId;
+    onMessage('/topic/' + message.liveSessionId);
     if (!webRtcPeer) {
         var options = {
             localVideo: video.current,
@@ -145,6 +151,8 @@ export const view = (liveSessionId, videoRef) => {
 }
 
 export const createPeerViewer = (message) => {
+    liveSession = message.liveSessionId;
+    onMessage('/topic/' + message.liveSessionId);
     if (!webRtcPeer) {
         var options = {
             remoteVideo: video.current,
@@ -190,19 +198,28 @@ const onOfferViewer = (error, sdpOffer, liveSessionId) => {
     sendMessage(message, '/app/stream/exchange');
 }
 
+export const releasePeer = () => {
+    webRtcPeer.dispose();
+    webRtcPeer = null;
+    video = null;
+}
+
+export const stopPresent = () => {
+    if (webRtcPeer) {
+        // send stop message to server
+        var message = {
+            username: getUserSession(),
+            liveSessionId: liveSession,
+        }
+        sendMessage(message, '/app/stream/end');
+    }
+}
+
 export const sendMessage = (message, destination) => {
     if (stompClient && stompClient.connected) {
         stompClient.publish({
             destination: destination,
             body: JSON.stringify(message),
         });
-    }
-}
-
-export const stopStream = () => {
-    if (webRtcPeer) {
-        // send stop message to server
-        webRtcPeer.dispose();
-        webRtcPeer = null;
     }
 }

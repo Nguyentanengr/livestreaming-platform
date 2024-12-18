@@ -79,7 +79,7 @@ public class LiveService {
 
         // Send to everyone else in the session about participation (chat service)
 
-        // Response after completed registration
+        // Response after completing registration
         RtcTransportDTO response = RtcTransportDTO.builder()
                 .action(RtcActionEnum.PEER_VIEWER)
                 .liveSessionId(liveSession.getLiveSessionId())
@@ -93,15 +93,23 @@ public class LiveService {
     public synchronized void endLiveSession(LiveTransportDTO request) {
         // Update liveSession on endTime
 
-        // Remove all user out of liveSession, close all userSession
+        // Close all userSession, Remove all user out of liveSession
+
         LiveSession liveSession = liveSessionManager.getLiveSession(request.getLiveSessionId())
                 .orElseThrow(() -> new RuntimeException("Could not find LiveSession matching liveSessionId"));
 
-        liveSession.leaveAll();
+        liveSession.leaveAllUserSession();
 
-        // Remove liveSession out of liveSessionManager, close liveSession
-        liveSessionManager.removeLiveSession(request.getLiveSessionId());
+        // Close liveSession, Remove liveSession out of liveSessionManager
+        log.info("{}: Removing liveSession out of liveSession manager", liveSession.getLiveSessionId());
+        liveSessionManager.removeLiveSession(liveSession.getLiveSessionId());
 
+        // Response after completing end liveSession
+        RtcTransportDTO response = RtcTransportDTO.builder()
+                .action(RtcActionEnum.PEER_CANCEL)
+                .liveSessionId(request.getLiveSessionId())
+                .build();
+        sendMessage("/topic/" + request.getLiveSessionId(), response);
     }
 
     public synchronized void exchangeOffer(RtcTransportDTO request) {

@@ -9,4 +9,5 @@ public enum RtcActionEnum {
     ICE_CANDIDATE,
     PEER_PRESENTER,
     PEER_VIEWER,
+    PEER_CANCEL,
 }

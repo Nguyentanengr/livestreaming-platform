@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import org.kurento.client.Continuation;
 import org.kurento.client.MediaPipeline;
 
 import java.util.Optional;
@@ -49,39 +50,37 @@ public class LiveSession {
         return user;
     }
 
-    public void leaveAll() {
+    public void leaveAllUserSession() {
 
-        // close presenter
-        presenters.values().forEach(UserSession::close);
+        try {
+            // close presenter
+            presenters.values().forEach(UserSession::close);
 
-        // close viewer
-        viewers.values().forEach(UserSession::close);
+            // close viewer
+            viewers.values().forEach(UserSession::close);
+        } catch (Exception e) {
+            log.warn("{} Could not leave all userSession", LiveSession.this.liveSessionId);
+        }
 
         // remove all
         presenters.clear();
         viewers.clear();
 
+        log.info("{}: left all userSession in liveSession", this.liveSessionId);
     }
 
+    public void close() {
+        pipeline.release(new Continuation<Void>() {
+            @Override
+            public void onSuccess(Void result) throws Exception {
+                log.info("{}: Released Pipeline", LiveSession.this.liveSessionId);
+            }
 
-//    public void close() {
-//        for (UserSession user : presenters.values()) {
-//            try {
-//                user.close();
-//            } catch (Exception e) {
-//                log.debug("Could not invoke close on participant {}", user.getUsername());
-//            }
-//        }
-//
-//        for (UserSession user : viewers.values()) {
-//            try {
-//                user.close();
-//            } catch (Exception e) {
-//                log.debug("Could not invoke close on participant {}", user.getUsername());
-//            }
-//        }
-//
-//        presenters.clear();
-//        viewers.clear();
-//    }
+            @Override
+            public void onError(Throwable cause) throws Exception {
+                log.warn("{}: Could not release Pipeline", LiveSession.this.liveSessionId);
+            }
+        });
+        log.info("{}: closed liveSession",  this.liveSessionId);
+    }
 }

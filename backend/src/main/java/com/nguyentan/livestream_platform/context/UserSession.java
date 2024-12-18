@@ -29,15 +29,17 @@ public class UserSession {
         webRtcEndpoint.release(new Continuation<Void>() {
             @Override
             public void onSuccess(Void unused) throws Exception {
-                log.info("{} {}: Released outgoing EP", UserSession.this.liveSessionId
+                log.info("{}-{}: Released user's endpoint", UserSession.this.liveSessionId
                         , UserSession.this.username);
             }
-
             @Override
             public void onError(Throwable throwable) throws Exception {
-                log.warn("{} {}: Could not release outgoing EP", UserSession.this.liveSessionId
+                log.warn("{}-{}: Could not release user's endpoint", UserSession.this.liveSessionId
                         , UserSession.this.username);
             }
         });
+
+        log.info("{}-{}: closed userSession", this.liveSessionId
+                , this.username);
     }
 }
