@@ -1,4 +1,4 @@
-package com.nguyentan.livestream_platform.stream.model;
+package com.nguyentan.livestream_platform.context;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -28,7 +28,7 @@ public class LiveSessionManager {
 
     public LiveSession getLiveSession() {
         LiveSession liveSession = new LiveSession(kurento.createMediaPipeline());
-        liveSessions.put(liveSession.getId(), liveSession);
+        liveSessions.put(liveSession.getLiveSessionId(), liveSession);
         return liveSession;
     }
 

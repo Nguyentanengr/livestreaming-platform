@@ -8,7 +8,7 @@ const Chanel = ({ liveSession }) => {
     const navigate = useNavigate();
 
     const handleLiveScreenClick = (id) => {
-        navigate(`/${id.toLowerCase().replace(/ /g, '-')}`);
+        navigate(`/${id}`);
     }
 
     return (

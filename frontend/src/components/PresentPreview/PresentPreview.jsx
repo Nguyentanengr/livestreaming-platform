@@ -10,7 +10,7 @@ import { BiPencil } from "react-icons/bi";
 import { BiStar } from "react-icons/bi";
 import { BiPlus } from "react-icons/bi";
 
-import { present, stopStream } from "../../services/socketServices/streamSocketService";
+import { present, stopPresent } from "../../services/socketServices/streamSocketService";
 import { useEffect } from "react";
 import { useRef } from "react";
 import PresentScreen from "./PresentScreen";
@@ -35,7 +35,7 @@ const PresentPreview = () => {
         if (!liveStatus) {
             present(videoRef);
         } else {
-            stopStream();
+            stopPresent();
         }
     };
 
