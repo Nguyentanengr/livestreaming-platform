@@ -1,3 +1,4 @@
+import { onChatMessage } from './chatSocketService';
 import { getSocket, getUserSession } from './socketService';
 import kurentoUtils from 'kurento-utils';
 
@@ -10,10 +11,14 @@ let candidateQueues = [];
 
 let liveSession = null;
 
+export const getLiveSession = () => {
+    return liveSession;
+}
 
-const onMessage = (privateQueue) => {
+
+const onLiveMessage = (destination) => {
     if (stompClient && stompClient.connected) {
-        stompClient.subscribe(privateQueue, (response) => {
+        stompClient.subscribe(destination, (response) => {
             const message = JSON.parse(response.body);
             switch (message.action) {
                 case 'PEER_PRESENTER':
@@ -41,7 +46,7 @@ const onMessage = (privateQueue) => {
 export const present = (videoRef) => {
     video = videoRef;
     stompClient = getSocket();
-    onMessage('/queue/' + getUserSession());
+    onLiveMessage('/queue/' + getUserSession());
     if (stompClient && stompClient.connected) {
         var message = {
             username: getUserSession(),
@@ -59,7 +64,7 @@ export const present = (videoRef) => {
 export const createPeerPresenter = (message) => {
     console.log('Live session has bean created with id: ' + message.liveSessionId);
     liveSession = message.liveSessionId;
-    onMessage('/topic/' + message.liveSessionId);
+    onLiveMessage('/topic/' + message.liveSessionId);
     if (!webRtcPeer) {
         var options = {
             localVideo: video.current,
@@ -140,7 +145,7 @@ export const processCandidate = (message) => {
 export const view = (liveSessionId, videoRef) => {
     video = videoRef;
     stompClient = getSocket();
-    onMessage('/queue/' + getUserSession());
+    onLiveMessage('/queue/' + getUserSession());
     if (stompClient && stompClient.connected) {
         var message = {
             liveSessionId: liveSessionId,
@@ -152,7 +157,7 @@ export const view = (liveSessionId, videoRef) => {
 
 export const createPeerViewer = (message) => {
     liveSession = message.liveSessionId;
-    onMessage('/topic/' + message.liveSessionId);
+    onLiveMessage('/topic/' + message.liveSessionId);
     if (!webRtcPeer) {
         var options = {
             remoteVideo: video.current,
@@ -212,6 +217,17 @@ export const stopPresent = () => {
             liveSessionId: liveSession,
         }
         sendMessage(message, '/app/stream/end');
+    }
+}
+
+export const stopView = (liveSessionId) => {
+    if (webRtcPeer) {
+        // send stop message to server
+        var message = {
+            username: getUserSession(),
+            liveSessionId: liveSessionId,
+        }
+        sendMessage(message, '/app/stream/leave');
     }
 }
 

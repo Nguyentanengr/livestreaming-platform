@@ -38,6 +38,12 @@ public class LiveSession {
         return Optional.ofNullable(viewers.get(username));
     }
 
+    public Optional<UserSession> getUserSessionByUsername(String username) {
+        return getPresenterByUsername(username).isPresent()
+                ? getPresenterByUsername(username)
+                : getViewerByUsername(username);
+    }
+
     public UserSession joinPresenter(String username) {
         UserSession user = new UserSession(username, this.liveSessionId, this.pipeline);
         presenters.put(user.getUsername(), user);
@@ -50,6 +56,23 @@ public class LiveSession {
         return user;
     }
 
+    public void leaveUserSession(String username) {
+        try {
+            // close user's session
+            UserSession userSession = viewers.get(username);
+            if (userSession == null) {
+                throw new RuntimeException("");
+            }
+            userSession.close();
+        } catch (Exception e) {
+            log.warn("{}-{} Could not close the userSession", LiveSession.this.liveSessionId, username);
+        }
+
+        // remove userSession out of viewers
+        viewers.remove(username);
+        log.info("{}-{}: left userSession in liveSession", this.liveSessionId, username);
+    }
+
     public void leaveAllUserSession() {
 
         try {
@@ -59,7 +82,7 @@ public class LiveSession {
             // close viewer
             viewers.values().forEach(UserSession::close);
         } catch (Exception e) {
-            log.warn("{} Could not leave all userSession", LiveSession.this.liveSessionId);
+            log.warn("{} Could not close all userSession", LiveSession.this.liveSessionId);
         }
 
         // remove all

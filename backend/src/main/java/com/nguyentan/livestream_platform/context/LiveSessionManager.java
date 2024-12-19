@@ -37,6 +37,10 @@ public class LiveSessionManager {
         return Optional.ofNullable(liveSession);
     }
 
+    public boolean existLiveSession(String liveSessionId) {
+        return getLiveSession(liveSessionId).isPresent();
+    }
+
     public void removeLiveSession(String liveSessionId) {
         LiveSession liveSession = liveSessions.get(liveSessionId);
         liveSession.close();

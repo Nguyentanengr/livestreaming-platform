@@ -4,33 +4,29 @@ import { HiLogout } from "react-icons/hi";
 import { FaEllipsisV } from "react-icons/fa";
 
 import { LiveChatContainer } from './LiveChat.styled';
-import { receiveMessage, sendMessage } from '../../services/socketServices/chatSocketService';
+import { chatMessage, onChatMessage } from '../../services/socketServices/chatSocketService';
+import { useDispatch, useSelector } from 'react-redux';
+import { getLiveSession } from '../../services/socketServices/streamSocketService';
 
-const LiveChat = () => {
 
-  const [messages, setMessages] = useState([]);
+const LiveChat = ({ liveSession }) => {
 
+  const dispatch = useDispatch();
+  const { chatMessages } = useSelector((state) => state.chatMessage);
   const [inputValue, setInputValue] = useState('');
 
   const handleSend = () => {
     if (inputValue.trim()) {
-      const newMessage = {
-        id: messages.length + 1,
-        user: 'You',
-        text: inputValue,
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      };
-      sendMessage(newMessage, "/app/chat/send");
+      chatMessage(inputValue);
+      setInputValue('');
     }
   }
 
   useEffect(() => {
-    receiveMessage("/topic/messages", (message) => {
-      setMessages((prev) => [...prev, message]);
-      setInputValue("");
-    });
-  }, []);
-
+    console.log('on chat message');
+    onChatMessage('/topic/chat/' + liveSession.id, dispatch);
+  }, [dispatch]);
+  
   return (
     <LiveChatContainer>
       <div className="chat-header">
@@ -45,14 +41,14 @@ const LiveChat = () => {
         </div>
       </div>
       <div className='message-list'>
-        {messages.map((message) => (
+        {chatMessages.map((message) => (
           <div className='message-item' key={message.id}>
             <div className='pp'>
               <img src={message.pp} alt=''></img>
             </div>
             <div className='message-body'>
-              <div className='username'>{message.user}:</div>
-              <div className='text'>{message.text}</div>
+              <div className='username'>{message.username}:</div>
+              <div className='text'>{message.content}</div>
             </div>
           </div>
         ))}

@@ -2,14 +2,12 @@ package com.nguyentan.livestream_platform.service;
 
 
 import com.nguyentan.livestream_platform.constant.RtcActionEnum;
-import com.nguyentan.livestream_platform.dto.LiveRequestDTO;
-import com.nguyentan.livestream_platform.dto.LiveTransportDTO;
-import com.nguyentan.livestream_platform.dto.RtcTransportDTO;
 import com.nguyentan.livestream_platform.context.LiveSession;
 import com.nguyentan.livestream_platform.context.LiveSessionManager;
 import com.nguyentan.livestream_platform.context.UserSession;
-import com.nguyentan.livestream_platform.entity.Live;
-import com.nguyentan.livestream_platform.entity.User;
+import com.nguyentan.livestream_platform.dto.LiveRequestDTO;
+import com.nguyentan.livestream_platform.dto.LiveTransportDTO;
+import com.nguyentan.livestream_platform.dto.RtcTransportDTO;
 import lombok.extern.log4j.Log4j2;
 import org.kurento.client.EventListener;
 import org.kurento.client.IceCandidateFoundEvent;
@@ -18,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Log4j2
@@ -90,11 +89,28 @@ public class LiveService {
                 , liveSession.getLiveSessionId(), userSession.getUsername());
     }
 
+    public synchronized void leaveLiveSession(LiveTransportDTO request) {
+
+        // Close the userSession, Remove the user out of liveSession
+        LiveSession liveSession = liveSessionManager.getLiveSession(request.getLiveSessionId())
+                .orElseThrow(() -> new RuntimeException("Could not find LiveSession matching liveSessionId"));
+
+        liveSession.leaveUserSession(request.getUsername());
+
+        // Response to self after completing leave liveSession
+        RtcTransportDTO response = RtcTransportDTO.builder()
+                .action(RtcActionEnum.PEER_CANCEL)
+                .liveSessionId(request.getLiveSessionId())
+                .build();
+        sendMessage("/queue/" + request.getUsername(), response);
+
+        // Response to everyone in liveSession after completing leave liveSession (chat Service)
+    }
+
     public synchronized void endLiveSession(LiveTransportDTO request) {
-        // Update liveSession on endTime
+        // Update live entity on endTime
 
         // Close all userSession, Remove all user out of liveSession
-
         LiveSession liveSession = liveSessionManager.getLiveSession(request.getLiveSessionId())
                 .orElseThrow(() -> new RuntimeException("Could not find LiveSession matching liveSessionId"));
 
@@ -110,6 +126,10 @@ public class LiveService {
                 .liveSessionId(request.getLiveSessionId())
                 .build();
         sendMessage("/topic/" + request.getLiveSessionId(), response);
+
+        // Test
+        lives.removeIf(live -> live.getId().equals(response.getLiveSessionId()));
+
     }
 
     public synchronized void exchangeOffer(RtcTransportDTO request) {

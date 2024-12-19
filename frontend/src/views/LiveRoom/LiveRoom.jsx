@@ -10,7 +10,7 @@ import LiveAuthor from "../../components/LiveAuthor/LiveAuthor";
 import LiveSponsor from "../../components/LiveSponsor/LiveSponsor";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { view } from "../../services/socketServices/streamSocketService";
+import { stopView, view } from "../../services/socketServices/streamSocketService";
 
 const LiveRoom = () => {
 
@@ -24,6 +24,11 @@ const LiveRoom = () => {
             console.log(liveSession.id);
             view(liveSession.id, videoRef);
         }
+        return () => {
+            if (liveSession) {
+                stopView(liveSession.id)
+            }
+        }
     }, [liveSession])
     
     return (
@@ -34,7 +39,7 @@ const LiveRoom = () => {
                 <LiveAuthor liveSession = {liveSession} />
                 <LiveSponsor liveSession = {liveSession} />
             </div>
-            <LiveChat />
+            <LiveChat liveSession = {liveSession}/>
 
         </LiveRoomContainer>
     );

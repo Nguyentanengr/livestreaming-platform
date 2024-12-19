@@ -20,8 +20,8 @@ public class LiveController {
 
     private final LiveService liveService;
 
-    public LiveController(LiveService streamService) {
-        this.liveService = streamService;
+    public LiveController(LiveService liveService) {
+        this.liveService = liveService;
     }
 
     @GetMapping("/recommended")
@@ -42,7 +42,7 @@ public class LiveController {
 
     @MessageMapping("/stream/leave")
     public void leaveLiveSession(LiveTransportDTO request) {
-
+        liveService.leaveLiveSession(request);
     }
 
     @MessageMapping("/stream/end")
