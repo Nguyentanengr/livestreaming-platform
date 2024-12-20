@@ -1,0 +1,17 @@
+
+export const Theme = {
+    header: "#ffffff",
+    body: "#F7F7F8",
+    sideBar: "#efeff1",
+    highlight: "#9147ff",
+    text: "#0e0e10",
+    hover: "#0000001a",
+    soft: "#777777",
+    mediumSoft: "#aaaaaa",
+    lightSoft: "#eeeeee",
+    bits: "#e9e9e9",
+    border: "#efeff1",
+    iconColor: "#0e0e10",
+    content: "#f7f7f8",
+
+}

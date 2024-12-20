@@ -1,3 +1,4 @@
+import { setOnChatMessage } from '../../components/ChatPreview/ChatPreview';
 import { onChatMessage } from './chatSocketService';
 import { getSocket, getUserSession } from './socketService';
 import kurentoUtils from 'kurento-utils';
@@ -65,6 +66,7 @@ export const createPeerPresenter = (message) => {
     console.log('Live session has bean created with id: ' + message.liveSessionId);
     liveSession = message.liveSessionId;
     onLiveMessage('/topic/' + message.liveSessionId);
+    setOnChatMessage(message.liveSessionId);
     if (!webRtcPeer) {
         var options = {
             localVideo: video.current,

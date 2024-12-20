@@ -1,41 +1,46 @@
 import { ChatPreviewContainer } from "./ChatPreview.styled"
 
 import TitleBar from "../PresentPreview/TitleBar";
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
 import { RiSettings3Line } from "react-icons/ri";
+import { chatMessage, onChatMessage } from "../../services/socketServices/chatSocketService";
+import { useDispatch, useSelector } from "react-redux";
+
+var isPresent = false;
+var dispatch = null;
+
+export const setOnChatMessage = (liveSessionId) => {
+    isPresent = true;
+    console.log('on chat message');
+    onChatMessage('/topic/chat/' + liveSessionId, dispatch);
+}
 
 const ChatPreview = () => {
 
-    const [messages, setMessages] = useState([]);
-
+    dispatch = useDispatch();
+    const { chatMessages } = useSelector((state) => state.chatMessage);
     const [inputValue, setInputValue] = useState('');
 
     const handleSend = () => {
-        if (inputValue.trim()) {
-            const newMessage = {
-                id: messages.length + 1,
-                user: 'You',
-                text: inputValue,
-                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-            };
-            setMessages([...messages, newMessage]);
+        if (inputValue.trim() && isPresent) {
+            chatMessage(inputValue);
             setInputValue('');
         }
     };
+
     return (
         <ChatPreviewContainer>
             <TitleBar title={"Chat Preview"} />
             <div className="chat-box">
                 <div className='message-list'>
-                    {messages.map((message) => (
+                    {chatMessages.map((message) => (
                         <div className='message-item' key={message.id}>
                             <div className='pp'>
                                 <img src={message.pp} alt=''></img>
                             </div>
                             <div className='message-body'>
-                                <div className='username'>{message.user}:</div>
-                                <div className='text'>{message.text}</div>
+                                <div className='username'>{message.username}:</div>
+                                <div className='text'>{message.content}</div>
                             </div>
                         </div>
                     ))}
