@@ -11,5 +11,10 @@ export const ThumbnailContainer = styled.div`
             width: 52px;
             height: 52px;
         }
+
+        &.small {
+            width: 32px;
+            height: 32px;
+        }
     }
 `

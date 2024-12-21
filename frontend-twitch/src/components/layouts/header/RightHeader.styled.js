@@ -8,24 +8,35 @@ export const RightHeaderContainer = styled.div`
         gap: 30px;
         padding: 0 20px;
 
-        .notification-icon {
+        .notification-container {
             position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 35px;
-            cursor: pointer;
 
-            .notification-count {
-                position: absolute;
-                top: 0;
-                left: 20px;
-                font-size: 12px;
-                font-weight: 700;
-                color: ${Theme.header};
-                background-color: ${Theme.highlight};
-                padding: 1px 5px;
+            .notification-icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 35px;
+                cursor: pointer;
+                background-color: ${Theme.header};
+                padding: 2px;
                 border-radius: 5px;
+                transition: 0.2s;
+
+                &:hover {
+                    background-color: ${Theme.lightSoft};
+                }
+
+                .notification-count {
+                    position: absolute;
+                    top: 0;
+                    left: 20px;
+                    font-size: 12px;
+                    font-weight: 700;
+                    color: ${Theme.header};
+                    background-color: ${Theme.highlight};
+                    padding: 1px 5px;
+                    border-radius: 5px;
+                }
             }
         }
 
@@ -49,7 +60,6 @@ export const RightHeaderContainer = styled.div`
                 border-radius: 10px;
                 box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.1);
                 animation: anim 0.3s;
-                font-size: 18px;
                 color: ${Theme.text};
 
                 hr {

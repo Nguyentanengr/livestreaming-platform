@@ -12,14 +12,14 @@ export const ProfileItemContainer = styled.div`
     border-radius: 5px;
     transition: 0.2s;
     .icon {
-        font-size: 28px;
+        font-size: 26px;
         display: flex;
         align-items: center;
         justify-content: center;
     }
 
     .title {
-        font-size: 18px;
+        font-size: 16px;
         color: ${Theme.text};
         opacity: 0.8;
     }

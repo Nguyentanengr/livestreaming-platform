@@ -13,5 +13,6 @@ export const Theme = {
     border: "#efeff1",
     iconColor: "#0e0e10",
     content: "#f7f7f8",
+    dark: "#0e0e10",
 
 }
