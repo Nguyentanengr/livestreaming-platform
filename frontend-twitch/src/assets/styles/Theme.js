@@ -6,6 +6,7 @@ export const Theme = {
     highlight: "#9147ff",
     text: "#0e0e10",
     hover: "#0000001a",
+    shadow: "#0000005a",
     soft: "#777777",
     mediumSoft: "#aaaaaa",
     lightSoft: "#eeeeee",
@@ -14,5 +15,6 @@ export const Theme = {
     iconColor: "#0e0e10",
     content: "#f7f7f8",
     dark: "#0e0e10",
+    hotRed: "#ff0000",
 
 }

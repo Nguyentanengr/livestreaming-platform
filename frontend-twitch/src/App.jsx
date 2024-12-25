@@ -1,8 +1,7 @@
 import GlobalStyles from "./assets/styles/Global";
-import Header from "./components/layouts/header/Header"
-import SideBar from "./components/layouts/sidebar/SideBar";
-import Content from "./components/layouts/content/Content";
 import { Routes, Route } from "react-router-dom";
+import MainLayout from "./components/layouts/MainLayout";
+import Home from "./components/pages/home/Home";
 
 const App = () => {
 
@@ -10,15 +9,15 @@ const App = () => {
     <>
       <GlobalStyles />
       <div className="app">
-        <Header />
-        <SideBar />
-        <Content>
-          {/* <Routes> */}
-            {/* <Route path="/" element={<Home />} />
-            <Route path="/:id" element={<LiveRoom />} />
-            <Route path="/:username/creator-dashboard" element={<PresentRoom />} /> */}
-          {/* </Routes> */}
-        </Content>
+        <Routes>
+          {/* Apply MainLayout */}
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<Home />} />
+          </Route>
+
+          {/* Not layout applied */}
+          <Route path="*" element={<div>Page Error Not Found</div>} />
+        </Routes>
       </div>
     </>
   );

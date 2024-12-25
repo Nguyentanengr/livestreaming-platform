@@ -1,12 +1,12 @@
 import { ContentContainer } from "./Content.styled";
 
 
-const Content = () => {
+const Content = ({ children }) => {
     return (
         <ContentContainer>
-            
+            {children}
         </ContentContainer>
-    )
-}
+    );
+};
 
 export default Content;

@@ -1,6 +1,7 @@
 import { BiSearch, BiLogoTwitch, BiNotification, BiSolidUserRectangle } from "react-icons/bi";
 import { BiSolidBrightness, BiVideoPlus, BiLockAlt, BiLogOut  } from "react-icons/bi";
-import { BiBarChartSquare, BiX } from "react-icons/bi";
+import { BiBarChartSquare, BiX, BiHomeAlt, BiMeteor, BiBookmarkHeart } from "react-icons/bi";
+import { BiUserCircle, BiSlideshow, BiChevronLeft, BiChevronRight, BiUser, BiSolidCircle } from "react-icons/bi";
 import { BsXLg } from "react-icons/bs";
 import { HiOutlineXMark } from "react-icons/hi2";
 
@@ -16,4 +17,13 @@ export const Icons = {
     Setting: BiSolidBrightness,
     Close: HiOutlineXMark,
     CloseSmall: BiX,
+    Home: BiHomeAlt,
+    Reels: BiMeteor,
+    Following: BiBookmarkHeart,
+    You: BiUserCircle,
+    Creator: BiSlideshow,
+    ArrowLeft: BiChevronLeft,
+    ArrowRight: BiChevronRight,
+    Views: BiUser,
+    HotLive: BiSolidCircle,
 }
