@@ -7,6 +7,7 @@ export const Theme = {
     text: "#0e0e10",
     hover: "#0000001a",
     shadow: "#0000005a",
+    boldShadow: "#0000008a",
     soft: "#777777",
     mediumSoft: "#aaaaaa",
     lightSoft: "#eeeeee",
