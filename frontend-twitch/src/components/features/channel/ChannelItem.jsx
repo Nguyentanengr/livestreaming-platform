@@ -1,8 +1,11 @@
 
 import { ChannelItemContainer } from "./ChannelItem.styled";
 import { Icons } from "../../../assets/icons/Icon";
+import Thumbnail from "../../commons/Thumbnail";
+import { useNavigate } from "react-router-dom";
 
 const ChannelItem = ({ live }) => {
+    const navigate = useNavigate();
     return (
         <ChannelItemContainer>
             <div className="thumbnail-container">
@@ -12,9 +15,7 @@ const ChannelItem = ({ live }) => {
             </div>
             <div className="description-container">
                 <div className="info-container">
-                    <div className="avatar">
-                        <img src={live.avatar} alt={live.username} />
-                    </div>
+                    <Thumbnail src={live.avatar} onclick={() => navigate("/my-channel")} />
                     <div className="profile-info">
                         <div className="title">{live.title}</div>
                         <div className="username">{live.username}</div>

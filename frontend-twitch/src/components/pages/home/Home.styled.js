@@ -4,4 +4,5 @@ export const HomeContainer = styled.div`
    display: flex;
    flex-direction: column;
    gap: 40px;
+   height: 2000px;
 `

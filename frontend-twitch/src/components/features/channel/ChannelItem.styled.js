@@ -7,9 +7,13 @@ export const ChannelItemContainer = styled.div`
     .thumbnail-container {
         position: relative;
         cursor: pointer;
+        background-color: ${Theme.lightSoft};
+        transition: 0.2s;
         
         img {
             object-fit: cover;
+            display: block;
+            transition: 0.2s;
         }
 
         .live-status {
@@ -22,6 +26,7 @@ export const ChannelItemContainer = styled.div`
             border-radius: 2px;
             background-color: ${Theme.hotRed};
             color: ${Theme.header};
+            transition: 0.2s;
         }
 
         .viewers-count {
@@ -34,37 +39,81 @@ export const ChannelItemContainer = styled.div`
             border-radius: 1px;
             padding: 2px 8px;
             background-color: ${Theme.boldShadow};
+            transition: 0.2s;
+        }
+
+        &:hover {
+            background-color: ${Theme.highlight};
+
+            img,
+            .live-status,
+            .viewers-count {
+                transform: translate(7px, -7px);
+            }
         }
     }
 
     .description-container {
         display: flex;
         justify-content: space-between;
-        padding: 10px 10px;
+        padding: 15px 10px;
         gap: 10px;
 
         .info-container {
-
-            .avatar {
-                img {
-                    width: 45px;
-                    height: 45px;
-                    object-fit: cover;
-                    border-radius: 50%;
-                }
-            }
-
+            display: flex;
+            align-items: start;
+            gap: 10px;
             .profile-info {
+                display: flex;
+                flex-direction: column;
+                align-items: start;
+                gap: 10px;
 
                 .title {
-
+                    font-size: 18px;
+                    font-weight: 600;
+                    color: ${Theme.dark};
+                    display: -webkit-box; // cut text
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    cursor: pointer;
                 }
 
                 .username {
+                    font-size: 16px;
+                    font-weight: 600;
+                    color: ${Theme.dark};
+                    opacity: 0.6;
+                    line-height: 16px;
+                    cursor: pointer;
+                    transition: all 0.2s;
 
+                    &:hover {
+                        opacity: 1;
+                    }
                 }
 
                 .tags {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+
+                    .tag {
+                        font-size: 16px;
+                        line-height: 16px;
+                        color: ${Theme.dark};
+                        padding: 3px 10px;
+                        border-radius: 5px;
+                        background-color: ${Theme.hover};
+                        cursor: pointer;
+                        transition: 0.2s;
+
+                        &:hover {
+                            background-color: ${Theme.mediumSoft};
+                        }
+                    }
 
                 }
             }
