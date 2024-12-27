@@ -30,7 +30,7 @@ export const ChannelItemContainer = styled.div`
             position: absolute;
             top: 10px;
             left: 10px;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 700;
             padding: 2px 8px;
             border-radius: 2px;
@@ -43,10 +43,23 @@ export const ChannelItemContainer = styled.div`
             position: absolute;
             bottom: 12px;
             left: 10px;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 500;
             color: ${Theme.header};
             border-radius: 1px;
+            padding: 2px 8px;
+            background-color: ${Theme.boldShadow};
+            transition: 0.2s;
+        }
+
+        .duration {
+            position: absolute;
+            bottom: 12px;
+            right: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            color: ${Theme.header};
+            border-radius: 2px;
             padding: 2px 8px;
             background-color: ${Theme.boldShadow};
             transition: 0.2s;
@@ -94,14 +107,13 @@ export const ChannelItemContainer = styled.div`
                 .username {
                     font-size: 16px;
                     font-weight: 600;
-                    color: ${Theme.dark};
-                    opacity: 0.6;
+                    color: ${Theme.lightDark};
                     line-height: 16px;
                     cursor: pointer;
                     transition: all 0.2s;
 
                     &:hover {
-                        opacity: 1;
+                        color: ${Theme.dark};
                     }
                 }
 
@@ -125,6 +137,19 @@ export const ChannelItemContainer = styled.div`
                         }
                     }
 
+                }
+
+                .view-time {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    font-size: 16px;
+                    font-weight: 500;
+                    color: ${Theme.soft};
+
+                    .icon {
+                        font-size: 8px;
+                    }
                 }
             }
         }

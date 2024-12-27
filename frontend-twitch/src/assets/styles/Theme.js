@@ -17,5 +17,6 @@ export const Theme = {
     content: "#f7f7f8",
     dark: "#0e0e10",
     hotRed: "#ff0000",
+    lightDark: "#585756"
 
 }

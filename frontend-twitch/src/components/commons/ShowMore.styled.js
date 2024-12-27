@@ -6,7 +6,6 @@ export const ShowMoreContainer = styled.div`
     .show-more-container {
         display: flex;
         align-items: center;
-        padding: 0 30px;
         
         span  {
             display: flex;

@@ -4,26 +4,35 @@ import { useState } from "react";
 import ChannelItem from "./ChannelItem";
 import ShowMore from "../../commons/ShowMore";
 
-const ChannelList = ({ title }) => {
+const ChannelList = ({ title, type }) => {
 
-    const lives = useSelector((state) => state.recommend.lives);
     const [showMore, setShowMore] = useState(false);
-
-    const livesToShow = showMore ? lives : lives.slice(0, 4);
-
+    var items = null;
+    var typeItem = null;
+    
+    switch (type) {
+        case "recommended":
+            items = useSelector((state) => state.recommend.lives);
+            typeItem = "live";
+            break;
+        case "recent":
+            items = useSelector((state) => state.recent.videos);
+            typeItem = "video";
+            break;
+    }
+           
+    const itemsToShow = showMore ? items : items.slice(0, 4);
     const handleShowMore = () => {
         setShowMore(!showMore);
-        console.log(showMore);
-        
     }
     
     return (
         <ChannelListContainer>
             <div className="title-heading">{title}</div>
             <div className="recommend-live-container">
-                {livesToShow.map((live) => {
+                {itemsToShow.map((item) => {
                     return (
-                        <ChannelItem key={live.id} live={live} />
+                        <ChannelItem key={item.id} item={item} type={typeItem}/>
                     );
                 })}
             </div>
