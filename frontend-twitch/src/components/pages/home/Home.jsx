@@ -7,6 +7,7 @@ const Home = () => {
         <HomeContainer>
             <SlideScreen />
             <ChannelList title="Recommended for you" />
+            
             {/* <ChannelList title="Live channels we think you’ll like"/> */}
             {/* <Fields />
             <Categories /> */}

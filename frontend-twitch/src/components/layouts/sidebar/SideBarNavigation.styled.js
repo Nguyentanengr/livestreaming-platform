@@ -12,13 +12,13 @@ export const SideBarNavigationContainer = styled.div`
 
     .icon {
         font-size: 30px;
-        transition: all 0.3s ease-in-out;
+        transition: all 0.1s ease-in-out;
         
     }
 
     .title {
         font-size: 16px;
-        transition: all 0.3s;
+        transition: all 0.1s ease-in-out;
     }
 
     &:hover {

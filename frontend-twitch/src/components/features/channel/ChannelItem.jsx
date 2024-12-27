@@ -1,8 +1,9 @@
 
 import { ChannelItemContainer } from "./ChannelItem.styled";
+import { useNavigate } from "react-router-dom";
 import { Icons } from "../../../assets/icons/Icon";
 import Thumbnail from "../../commons/Thumbnail";
-import { useNavigate } from "react-router-dom";
+import ActionButton from "../../commons/ActionButton";
 
 const ChannelItem = ({ live }) => {
     const navigate = useNavigate();
@@ -27,7 +28,7 @@ const ChannelItem = ({ live }) => {
                     </div>
                 </div>
                 <div className="option">
-                    <Icons.More />
+                    <ActionButton icon={<Icons.More />} onclick={() => {}} tooltip="Options" />
                 </div>
             </div>
         </ChannelItemContainer>

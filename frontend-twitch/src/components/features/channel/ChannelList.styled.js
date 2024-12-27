@@ -5,13 +5,12 @@ export const ChannelListContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 20px;
-    padding: 0 30px;
+    padding: 10px 30px;
 
     .title-heading {
         font-size: 20px;
         font-weight: 700;
         color: ${Theme.dark};
-       
     }
 
     .recommend-live-container {

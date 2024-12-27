@@ -10,7 +10,7 @@ export const ChanelListContainer = styled.div`
         h1 {
             font-size: 18px;
             font-weight: 500;
-            padding 5px 0;
+            padding: 5px 0;
         }
 
         .list {

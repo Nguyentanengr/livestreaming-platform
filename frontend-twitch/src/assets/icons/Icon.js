@@ -2,9 +2,9 @@ import { BiSearch, BiLogoTwitch, BiNotification, BiSolidUserRectangle } from "re
 import { BiSolidBrightness, BiVideoPlus, BiLockAlt, BiLogOut,BiDotsVerticalRounded  } from "react-icons/bi";
 import { BiBarChartSquare, BiX, BiHomeAlt, BiMeteor, BiBookmarkHeart } from "react-icons/bi";
 import { BiUserCircle, BiSlideshow, BiChevronLeft, BiChevronRight, BiUser, BiSolidCircle } from "react-icons/bi";
+import { BiChevronDown, BiChevronUp } from "react-icons/bi";
 import { BsXLg } from "react-icons/bs";
 import { HiOutlineXMark } from "react-icons/hi2";
-import { FaEllipsisV } from "react-icons/fa";
 
 export const Icons = {
     TwitchLogo: BiLogoTwitch,
@@ -28,4 +28,6 @@ export const Icons = {
     Views: BiUser,
     HotLive: BiSolidCircle,
     More: BiDotsVerticalRounded,
+    ShowMore: BiChevronDown,
+    ShowLess: BiChevronUp,
 }

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Theme } from "../../../assets/styles/Theme";
 
 export const SlideScreenContainer = styled.div`
-    padding-top: 50px;
+    padding: 50px 0;
     position: relative;
     display: flex;
     align-items: center;
@@ -86,7 +86,7 @@ export const SlideScreenContainer = styled.div`
             padding: 10px;
             align-items: start;
             gap: 20px;
-            z-index: 1000;
+            z-index: 15;
 
             .user-avatar-container {
                 position: relative;

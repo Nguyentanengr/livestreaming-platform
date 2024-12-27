@@ -8,15 +8,16 @@ export const TooltipContainer = styled.div`
 
         .tooltip-content {
             position: absolute;
+            transform: translateX(-50%);
             font-size: 16px;
             line-height: 16px;
-            padding: 4px 10px;
+            padding: 6px 10px;
             text-align: center;
             color: ${Theme.header};
             white-space: nowrap;
-            border-radius: 5px;
-            transform: translateX(-50%);
+            border-radius: 3px;
             background-color: ${Theme.dark};
+            z-index: 15;
         }
 
         .tooltip-content::before {

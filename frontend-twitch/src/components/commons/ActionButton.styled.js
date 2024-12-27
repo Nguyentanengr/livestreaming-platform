@@ -8,14 +8,14 @@ export const ActionButtonContainer = styled.div`
         justify-content: center;
         padding: 2px 3px;
         font-size: 25px;
-        background-color: ${Theme.header};
+        background-color: transparent;
         border-radius: 5px;
         cursor: pointer;
-        transition: 0.3s ease-in-out;
+        transition: 0.2s;
         
 
         &:hover {
-            background-color: ${Theme.lightSoft};
+            background-color: ${Theme.hover};
         }
     }
 `
