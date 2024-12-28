@@ -17,13 +17,17 @@ export const ChannelItemContainer = styled.div`
     .thumbnail-container {
         position: relative;
         cursor: pointer;
+        width: 100%;
+        aspect-ratio: 16 / 9;
         background-color: ${Theme.lightSoft};
         transition: 0.2s;
         
         img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            display: block;
             transition: 0.2s;
+            display: block;
         }
 
         .live-status {
@@ -70,8 +74,9 @@ export const ChannelItemContainer = styled.div`
 
             img,
             .live-status,
-            .viewers-count {
-                transform: translate(7px, -7px);
+            .viewers-count,
+            .duration {
+                transform: translate(8px, -8px);
             }
         }
     }

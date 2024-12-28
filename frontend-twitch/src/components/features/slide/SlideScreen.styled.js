@@ -2,36 +2,44 @@ import styled from "styled-components";
 import { Theme } from "../../../assets/styles/Theme";
 
 export const SlideScreenContainer = styled.div`
-    padding: 50px 0;
-    position: relative;
+    padding: 50px 30px;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    /* align-items: center; */
 
     .left-arrow-btn {
-        position: absolute;
-        left: 30px;
-        top: 50%;
-        transform: translateY(-50%);
+        flex: 1;
+        display: flex;
+        align-items: center;
         font-size: 50px;
         cursor: pointer;
         opacity: 0.3;
-        padding: 10px;
+        padding: 0 150px 0 50px;
+        transition: 0.2s;
+        
+        &:hover {
+            opacity: 1;
+        }
     }
 
     .right-arrow-btn {
-        position: absolute;
-        right: 30px;
-        top: 50%;
-        transform: translateY(-50%);
+        flex: 1;
+        display: flex;
+        align-items: center;
         font-size: 50px;
         cursor: pointer;
         opacity: 0.3;
-        padding: 10px;
+        padding: 0 50px 0 150px;
+        transition: 0.2s;
+        
+        &:hover {
+            opacity: 1;
+        }
     }
 
     .live-channel-container {
         position: relative;
+        background-color: ${Theme.dark};
+        /* border-radius: 30px; */
 
         .banner {
             display: flex;
@@ -138,6 +146,12 @@ export const SlideScreenContainer = styled.div`
                     color: ${Theme.header};
                     cursor: pointer;
                     transition: color 0.3s;
+                    display: -webkit-box; // cut text
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    
                     &:hover {
                         color: ${Theme.highlight};
                     }
@@ -166,7 +180,7 @@ export const SlideScreenContainer = styled.div`
         &::after {
             border-bottom-left-radius: 30px;
             border-bottom-right-radius: 30px;
-            bottom: 5px;
+            bottom: 0;
             height: 150px;
             background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
         }

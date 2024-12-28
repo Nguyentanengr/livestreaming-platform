@@ -4,6 +4,7 @@ import authReducer from "./slices/authSlice";
 import recentReducer from "./slices/recentSlice";
 import recommendReducer from "./slices/recommendSlice";
 import outstandingReducer from "./slices/outstandingSlice";
+import categoryReducer from "./slices/categorySlice";
 
 export default configureStore({
     reducer: {
@@ -12,5 +13,6 @@ export default configureStore({
         outstanding: outstandingReducer,
         recommend: recommendReducer,
         recent: recentReducer,
+        category: categoryReducer,
     },
 });

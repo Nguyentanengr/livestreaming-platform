@@ -1,6 +1,7 @@
 import { HomeContainer } from "./Home.styled";
 import SlideScreen from "../../features/slide/SlideScreen";
 import ChannelList from "../../features/channel/ChannelList";
+import CategoryList from "../../features/category/CategoryList";
 
 const Home = () => {
     return (
@@ -8,6 +9,7 @@ const Home = () => {
             <SlideScreen />
             <ChannelList title="Recommended for you" type="recommended"/>
             <ChannelList title="Recent lives" type="recent"/>
+            <CategoryList title="Favorite Categories" />
 
             
             {/* <ChannelList title="Live channels we think you’ll like"/> */}

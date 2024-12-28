@@ -7,7 +7,7 @@ const recommendSlice = createSlice({
             {
                 id: 1,
                 title: "Twitch !bonus round 🎄Merry Christmas Eve all!",
-                thumbnail: "/images/games/game-dota.jpg",
+                thumbnail: "/images/games/test.jpg",
                 views: 889,
                 tags: [
                     {id: 1, tag: "funny"}, 
