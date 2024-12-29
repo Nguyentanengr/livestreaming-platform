@@ -34,6 +34,7 @@ body.no-scroll {
   overflow: hidden; /* Disable scroll when adding class "no-scroll"*/
 }
 
+
 a {
   color: ${Theme.text};
   text-decoration: none;

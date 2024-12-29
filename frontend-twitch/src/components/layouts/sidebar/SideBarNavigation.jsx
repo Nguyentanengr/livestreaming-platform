@@ -1,12 +1,11 @@
 import { SideBarNavigationContainer } from "./SideBarNavigation.styled";
-import { useNavigate } from "react-router-dom";
-const SideBarNavigation = ({ title, icon, nav}) => {
-    const navigate = useNavigate();
+
+const SideBarNavigation = ({ title, icon, onclick, highlight}) => {
     
     return (
-        <SideBarNavigationContainer onClick={() => navigate(nav)}>
-            <div className="icon">{icon}</div>
-            <div className="title">{title}</div>
+        <SideBarNavigationContainer onClick={onclick}>
+            <div className={`icon ${highlight ? "highlight" : ""}`}>{icon}</div>
+            <div className={`title ${highlight ? "highlight" : ""}`}>{title}</div>
         </SideBarNavigationContainer>
     )
 }
