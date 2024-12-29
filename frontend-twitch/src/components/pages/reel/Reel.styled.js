@@ -2,9 +2,6 @@ import styled from "styled-components";
 import { Theme } from "../../../assets/styles/Theme";
 
 export const ReelContainer = styled.div`
-    width: 100%;
-    position: relative;
-
     .control-container {
         position: fixed;
         display: flex;
@@ -53,16 +50,19 @@ export const ReelContainer = styled.div`
     }
 
     .reel-container {
-        margin: 0 100px;
-        height: calc(100vh - 65px);
+        position: fixed;
+        right: 100px;
+        left: 80px;
+        top: 65px;
+        bottom: 0;
+        background-color: transparent;
         overflow-y: auto;
 
-        &::-webkit-scrollbar {
+        /* &::-webkit-scrollbar {
             display: none;
-        }
+        } */
+        
     }
 
-
-
-    
+ 
 `

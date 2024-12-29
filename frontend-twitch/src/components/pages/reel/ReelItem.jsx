@@ -6,6 +6,7 @@ const ReelItem = ( { reel } ) => {
         <ReelItemContainer>
             <div className="view-container">
                 <video src={reel.videoUrl} loop muted />
+                
 
             </div>
             <div className="interaction-container">

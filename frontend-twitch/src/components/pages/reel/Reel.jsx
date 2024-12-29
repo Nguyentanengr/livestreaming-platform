@@ -22,7 +22,6 @@ const Reel = () => {
                 <div className="control-down">
                     <Icons.ShowMore />
                 </div>
-
             </div>
 
             <div className="reel-container">
@@ -30,6 +29,8 @@ const Reel = () => {
                     return (<ReelItem key={reel.id} reel={reel} />);
                 })}
             </div>
+
+            <></>
         </ReelContainer>
     );
 };
