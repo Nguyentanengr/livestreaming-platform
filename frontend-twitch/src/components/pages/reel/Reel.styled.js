@@ -56,6 +56,7 @@ export const ReelContainer = styled.div`
         top: 65px;
         bottom: 0;
         overflow-y: auto;
+      
 
         &::-webkit-scrollbar {
             display: none;
