@@ -3,6 +3,7 @@ import { ReelContainer } from "./Reel.styled";
 import { Icons } from "../../../assets/icons/Icon";
 import { useEffect, useRef, useState } from "react";
 import ReelItem from "./ReelItem";
+import ScrollReel from "../../features/scroll/ScrollReel";
 
 const Reel = () => {
 
