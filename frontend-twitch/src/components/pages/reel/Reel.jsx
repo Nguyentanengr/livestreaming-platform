@@ -1,9 +1,8 @@
 import { useSelector } from "react-redux";
 import { ReelContainer } from "./Reel.styled";
-import { Icons } from "../../../assets/icons/Icon";
-import { useEffect, useRef, useState } from "react";
-import ReelItem from "./ReelItem";
+import { useEffect, useRef } from "react";
 import ScrollReel from "../../features/scroll/ScrollReel";
+import ReelSlide from "../../features/reel/ReelSlide";
 
 const Reel = () => {
 
@@ -11,9 +10,7 @@ const Reel = () => {
     const containerRef = useRef(null);
     const itemRefs = useRef([]);
 
-
-
-    useEffect(() => {
+    useEffect(() => { // ensure itemRefs is the same length as reels
         itemRefs.current = itemRefs.current.slice(0, reels.length);
     }, [reels]);
 
@@ -29,9 +26,9 @@ const Reel = () => {
 
     const handleWheel = (e) => {
         e.preventDefault();
-        if (e.deltaY > 0) {
+        if (e.deltaY > 0) { // detect scroll down
             handleScrollDown(0);
-        } else {
+        } else { // detect scroll up
             handleScrollUp(0);
         }
     };
@@ -72,22 +69,8 @@ const Reel = () => {
 
     return (
         <ReelContainer>
-            <div className="control-container">
-                <div className="control-up" onClick={() => handleScrollUp(0)}>
-                    <Icons.ShowLess />
-                </div>
-                <div className="control-down" onClick={() => handleScrollDown(0)}>
-                    <Icons.ShowMore />
-                </div>
-            </div>
-
-            <div className="reel-container" ref={containerRef}>
-                {reels.map((reel, index) => (
-                    <div key={reel.id} ref={el => itemRefs.current[index] = el}>
-                        <ReelItem reel={reel} />
-                    </div>
-                ))}
-            </div>
+            <ScrollReel scrollUp={handleScrollUp} scrollDown={handleScrollDown} />
+            <ReelSlide reels={reels} itemRefs={itemRefs} containerRef={containerRef}/>
         </ReelContainer>
     );
 };

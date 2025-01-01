@@ -1,5 +1,5 @@
 
-import ReelItem from "../../pages/reel/ReelItem";
+import ReelItem from "./ReelItem";
 import { ReelSlideContainer } from "./ReelSlide.styled";
 
 const ReelSlide = ({ reels, itemRefs, containerRef}) => {
