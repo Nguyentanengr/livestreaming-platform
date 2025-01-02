@@ -1,38 +1,48 @@
 import { ReelBarContainer } from "./ReelBar.styled";
 import { Icons } from "../../../assets/icons/Icon";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
+import ReelProfile from "./ReelProfile";
 import VideoAction from "../../commons/VideoAction";
-import Thumbnail from "../../commons/Thumbnail";
 
-const ReelBar = ({ reel }) => {
+const ReelBar = ({ reel, exComment, exShare }) => {
 
-    const navigate = useNavigate();
+    const [action, setAction] = useState({
+        isLiked: false,
+        isComment: false,
+        isShare: false,
+    });
+
+    const toggleAction = (key) => {
+        setAction((action) => ({
+            ...action,
+            [key]: !action[key],
+        }));
+    };
+
+    const handleLikeClick = () => {
+        toggleAction('isLiked');
+    }
+
+    const handleCommentClick = () => {
+        toggleAction('isComment');
+        exComment();
+    }
+
+    const handleShareClick = () => {
+        toggleAction('isShare');
+        exShare();
+    }
 
     return (
         <ReelBarContainer>
-            <div className="interaction-container">
-                <div className="profile-container">
-                    <Thumbnail
-                        src={reel.thumbnail}
-                        onclick={() => { navigate(`/profile/${reel.username}`) }}
-                        size="large"
-                    />
-                    <div className={`follow-button ${isFollowed ? 'followed' : ''}`}
-                        onClick={handleFollowClick}
-                    >
-                        {!isFollowed ? <Icons.FollowPlus className="follow-icon" />
-                            : <Icons.FollowedPlus className="follow-icon" />}
-                    </div>
-                </div>
-
-                {!isLiked ? <VideoAction count={3489} icon={<Icons.Like />} onclick={handleLikeClick} />
-                    : <VideoAction count={3489} icon={<Icons.LikeFill />} onclick={handleLikeClick} />}
-                <VideoAction count={244} icon={<Icons.Comment />} onclick={handleCommentClick} />
-                <VideoAction count={99} icon={<Icons.Share />} />
-            </div>
+            <ReelProfile reel={reel} />
+            {!action.isLiked ? <VideoAction count={92489} icon={<Icons.Like />} onclick={handleLikeClick} />
+                : <VideoAction count={92489} icon={<Icons.LikeFill />} onclick={handleLikeClick} />}
+            <VideoAction count={2474} icon={<Icons.Comment />} onclick={handleCommentClick} />
+            <VideoAction count={99} icon={<Icons.Share />} onclick={handleShareClick} />
         </ReelBarContainer>
-    )
-}
+    );
+};
 
 export default ReelBar;

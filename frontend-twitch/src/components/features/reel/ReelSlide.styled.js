@@ -9,7 +9,6 @@ export const ReelSlideContainer = styled.div`
         bottom: 0;
         overflow-y: auto;
       
-
         &::-webkit-scrollbar {
             display: none;
         }
