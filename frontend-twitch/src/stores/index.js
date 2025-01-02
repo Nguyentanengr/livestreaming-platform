@@ -6,6 +6,7 @@ import recommendReducer from "./slices/recommendSlice";
 import outstandingReducer from "./slices/outstandingSlice";
 import categoryReducer from "./slices/categorySlice";
 import reelReducer from "./slices/reelSlice";
+import commentReducer from "./slices/commentSlice";
 
 export default configureStore({
     reducer: {
@@ -16,5 +17,6 @@ export default configureStore({
         recent: recentReducer,
         category: categoryReducer,
         reel: reelReducer,
+        comment: commentReducer,
     },
 });
