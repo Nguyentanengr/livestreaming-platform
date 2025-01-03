@@ -37,6 +37,7 @@ export const ReelCommentContainer = styled.div`
             background-color: transparent;
             flex-direction: column;
             overflow-y: auto;
+            overscroll-behavior: contain;
             gap: 30px;
 
             .comment-item {
@@ -93,7 +94,7 @@ export const ReelCommentContainer = styled.div`
             }
 
             &::-webkit-scrollbar {
-                width: 5px;
+                width: 3px;
             }
 
             &::-webkit-scrollbar-thumb {

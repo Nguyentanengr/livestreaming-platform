@@ -33,10 +33,10 @@ export const ChatPreviewContainer = styled.div`
             }
 
             &:hover {
-            ::-webkit-scrollbar-thumb {
-                background-color: #ccc; /* Màu của thanh cuộn */
-                border-radius: 10px;
-            }
+                ::-webkit-scrollbar-thumb {
+                    background-color: #ccc; /* Màu của thanh cuộn */
+                    border-radius: 10px;
+                }
             }
 
             .message-item {

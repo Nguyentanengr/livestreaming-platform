@@ -96,6 +96,10 @@ const commentSlice = createSlice({
             state.loadingReply = false;
             state.replyError = action.payload;
         },
+
+        addComment: (state, action) => {
+            state.comments = [...state.comments, action.payload];
+        },
     },
 });
 
@@ -107,6 +111,7 @@ export const {
     fetchReplyStart,
     fetchReplySuccess,
     fetchReplyFailure,
+    addComment,
 } = commentSlice.actions;
 
 export default commentSlice.reducer;

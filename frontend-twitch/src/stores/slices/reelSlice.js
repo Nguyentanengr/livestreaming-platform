@@ -18,12 +18,12 @@ export const reelSlice = createSlice({
             },
             {
                 id: 2,
-                username: "Momens",
+                username: "Tony",
                 tags: [
                     {id: 1, name: "funny"},
                     {id: 2, name: "fighting"},
                 ],
-                title: "Ranked to Top 10 | Merry ChristmasNerds Top 10 Merry Christmas Nerds",
+                title: "Xin cái kèo solo 1:1",
                 thumbnail: "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg",
                 videoUrl: "/videos/streamvideo3.mp4",
                 interested: 249400,
@@ -67,7 +67,7 @@ export const reelSlice = createSlice({
             },
             {
                 id: 6,
-                username: "Finenk",
+                username: "QuyenTop1VN",
                 tags: [
                     {id: 1, name: "funny"},
                     {id: 2, name: "fighting"},

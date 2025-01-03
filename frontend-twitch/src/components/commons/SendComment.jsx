@@ -3,12 +3,13 @@ import { SendCommentContainer } from "./SendComment.styled";
 import { Icons } from "../../assets/icons/Icon";
 import { useState } from "react";
 
-const SendComment = () => {
+const SendComment = ({ onSendComment }) => {
 
+    
     const [inputValue, setInputValue] = useState("");
 
     const handleSend = () => {
-        console.log(inputValue);
+        onSendComment(inputValue);
         setInputValue("");
     };
 
@@ -25,6 +26,7 @@ const SendComment = () => {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyDown={(e) => handleKeyEnter(e)}
+                spellCheck={false}
                 placeholder='Add comment...'>
             </input>
             <div className="setting"><Icons.Setting /></div>

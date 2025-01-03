@@ -25,11 +25,21 @@ const Reel = () => {
     }, []);
 
     const handleWheel = (e) => {
-        e.preventDefault();
-        if (e.deltaY > 0) { // detect scroll down
-            handleScrollDown(0);
-        } else { // detect scroll up
-            handleScrollUp(0);
+
+        const commentContainer = e.target.closest('.comment-list-container');
+
+        if (commentContainer) { // the scroll event originated from the comments section
+            if (commentContainer.scrollHeight == commentContainer.clientHeight) {
+                e.preventDefault(); // disable scroll
+            }
+            return;
+        } else {
+            e.preventDefault();
+            if (e.deltaY > 0) { // detect scroll down
+                handleScrollDown(0);
+            } else { // detect scroll up
+                handleScrollUp(0);
+            }
         }
     };
 
