@@ -4,7 +4,7 @@ import { BiBarChartSquare, BiX, BiHomeAlt, BiMeteor, BiBookmarkHeart } from "rea
 import { BiUserCircle, BiSlideshow, BiChevronLeft, BiChevronRight, BiUser, BiSolidCircle } from "react-icons/bi";
 import { BiChevronDown, BiChevronUp, BiHeart, BiCommentDots, BiShare, BiSolidHeart } from "react-icons/bi";
 import { BiPlus, BiCheck, BiVolumeFull, BiVolumeMute, BiSend, BiPlay, BiFullscreen} from "react-icons/bi";
-import { BiLogoYoutube, BiLogoTiktok, BiLogoDiscord} from "react-icons/bi";
+import { BiLogoYoutube, BiLogoTiktok, BiLogoDiscord, BiBroadcast, BiCaretRightSquare} from "react-icons/bi";
 import { BsXLg } from "react-icons/bs";
 import { HiOutlineXMark } from "react-icons/hi2";
 
@@ -46,4 +46,6 @@ export const Icons = {
     Youtube: BiLogoYoutube,
     Tiktok: BiLogoTiktok,
     Discord: BiLogoDiscord,
+    Live: BiBroadcast,
+    Content: BiCaretRightSquare,
 }

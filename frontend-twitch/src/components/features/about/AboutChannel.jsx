@@ -1,10 +1,11 @@
 import { useSelector } from "react-redux";
 import { AboutChannelContainer } from "./AboutChannel.styled"
 
-import Thumbnail from "../../../components/commons/Thumbnail";
 import { useNavigate } from "react-router-dom";
 import { Icons } from "../../../assets/icons/Icon"
 import { useState } from "react";
+import Thumbnail from "../../../components/commons/Thumbnail";
+import ChannelList from "../../features/channel/ChannelList";
 
 
 const AboutChannel = () => {
@@ -83,12 +84,7 @@ const AboutChannel = () => {
                     })}
                 </div>
                 <div className="list">
-                    <div className="video-list">
-
-                    </div>
-                    <div className="reel-list">
-
-                    </div>
+                    
                 </div>
             </div>
         </AboutChannelContainer>

@@ -3,11 +3,11 @@ import LeftHeader from "./LeftHeader";
 import MiddleHeader from "./MiddleHeader";
 import RightHeader from "./RightHeader";
 
-const Header = () => {
+const Header = ({ unvisibleSearch=false }) => {
     return (
         <HeaderContainer>
             <LeftHeader />
-            <MiddleHeader />
+            <MiddleHeader unvisibleSearch={unvisibleSearch} />
             <RightHeader /> 
         </HeaderContainer>
     )
