@@ -25,7 +25,7 @@ export const reelSlice = createSlice({
                 ],
                 title: "Xin cái kèo solo 1:1",
                 thumbnail: "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg",
-                videoUrl: "/videos/streamvideo3.mp4",
+                videoUrl: "/videos/streamvideo9.mp4",
                 interested: 249400,
             },
             {

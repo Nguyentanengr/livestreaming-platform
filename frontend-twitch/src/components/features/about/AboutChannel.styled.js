@@ -61,7 +61,7 @@ export const AboutChannelContainer = styled.div`
         display: flex;
         margin: 0 70px;
         background-color: ${Theme.header};
-        min-height: 300px;
+        min-height: 200px;
         border-radius: 5px;
 
         .description {
@@ -105,16 +105,41 @@ export const AboutChannelContainer = styled.div`
                 opacity: 0.7;
                 cursor: pointer;
                 transition: 0.2s;
-                
+
                 .link-icon {
                     font-size: 26px;
-
                 }
 
                 &:hover {
                     opacity: 1;
                 }
 
+            }
+        }
+    }
+
+    .store {
+        display: flex;
+        flex-direction: column;
+        background-color: transparent;
+        margin: 40px 70px;
+
+        .navigations {
+            display: flex;
+            gap: 40px;
+            font-size: 24px;
+            font-weight: 700;
+            cursor: pointer;
+
+            .navigation.highlight {
+                color: ${Theme.highlight};
+
+                .highlight {
+                    margin-top: 7px;
+                    width: 100%;
+                    height: 3px;
+                    background-color: ${Theme.highlight};
+                }
             }
         }
     }

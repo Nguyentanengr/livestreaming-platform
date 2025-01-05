@@ -4,9 +4,12 @@ import { AboutChannelContainer } from "./AboutChannel.styled"
 import Thumbnail from "../../../components/commons/Thumbnail";
 import { useNavigate } from "react-router-dom";
 import { Icons } from "../../../assets/icons/Icon"
+import { useState } from "react";
 
 
 const AboutChannel = () => {
+
+    const [selectNav, setSelectNav] = useState(1);
 
     const user = useSelector((state) => state.user.user);
     const navigate = useNavigate();
@@ -15,6 +18,10 @@ const AboutChannel = () => {
         {id: 2, icon: Icons.Discord, name:"Discord", link: "http://discord.com"},
         {id: 3, icon: Icons.Tiktok, name:"Tiktok", link: "http://tiktok.com"},
     ];
+    const navigations = [
+        {id: 1, name: "Videos" },
+        {id: 2, name: "Reels" },
+    ]
 
     return (
         <AboutChannelContainer>
@@ -64,10 +71,22 @@ const AboutChannel = () => {
             </div>
             <div className="store">
                 <div className="navigations">
-                    <div className="video">
+                    {navigations.map(navigation => {
+                        let cl = navigation.id == selectNav ? "highlight" : "";
+                        return (
+                        <div className={`navigation ${cl}`} key={navigation.id} onClick={() => {setSelectNav(navigation.id)}}>
+                            {navigation.name}
+                            {<div className={cl}></div>}
+                        </div>
+                        
+                    )
+                    })}
+                </div>
+                <div className="list">
+                    <div className="video-list">
 
                     </div>
-                    <div className="reel">
+                    <div className="reel-list">
 
                     </div>
                 </div>
