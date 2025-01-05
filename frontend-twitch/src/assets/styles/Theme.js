@@ -19,5 +19,5 @@ export const Theme = {
     hotRed: "#ff0000",
     lightDark: "#585756",
     pink: "#ff75e6",
-
+    blue: "#0000FF",
 }

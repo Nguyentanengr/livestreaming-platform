@@ -9,7 +9,7 @@ export const ButtonContainer = styled.div`
         font-weight: 600;
         line-height: 18px;
         background-color: ${props => props.color};
-        color: ${props => props.color === Theme.highlight ? Theme.header : Theme.text};
+        color: ${Theme.header};
         cursor: pointer;
     }
 
@@ -21,7 +21,7 @@ export const ButtonContainer = styled.div`
     }
 
     .btn.small {
-        padding: 7px 15px;
+        padding: 5px 15px;
         font-size: 16px;
         font-weight: 600;
         line-height: 16px;

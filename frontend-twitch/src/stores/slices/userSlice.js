@@ -3,7 +3,13 @@ import { createSlice } from "@reduxjs/toolkit";
 export const userSlice = createSlice({
     name: "user",
     initialState: {
-        user: null,
+        user: {
+            id: 1,
+            username: "Ripcode112",
+            alias: "nguyenkicker",
+            thumbnail: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQq5xtiFtIcvJqTpVbMI8K3jVG3tLXolM1fSA&s",
+        },
+
         loading: false,
         error: null,
     },

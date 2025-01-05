@@ -13,14 +13,14 @@ const RightHeader = () => {
 
     const [exProfile, setExProfile] = useState(false);
     const [exNotification, setExNotification] = useState(false);
-    const [isLogin, setIsLogin] = useState(false);
+    const [isLogin, setIsLogin] = useState(true);
     const [count, setCount] = useState(1);
 
     const profileRef = useRef(null);
     const notificationRef = useRef(null);
 
     const navigate = useNavigate();
-    const src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaS_OPAcHevTbgtze5jxUUyjs6y0tBv__pFQ&s";
+    const src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQq5xtiFtIcvJqTpVbMI8K3jVG3tLXolM1fSA&s";
     const name = "Ripcode112";
     
     // Listen to click outside

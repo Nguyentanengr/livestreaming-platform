@@ -32,7 +32,6 @@ export const SideBarNavigationContainer = styled.div`
     &:hover {
         .icon {
             color: ${Theme.highlight};
-            font-size: 35px;
         }
 
         .title {

@@ -17,5 +17,10 @@ export const ThumbnailContainer = styled.div`
             width: 32px;
             height: 32px;
         }
+
+        &.vlarge {
+            width: 70px;
+            height: 70px;
+        }
     }
 `

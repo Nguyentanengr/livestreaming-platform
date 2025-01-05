@@ -3,6 +3,7 @@ import GlobalStyles from "./assets/styles/Global";
 import MainLayout from "./components/layouts/MainLayout";
 import Home from "./components/pages/home/Home";
 import Reel from "./components/pages/reel/Reel";
+import Profile from "./components/pages/profile/Profile";
 
 const App = () => {
 
@@ -15,6 +16,7 @@ const App = () => {
           <Route element={<MainLayout />}>
             <Route path="/" element={<Home />} />
             <Route path="/reels" element={<Reel />} />
+            <Route path="/you" element={<Profile />} />
           </Route>
 
           {/* Not layout applied */}
