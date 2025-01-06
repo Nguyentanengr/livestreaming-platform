@@ -3,15 +3,24 @@ import { Theme } from "../../../assets/styles/Theme";
 
 export const CreatorSideBarContainer = styled.div`
     position: fixed;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
     left: 0;
     top: 65px;
     bottom: 0;
-    width: 300px;
-    background-color: ${Theme.sideBar};
+    width: 270px;
+    background-color: ${Theme.header};
     z-index: 15;
-    padding-top: 40px;
+
+    .title {
+        font-size: 18px;
+        font-weight: 600;
+        margin: 0 5px;
+        padding: 25px 15px 15px 12px;
+        text-transform: uppercase;
+    }
+
+    .nav-container {
+        display: flex;
+        flex-direction: column;
+    }
+
 `

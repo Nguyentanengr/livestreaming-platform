@@ -8,12 +8,10 @@ const CreatorSideBar = () => {
     const [option, setOption] = useState(1);
     const navigate = useNavigate();
 
-
-
     const navigations = [
         {
             id: 1,
-            title: "Stream Dashboard",
+            title: "Streaming",
             icon: <Icons.Live />,
             nav: "/creator/stream"
         },
@@ -34,18 +32,24 @@ const CreatorSideBar = () => {
 
     const handleNavigationClick = (navigation) => {
         setOption(navigation.id);
-        navigate(navigation.nav);    
+        navigate(navigation.nav);
     };
 
     return (
         <CreatorSideBarContainer>
-            {navigations.map((navigation) => {
-                return (<CreatorSideBarNav
-                    key={navigation.id}
-                    navigation={navigation}
-                    onclick={() => handleNavigationClick(navigation)}
-                    highlight={option === navigation.id ? true : false}/>);
-            })}
+            <div className="title">
+                Creator Dashboard
+            </div>
+            <div className="nav-container">
+                {navigations.map((navigation) => {
+                    return (<CreatorSideBarNav
+                        className="nav-item"
+                        key={navigation.id}
+                        navigation={navigation}
+                        onclick={() => handleNavigationClick(navigation)}
+                        highlight={option === navigation.id ? true : false} />);
+                })}
+            </div>
         </CreatorSideBarContainer>
     )
 }

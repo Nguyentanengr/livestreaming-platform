@@ -1,9 +1,9 @@
 
 import { MainLayoutContainer } from "./MainLayout.styled";
+import { Outlet } from "react-router-dom";
 import Header from "./header/Header";
 import SideBar from "./sidebar/SideBar";
 import Content from "./content/Content";
-import { Outlet } from "react-router-dom";
 
 const MainLayout = () => {
     return (
