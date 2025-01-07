@@ -9,6 +9,7 @@ export const CreatorSideBarContainer = styled.div`
     width: 270px;
     background-color: ${Theme.header};
     z-index: 15;
+    border: 1px solid ${Theme.hover};
 
     .title {
         font-size: 18px;

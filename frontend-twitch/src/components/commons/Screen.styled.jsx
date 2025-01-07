@@ -9,6 +9,7 @@ export const ScreenContainer = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
+        overflow: hidden;
 
         .video {
             width: 100%;
@@ -23,13 +24,13 @@ export const ScreenContainer = styled.div`
             justify-content: center;
             color: ${Theme.header};
             font-size: 30px;
-            padding: 5px;
+            padding: 3px;
             cursor: pointer;
             transition: 0.2s;
             border-radius: 3px;
 
             &:hover {
-                background-color: ${Theme.soft};
+                background-color: ${Theme.lightHover};
             }
         }
 
@@ -49,21 +50,35 @@ export const ScreenContainer = styled.div`
             bottom: 10px;
             right: 10px;
         }
+
+        &.small {
+            width: 20vw;
+            aspect-ratio: 16 / 9;
+            .expand {
+                font-size: 25px;
+            }
+        }
+
+        &.medium {
+            width: 35vw;
+            aspect-ratio: 16 / 9;
+            .expand {
+                font-size: 25px;
+            }
+        }
+
+        &.large {
+            width: 60vw;
+            aspect-ratio: 16 / 9;
+        }
+
+        &.auto {
+            aspect-ratio: 16 / 9;
+            .expand {
+                font-size: 25px;
+            }
+        }
+        
     } 
-
-    .small {
-        width: 20vw;
-        aspect-ratio: 16 / 9;
-    }
-
-    .medium {
-        width: 35vw;
-        aspect-ratio: 16 / 9;
-    }
-
-    .large {
-        width: 60vw;
-        aspect-ratio: 16 / 9;
-    }
 
 `
