@@ -5,6 +5,7 @@ import { BiUserCircle, BiSlideshow, BiChevronLeft, BiChevronRight, BiUser, BiSol
 import { BiChevronDown, BiChevronUp, BiHeart, BiCommentDots, BiShare, BiSolidHeart } from "react-icons/bi";
 import { BiPlus, BiCheck, BiVolumeFull, BiVolumeMute, BiSend, BiPlay, BiFullscreen} from "react-icons/bi";
 import { BiLogoYoutube, BiLogoTiktok, BiLogoDiscord, BiBroadcast, BiCaretRightSquare} from "react-icons/bi";
+import { BiImageAdd } from "react-icons/bi";
 import { BsXLg } from "react-icons/bs";
 import { HiOutlineXMark } from "react-icons/hi2";
 
@@ -48,4 +49,5 @@ export const Icons = {
     Discord: BiLogoDiscord,
     Live: BiBroadcast,
     Content: BiCaretRightSquare,
+    UploadImage: BiImageAdd,
 }
