@@ -18,9 +18,8 @@ const ActivityFeed = () => {
             <div className="feed-container">
                 {feeds.map((feed) => {
                     return (
-                        <div className="item">
+                        <div className="item" key={feed.id}>
                             <FeedItem
-                                key={feed.id}
                                 className="feed-item"
                                 feed={feed}
                             />

@@ -24,8 +24,12 @@ const EditBar = () => {
         ["highlight", "fighting", "funny"]
     );
 
+    const [dropdownCate, setDropdownCate] = useState(false);
+
     const handleOnChange = (e) => {
         setInput(e.target.value);
+        setDropdownCate(input !== "");
+
     };
 
     const handleClickTagIcon = (e) => {
@@ -56,10 +60,11 @@ const EditBar = () => {
                     <EditLabel title="Category" />
                     <EditInput
                         ph="Search for a category"
+                        value={input}
                         onchange={handleOnChange}
                     />
                     {input && <div className="scroll-container">
-                        <CategoryScroll />
+                        <CategoryScroll searchKey={input.trim()}/>
                     </div>}
                 </div>
                 <div className="tag-container">
@@ -67,7 +72,7 @@ const EditBar = () => {
                     <EditInput
                         className="tag-input"
                         ph="Use Enter after each tag"
-                        value={input}
+                        // value={input}
                         onchange={handleOnChange}
                         onenter={handleEnterTagInput}
                     />
