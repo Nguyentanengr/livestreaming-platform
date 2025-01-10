@@ -64,14 +64,54 @@ export const EditBarContainer = styled.div`
             }
         }
 
+        .category-container {
+            position: relative;
+
+            .scroll-container {
+                position: absolute;
+                top: 110%;
+                left: 0%;
+                z-index: 20;
+            }
+        }
+
         .tag-container {
             
-            .tag-box {
+            .tag-input {
+                flex-grow: 1;
+            }
+
+            .select-container {
                 display: flex;
-                justify-content: end;
-                .tag-input {
-                    flex-grow: 1;
+                gap: 10px;
+
+                .tag-select {
+                    padding: 0 5px;
+                    background-color: ${Theme.hover};
+                    border-radius: 5px;
+                    display: flex;
+                    align-items: center;
+
+                    .text {
+                        padding: 0 10px;
+                    }
+
+                    .tag-icon {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: 20px;
+                        height: 35px;
+                        cursor: pointer;
+                        color: ${Theme.dark};
+                        transition: 0.2s;
+
+                        &:hover {
+                            stroke-width: 3;
+                        }
+                    }
                 }
+
             }
         }
 
