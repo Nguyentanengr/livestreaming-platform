@@ -14,18 +14,18 @@ const ActivityFeed = () => {
     ]
     return (
         <ActivityFeedContainer>
-            <TitleBar title="Activity Feeds" />
+            <TitleBar className='title-bar' title="Activity Feeds" />
             <div className="feed-container">
                 {feeds.map((feed) => {
                     return (
-                        <>
+                        <div className="item">
                             <FeedItem
                                 key={feed.id}
                                 className="feed-item"
                                 feed={feed}
                             />
-                            <hr />
-                        </>
+                            <div className="line" />
+                        </div>
                     );
                 })}
             </div>

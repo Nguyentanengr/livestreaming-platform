@@ -9,7 +9,7 @@ export const FeedItemContainer = styled.div`
 
     .feed-icon {
         font-size: 25px;
-        color: ${Theme.pink};
+        color: ${Theme.violet};
     }
 
     .content {
@@ -37,7 +37,7 @@ export const FeedItemContainer = styled.div`
             .dot-icon {
                 display: flex;
                 align-items: center;
-                font-size: 7px;
+                font-size: 6px;
                 color: ${Theme.soft}
             }
 

@@ -7,11 +7,18 @@ import EditTextArea from "../../commons/EditTextArea";
 import Button from "../../commons/Button";
 import { Theme } from "../../../assets/styles/Theme";
 import { Icons } from "../../../assets/icons/Icon";
+import EditSelect from "../../commons/EditSelect";
 
 
 const EditBar = () => {
 
     const [input, setInput] = useState("");
+    const commentOptions = ["ON", "OFF"];
+    const visibilityOptions = [
+        "All everyone",
+        "Who was following me",
+        "Friendly (Follow along with)"
+    ];
 
     const handleOnChange = (e) => {
         setInput(e.target.value);
@@ -42,10 +49,10 @@ const EditBar = () => {
                 <div className="tag-container">
                     <EditLabel title="Tag" />
                     <EditInput
+                        className="tag-input"
                         ph="Use Enter after each tag"
                         onchange={handleOnChange}
                     />
-                    <Button color={Theme.highlight} title="Add Tag" />
                 </div>
                 <div className="thumbnail-container">
                     <EditLabel title="Thumbnail" />
@@ -60,15 +67,14 @@ const EditBar = () => {
                 </div>
                 <div className="comment-container">
                     <EditLabel title="Comment Setting" />
-                    <select id="on">
-                        <option value="on">ON</option>
-                        <option value="off">OFF</option>
-                    </select>
+                    <EditSelect options={commentOptions} />
                 </div>
                 <div className="visibility-container">
                     <EditLabel title="Visibility" />
-                    <input type="checkbox" />
-                    
+                    <EditSelect options={visibilityOptions} />
+                </div>
+                <div className="save-button">
+                    <Button color={Theme.highlight} title="Save" />
                 </div>
 
 

@@ -2,11 +2,8 @@ import styled from "styled-components";
 import { Theme } from "../../../assets/styles/Theme";
 
 export const StreamPreviewContainer = styled.div`
-    grid-column: 1;
-    grid-row: 1;
     display: flex;
     flex-direction: column;
-    border-right: 2px solid rgba(0, 0, 0, 0.1);
 
     .screen-stream {
         position: relative;

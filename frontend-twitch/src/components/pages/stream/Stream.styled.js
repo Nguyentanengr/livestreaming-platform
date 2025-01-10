@@ -8,7 +8,25 @@ export const StreamContainer = styled.div`
     bottom: 0;
     right: 0;
     background-color: ${Theme.header};
-    display: grid;
-    grid-template-columns: 4fr 2.7fr 3.3fr;
-    grid-template-rows: auto 1fr;
+    display: flex;
+
+    .col1 {
+        width: 40%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        background-color: ${Theme.header};
+        border-right: 2px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .col2 {
+        width: 25%;
+        border-right: 2px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .col3{
+        width: 35%;
+        border-right: 2px solid rgba(0, 0, 0, 0.1);
+    }
+
 `

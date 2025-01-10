@@ -2,59 +2,83 @@ import styled from "styled-components";
 import { Theme } from "../../../assets/styles/Theme";
 
 export const EditBarContainer = styled.div`
-    grid-column: 3;
-    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 
-    .tag-container {
-
+    .edit-container {
+        flex: 1;
         display: flex;
         flex-direction: column;
-    }
+        gap: 20px;
+        padding: 20px 20px 10px 20px;
+        overflow-y: auto;
 
-    .thumbnail-container {
-        display: flex;
-        flex-direction: column;
-        align-items: start;
+        ::-webkit-scrollbar {
+            display: none;
+        }
 
-        .add-area {
-            background-color: ${Theme.header};
-            padding: 30px 40px;
-            border-radius: 5px;
-            border: 1px dashed ${Theme.mediumSoft};
+        .title-container,
+        .noti-container,
+        .category-container,
+        .tag-container,
+        .thumbnail-container,
+        .comment-container,
+        .visibility-container {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
+            gap: 5px;
+            
+            
+        }
 
-            .text {
-                font-size: 18px;
-                color: ${Theme.soft};
-            }
+        .thumbnail-container {
+            display: flex;
+            flex-direction: column;
+            
 
-            .icon {
-                font-size: 30px;
-                opacity: 0.7;
-            }
+            .add-area {
+                background-color: ${Theme.header};
+                padding: 30px 40px;
+                border-radius: 5px;
+                border: 1px dashed ${Theme.mediumSoft};
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
 
-            &:hover {
-                border: 1px dashed ${Theme.lightDark};
+                .text {
+                    font-size: 18px;
+                    color: ${Theme.soft};
+                }
+
+                .icon {
+                    font-size: 30px;
+                    opacity: 0.7;
+                }
+
+                &:hover {
+                    border: 1px dashed ${Theme.lightDark};
+                }
             }
         }
-    }
 
-    .comment-container {
-
-        select {
-            padding: 8px 88px;
-            /* background-color: ${Theme.soft}; */
-            font-size: 18px;
-            border: 2px solid ${Theme.hover};
-            border-radius: 5px;
-
-            option {
-                border-radius: 5px;
+        .tag-container {
+            
+            .tag-box {
+                display: flex;
+                justify-content: end;
+                .tag-input {
+                    flex-grow: 1;
+                }
             }
+        }
+
+        .save-button {
+            margin-top: 20px;
+            display: flex;
+            justify-content: end;
         }
     }
 `
