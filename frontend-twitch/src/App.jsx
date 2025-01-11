@@ -6,6 +6,7 @@ import Reel from "./components/pages/reel/Reel";
 import Profile from "./components/pages/profile/Profile";
 import CreatorLayout from "./components/layouts/CreatorLayout";
 import Stream from "./components/pages/stream/Stream";
+import Creator from "./components/pages/creator/Creator";
 
 const App = () => {
 
@@ -23,7 +24,7 @@ const App = () => {
           <Route path="creator" element={<CreatorLayout />}>
             <Route index element={<Stream />} />
             <Route path="stream" element={<Stream />} />
-            <Route path="content" element={<Reel />} />
+            <Route path="content" element={<Creator />} />
             <Route path="analytics" element={<Profile />} />
           </Route>
 

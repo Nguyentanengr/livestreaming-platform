@@ -20,12 +20,12 @@ export const StreamContainer = styled.div`
     }
 
     .col2 {
-        width: 25%;
+        width: 28%;
         border-right: 2px solid rgba(0, 0, 0, 0.1);
     }
 
     .col3{
-        width: 35%;
+        width: 32%;
         border-right: 2px solid rgba(0, 0, 0, 0.1);
     }
 

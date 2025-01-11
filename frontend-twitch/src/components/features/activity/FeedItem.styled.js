@@ -8,7 +8,7 @@ export const FeedItemContainer = styled.div`
     padding: 15px 0;
 
     .feed-icon {
-        font-size: 25px;
+        font-size: 20px;
         color: ${Theme.violet};
     }
 
