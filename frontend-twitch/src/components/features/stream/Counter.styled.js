@@ -7,7 +7,7 @@ export const CounterContainer = styled.div`
     background-color: ${Theme.lightSoft};
     display: flex;
     flex-direction: column;
-    border-radius: 10px;
+    border-radius: 5px;
     font-size: 18px;
     .count {
         font-weight: 500;

@@ -1,12 +1,12 @@
 import { EditTextAreaContainer } from "./EditTextArea.styled"
 
 
-const EditTextArea = ({ onchange }) => {
+const EditTextArea = ({ value, onchange=(e) => {} }) => {
     return (
         <EditTextAreaContainer>
             <textarea
                 aria-invalid="false"
-                // value={"noti"}
+                value={value}
                 spellCheck={false}
                 onChange={e => onchange(e)}>
             </textarea>

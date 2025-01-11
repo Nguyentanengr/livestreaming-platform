@@ -6,16 +6,15 @@ import { Icons } from "../../assets/icons/Icon";
 import { useEffect } from "react";
 import { useRef } from "react";
 
-const EditSelect = ({ options }) => {
+const EditSelect = ({ options, selected, onClickItem }) => {
 
-    const [selected, setSelected] = useState(options[0]);
     const [isExpanded, setIsExpanded] = useState(false);
     const optionRef = useRef(null);
 
     const handleClickItem = (index) => {
         setIsExpanded(false);
-        setSelected(options[index]);
-    }
+        onClickItem(index);
+    };
 
     useEffect(() => {
         const handleOutsideClick = (event) => {

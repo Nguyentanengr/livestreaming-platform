@@ -1,45 +1,70 @@
 import { EditBarContainer } from "./EditBar.styled";
-import TitleBar from "../../commons/TitleBar";
-import EditLabel from "../../commons/EditLabel";
-import EditInput from "../../commons/EditInput";
 import { useState } from "react";
-import EditTextArea from "../../commons/EditTextArea";
-import Button from "../../commons/Button";
 import { Theme } from "../../../assets/styles/Theme";
 import { Icons } from "../../../assets/icons/Icon";
+import { useDispatch, useSelector } from "react-redux";
+import { addTag, removeTag, setInput } from "../../../stores/slices/editStreamSlice";
+import { useEffect } from "react";
+import { convertView } from "../../../utils/convert";
+import EditLabel from "../../commons/EditLabel";
+import EditInput from "../../commons/EditInput";
+import TitleBar from "../../commons/TitleBar";
 import EditSelect from "../../commons/EditSelect";
 import CategoryScroll from "./CategoryScroll";
+import Button from "../../commons/Button";
+import EditTextArea from "../../commons/EditTextArea";
 
 
 const EditBar = () => {
 
-    const [input, setInput] = useState("");
-    const commentOptions = ["ON", "OFF"];
-    const visibilityOptions = [
-        "All everyone",
-        "Who are following me",
-        "Friendly (Follow along with)"
-    ];
-    const [tags, setTags] = useState(
-        ["highlight", "fighting", "funny"]
-    );
+    const dispatch = useDispatch();
+    const [cateSearchList, setCateSearchList] = useState([]);
 
-    const [dropdownCate, setDropdownCate] = useState(false);
+    const {
+        titleInput,
+        notificationInput,
+        categoryInput,
+        tagInput,
+        commentInput,
+        visibilityInput,
+        tagSelects,
+        categorySelect,
+        commentSelect,
+        visibilitySelect,
+        categories,
+    } = useSelector((state) => state.editStream);
 
-    const handleOnChange = (e) => {
-        setInput(e.target.value);
-        setDropdownCate(input !== "");
+    const handleOnChangeInput = (key, value) => {
+        dispatch(setInput({ key, value }));
 
+        if (key === "categorySelect") {
+            setCateSearchList([]);
+            handleOnChangeInput("categoryInput", "");
+        };
     };
 
-    const handleClickTagIcon = (e) => {
-        setTags(tags.filter((each, index) => index != e));
+    const handleOnEnterTagInput = (e) => {
+        if (!tagSelects.find(each => each === e.target.value)
+            && tagSelects.length < 3) {
+            dispatch(addTag(e.target.value));
+            handleOnChangeInput("tagInput", "");
+        } else {
+        }
     };
 
-    const handleEnterTagInput = (e) => {
-        setTags([...tags, input]);
-        setInput("");
+    const handleOnClickCateClose = () => {
+        handleOnChangeInput("categorySelect", undefined);
     };
+
+    const handleClickTagIcon = (index) => {
+        dispatch(removeTag(index));
+    };
+
+    useEffect(() => {
+        setCateSearchList(categories.filter(
+            each => each.name.toLowerCase().includes(categoryInput.trim().toLowerCase())
+        ));
+    }, [categoryInput])
 
     return (
         <EditBarContainer>
@@ -49,35 +74,64 @@ const EditBar = () => {
                     <EditLabel title="Title" />
                     <EditInput
                         ph="Enter a title"
-                        onchange={handleOnChange}
+                        value={titleInput}
+                        onchange={(e) => handleOnChangeInput("titleInput", e.target.value)}
+
                     />
                 </div>
                 <div className="noti-container">
                     <EditLabel title="Live notifications" />
-                    <EditTextArea onchange={handleOnChange} />
+                    <EditTextArea
+                        value={notificationInput}
+                        onchange={(e) => handleOnChangeInput("notificationInput", e.target.value)}
+                    />
                 </div>
                 <div className="category-container">
                     <EditLabel title="Category" />
                     <EditInput
                         ph="Search for a category"
-                        value={input}
-                        onchange={handleOnChange}
+                        value={categoryInput}
+                        onchange={(e) => handleOnChangeInput("categoryInput", e.target.value)}
                     />
-                    {input && <div className="scroll-container">
-                        <CategoryScroll searchKey={input.trim()}/>
+                    {categoryInput && cateSearchList.length != 0
+                        && <div className="scroll-container">
+                            <CategoryScroll
+                                searchList={cateSearchList}
+                                selected={categorySelect}
+                                onClickItem={(index) => handleOnChangeInput("categorySelect", cateSearchList[index])}
+                            />
+                        </div>}
+
+                    {categorySelect && <div className="cate-select-container">
+                        <div className="thumbnail">
+                            <img src={categorySelect.thumbnail} alt={categorySelect.name} />
+                        </div>
+                        <div className="description">
+                            <div className="name">
+                                {categorySelect.name}
+                            </div>
+                            <div className="interested">
+                                {convertView(categorySelect.interested)}
+                                <div className="text">
+                                    Interested
+                                </div>
+                            </div>
+                        </div>
+                        <Icons.Close className="close-icon" onClick={handleOnClickCateClose} />
                     </div>}
+
                 </div>
                 <div className="tag-container">
                     <EditLabel title="Tag" />
                     <EditInput
                         className="tag-input"
                         ph="Use Enter after each tag"
-                        // value={input}
-                        onchange={handleOnChange}
-                        onenter={handleEnterTagInput}
+                        value={tagInput}
+                        onchange={(e) => handleOnChangeInput("tagInput", e.target.value)}
+                        onenter={(e) => handleOnEnterTagInput(e)}
                     />
                     <div className="select-container">
-                        {tags.map((tag, index) => {
+                        {tagSelects.map((tag, index) => {
                             return <div className="tag-select" key={index}>
                                 <div className="text">{tag}</div>
                                 <Icons.Close
@@ -101,17 +155,23 @@ const EditBar = () => {
                 </div>
                 <div className="comment-container">
                     <EditLabel title="Comment Setting" />
-                    <EditSelect options={commentOptions} />
+                    <EditSelect
+                        options={commentInput}
+                        selected={commentSelect}
+                        onClickItem={(index) => { handleOnChangeInput("commentSelect", commentInput[index]) }}
+                    />
                 </div>
                 <div className="visibility-container">
                     <EditLabel title="Visibility" />
-                    <EditSelect options={visibilityOptions} />
+                    <EditSelect
+                        options={visibilityInput}
+                        selected={visibilitySelect}
+                        onClickItem={(index) => { handleOnChangeInput("visibilitySelect", visibilityInput[index]) }}
+                    />
                 </div>
-                <div className="save-button">
-                    <Button color={Theme.highlight} title="Save" />
-                </div>
-
-
+            </div>
+            <div className="save-button">
+                <Button color={Theme.highlight} title="Save" />
             </div>
         </EditBarContainer>
     );

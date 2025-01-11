@@ -7,6 +7,7 @@ import outstandingReducer from "./slices/outstandingSlice";
 import categoryReducer from "./slices/categorySlice";
 import reelReducer from "./slices/reelSlice";
 import commentReducer from "./slices/commentSlice";
+import editStreamReducer from "./slices/editStreamSlice";
 
 export default configureStore({
     reducer: {
@@ -18,5 +19,6 @@ export default configureStore({
         category: categoryReducer,
         reel: reelReducer,
         comment: commentReducer,
+        editStream: editStreamReducer,
     },
 });
