@@ -3,6 +3,20 @@ import styled from "styled-components";
 import { Theme } from "../../../assets/styles/Theme";
 
 export const ChatPreviewContainer = styled.div`
-    grid-column: 2;
-    grid-row: 1 / span 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
+   
+
+    .chat-list {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+    }
+
+    .send-chat {
+        padding: 15px 5px;
+    }
 `

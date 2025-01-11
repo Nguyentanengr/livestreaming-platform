@@ -77,7 +77,7 @@ const ReelComment = ({ reel }) => {
                         </div>
                     ))}
                 </div>
-                <SendComment onSendComment={sendComment}/>
+                <SendComment ph="Send comment ..." onSendComment={sendComment}/>
             </div>
         </ReelCommentContainer>
     );

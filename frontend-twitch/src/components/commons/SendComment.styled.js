@@ -18,10 +18,17 @@ export const SendCommentContainer = styled.div`
         border-radius: 5px;
         outline: none;
         border: 1px solid ${Theme.hover};
-        transition: 0.2s;
+        transition: 0.1s;
 
         &:focus {
             border:1px solid ${Theme.mediumSoft};
+        }
+
+        &.highlight {
+
+            &:focus {
+                border: 4px solid ${Theme.highlight};
+            }
         }
     } 
 
