@@ -16,7 +16,7 @@ const Creator = () => {
                 </div>
             </div>
             <div className="video-description">
-                <div className="v-desrip">
+                <div className="v-descrip">
                     <VideoDescrip />
                 </div>
             </div>

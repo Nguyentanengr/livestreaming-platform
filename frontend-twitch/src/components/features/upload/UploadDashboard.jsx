@@ -14,7 +14,7 @@ const UploadDashboard = () => {
                 Upload and publish a video to get started.
             </div>
             <div className="upload-button">
-                Upload Videos
+                Upload Reels
             </div>
         </UploadDashboardContainer>
     );

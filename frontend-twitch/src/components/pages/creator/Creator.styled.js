@@ -21,14 +21,17 @@ export const CreatorContainer = styled.div`
         }
 
         .v-detail {
-            height: 50%;
+            height: 55%;
         }
     }
 
     .video-description {
         flex: 1;
-        .v-descrip {
+        height: calc(100vh - 65px);
+        padding: 30px;
 
+        .v-descrip {
+            height: 100%;
         }
     }
 `

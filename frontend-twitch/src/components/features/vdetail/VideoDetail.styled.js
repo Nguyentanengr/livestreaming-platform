@@ -8,15 +8,16 @@ export const VideoDetailContainer = styled.div`
     padding: 20px;
 
     .title {
-        font-size: 20px;
-        font-weight: 500;
-        margin-bottom: 30px;
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 15px;
     }
 
     .detail-container {
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr 1fr 1fr;
+        column-gap: 50px;
 
         .file-name,
         .file-size,
@@ -26,12 +27,35 @@ export const VideoDetailContainer = styled.div`
         .resolution {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 20px;
+            padding: 20px 0px;
+            font-size: 20px;
+            font-weight: 500;
+            
+        }
+
+        .f-name,
+        .f-size, 
+        .v-duration, 
+        .a-ratio, 
+        .b, 
+        .r {
+            flex: 1;
+            font-weight: 400;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 8px 20px;
+            cursor: not-allowed;
+            color: ${Theme.lightDark}
         }
 
         .file-name {
             grid-column: 1;
             grid-row: 1;
+
+            .f-name {
+                
+            }
         }
 
         .file-size {

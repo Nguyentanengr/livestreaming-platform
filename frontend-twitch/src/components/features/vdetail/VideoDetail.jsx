@@ -19,7 +19,7 @@ const VideoDetail = () => {
                         Video size
                     </div>
                     <div className="f-size">
-                        238MB
+                        238 MB
                     </div>
                 </div>
                 <div className="video-duration">
