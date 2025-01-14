@@ -4,7 +4,6 @@ import { Theme } from "../../../assets/styles/Theme";
 export const AboutChannelContainer = styled.div`
     background-color: ${Theme.body};
     min-height: 800px;
-    margin-right: 65px;
 
     .short-info {
         display: flex;
@@ -19,7 +18,7 @@ export const AboutChannelContainer = styled.div`
 
             .username {
                 font-size: 26px;
-                font-weight: 600;
+                font-weight: 700;
             }
         }
 
@@ -75,7 +74,7 @@ export const AboutChannelContainer = styled.div`
                 align-items: center;
                 gap: 10px;
                 font-size: 20px;
-                font-weight: 500;
+                font-weight: 700;
 
                 .dot {
                     font-size: 10px;

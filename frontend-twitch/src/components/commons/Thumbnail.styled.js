@@ -22,5 +22,10 @@ export const ThumbnailContainer = styled.div`
             width: 70px;
             height: 70px;
         }
+
+        &.vvlarge {
+            width: 110px;
+            height: 110px;
+        }
     }
 `

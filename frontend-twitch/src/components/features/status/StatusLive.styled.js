@@ -8,33 +8,40 @@ export const StatusLiveContainer = styled.div`
     padding-left: 13vw;
     height: 60vh;
     width: 100%;
+    background-image: linear-gradient(to right, ${Theme.highlight}, ${Theme.pink});
 
     .noti-container {
         display: flex;
         flex-direction: column;
         align-items: start;
-        width: 22vw;
+        width: 27vw;
         height: calc(35vw * 9 / 16);
         background-color: ${Theme.lightSoft};
 
         .banner {
             height: 70%;
             display: flex;
-            flex-direction: column;
             justify-content: center;
-            align-items: start;
-            gap: 10px;
+            align-items: center;
+            gap: 30px;
             padding-left: 40px;
 
-            .noti {
-                font-size: 30px;
-                font-weight: 600;
-                color: ${Theme.dark}
+            .text {
+                display: flex;
+                flex-direction: column;
+                align-items: start;
+                gap: 10px;
+
+                .noti {
+                    font-size: 30px;
+                    font-weight: 600;
+                    color: ${Theme.dark}
+                }
             }
         }
 
         .turn-on {
-            margin: 40px 0;
+            margin: 10px 0;
             display: flex;
             align-items: center;
             gap: 10px;
