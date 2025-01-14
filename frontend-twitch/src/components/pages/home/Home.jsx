@@ -1,7 +1,7 @@
 import { HomeContainer } from "./Home.styled";
-import SlideScreen from "../../features/slide/SlideScreen";
-import ChannelList from "../../features/channel/ChannelList";
-import CategoryList from "../../features/category/CategoryList";
+import SlideScreen from "../../features/hslide/SlideScreen";
+import ChannelList from "../../features/hchannel/ChannelList";
+import CategoryList from "../../features/hcategory/CategoryList";
 
 const Home = () => {
     return (

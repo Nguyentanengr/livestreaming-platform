@@ -1,8 +1,8 @@
 import { StreamContainer } from "./Stream.styled"
-import StreamPreview from "../../features/stream/StreamPreview";
-import ChatPreview from "../../features/chat/ChatPreview";
-import ActivityFeed from "../../features/activity/ActivityFeed";
-import EditBar from "../../features/edit/EditBar";
+import StreamPreview from "../../features/sstream/StreamPreview";
+import ChatPreview from "../../features/schat/ChatPreview";
+import ActivityFeed from "../../features/sactivity/ActivityFeed";
+import EditBar from "../../features/sedit/EditBar";
 
 
 const Stream = () => {

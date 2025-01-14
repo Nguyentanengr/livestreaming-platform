@@ -7,7 +7,7 @@ const Screen = ({ videoRef, isPlay=true, size="medium" }) => {
         <ScreenContainer>
             <div className={`screen-container ${size}`}>
                 <video ref={videoRef} className="video" autoPlay 
-                loop muted/>
+                loop/>
                 {isPlay && <div className="play">
                     <Icons.Play />
                 </div>}

@@ -7,6 +7,7 @@ import Profile from "./components/pages/profile/Profile";
 import CreatorLayout from "./components/layouts/CreatorLayout";
 import Stream from "./components/pages/stream/Stream";
 import Creator from "./components/pages/creator/Creator";
+import View from "./components/pages/view/View";
 
 const App = () => {
 
@@ -20,6 +21,7 @@ const App = () => {
             <Route index element={<Home />} />
             <Route path="/reels" element={<Reel />} />
             <Route path="/you" element={<Profile />} />
+            <Route path="/live/:username" element={<View />} />
           </Route>
           <Route path="creator" element={<CreatorLayout />}>
             <Route index element={<Stream />} />
@@ -27,6 +29,7 @@ const App = () => {
             <Route path="content" element={<Creator />} />
             <Route path="analytics" element={<Profile />} />
           </Route>
+          
 
           {/* Not layout applied */}
           <Route path="*" element={<div>Page Error Not Found</div>} />

@@ -1,7 +1,7 @@
 import { CreatorContainer } from "./Creator.styled"
-import UploadDashboard from "../../features/upload/UploadDashboard";
-import VideoDescrip from "../../features/vdescrip/VideoDescrip";
-import VideoDetail from "../../features/vdetail/VideoDetail";
+import UploadDashboard from "../../features/cupload/UploadDashboard";
+import VideoDescrip from "../../features/cdescrip/VideoDescrip";
+import VideoDetail from "../../features/cdetail/VideoDetail";
 
 
 const Creator = () => {

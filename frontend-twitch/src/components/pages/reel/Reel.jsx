@@ -1,8 +1,8 @@
 import { useSelector } from "react-redux";
 import { ReelContainer } from "./Reel.styled";
 import { useEffect, useRef } from "react";
-import ScrollReel from "../../features/scroll/ScrollReel";
-import ReelSlide from "../../features/reel/ReelSlide";
+import ScrollReel from "../../features/rscroll/ScrollReel";
+import ReelSlide from "../../features/rreel/ReelSlide";
 
 const Reel = () => {
 

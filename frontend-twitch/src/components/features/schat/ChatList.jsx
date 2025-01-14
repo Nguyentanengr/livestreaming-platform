@@ -10,7 +10,6 @@ const ChatList = () => {
 
     const list = useSelector((state) => state.chat.chats);
 
-
     const navigate = useNavigate();
 
     return (

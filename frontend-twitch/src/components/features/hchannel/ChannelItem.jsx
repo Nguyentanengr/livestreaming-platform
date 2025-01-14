@@ -9,8 +9,12 @@ import ActionButton from "../../commons/ActionButton";
 
 const ChannelItem = ({ item, type }) => {
     const navigate = useNavigate();
+
+    const handleOnClickItem = () => {
+        navigate(`/live/${item.username}`);
+    }
     return (
-        <ChannelItemContainer>
+        <ChannelItemContainer onClick={handleOnClickItem}>
             <div className="thumbnail-container">
                 <img src={item.thumbnail} alt={item.title} />
                 {type === "live" &&<div className="live-status">LIVE</div>}

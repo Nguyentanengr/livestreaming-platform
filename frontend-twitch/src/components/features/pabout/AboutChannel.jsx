@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Icons } from "../../../assets/icons/Icon"
 import { useState } from "react";
 import Thumbnail from "../../../components/commons/Thumbnail";
-import ChannelList from "../../features/channel/ChannelList";
+import ChannelList from "../../features/hchannel/ChannelList";
 
 
 const AboutChannel = () => {

@@ -1,8 +1,8 @@
 
 import { ProfileContainer } from "./Profile.styled";
 import { Theme } from "../../../assets/styles/Theme";
-import StatusLive from "../../features/status/StatusLive";
-import AboutChannel from "../../features/about/AboutChannel";
+import StatusLive from "../../features/pstatus/StatusLive";
+import AboutChannel from "../../features/pabout/AboutChannel";
 
 const Profile = () => {
 

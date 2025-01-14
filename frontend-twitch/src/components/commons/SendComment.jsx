@@ -17,6 +17,8 @@ const SendComment = ({ ph, onSendComment, highlight=false }) => {
     const handleKeyEnter = (e) => {
         if (e.key === "Enter") {
             handleSend();
+            console.log('handle send');
+            
         }
     };
 
