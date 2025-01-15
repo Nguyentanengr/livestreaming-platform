@@ -8,6 +8,7 @@ import CreatorLayout from "./components/layouts/CreatorLayout";
 import Stream from "./components/pages/stream/Stream";
 import Creator from "./components/pages/creator/Creator";
 import View from "./components/pages/view/View";
+import Following from "./components/pages/following/Following";
 
 const App = () => {
 
@@ -21,6 +22,7 @@ const App = () => {
             <Route index element={<Home />} />
             <Route path="/reels" element={<Reel />} />
             <Route path="/you" element={<Profile />} />
+            <Route path="following" element={<Following /> } />
             <Route path="/live/:username" element={<View />} />
           </Route>
           <Route path="creator" element={<CreatorLayout />}>

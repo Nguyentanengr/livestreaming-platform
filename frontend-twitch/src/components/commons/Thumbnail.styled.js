@@ -7,6 +7,7 @@ export const ThumbnailContainer = styled.div`
         border-radius: 100px;
         object-fit: cover;
         cursor: pointer;
+        display: block;
 
         &.large {
             width: 52px;

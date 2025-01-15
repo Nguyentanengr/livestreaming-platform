@@ -19,6 +19,15 @@ const ChannelList = ({ title, type }) => {
             items = useSelector((state) => state.recent.videos);
             typeItem = "video";
             break;
+        case "related":
+            items = useSelector((state) => state.recent.videos);
+            typeItem = "live";
+            break;
+        case "recent-related":
+            items = useSelector((state) => state.recent.videos);
+            typeItem = "video";
+            break;
+
     }
            
     const itemsToShow = showMore ? items : items.slice(0, 4);
