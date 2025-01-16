@@ -38,7 +38,7 @@ const ReelBar = ({ reel, exComment, exShare }) => {
         <ReelBarContainer>
             <ReelProfile reel={reel} />
             {!action.isLiked ? <VideoAction count={92489} icon={<Icons.Like />} onclick={handleLikeClick} />
-                : <VideoAction count={92489} icon={<Icons.LikeFill />} onclick={handleLikeClick} />}
+                : <VideoAction count={24549} icon={<Icons.LikeFill />} onclick={handleLikeClick} />}
             <VideoAction count={2474} icon={<Icons.Comment />} onclick={handleCommentClick} />
             <VideoAction count={99} icon={<Icons.Share />} onclick={handleShareClick} />
         </ReelBarContainer>

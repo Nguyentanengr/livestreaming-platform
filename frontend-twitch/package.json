@@ -10,6 +10,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.0",
     "@stomp/stompjs": "^7.0.0",
+    "gsap": "^3.12.7",
     "kurento-client": "^7.1.0",
     "kurento-utils": "^7.1.0",
     "react": "^17.0.2",

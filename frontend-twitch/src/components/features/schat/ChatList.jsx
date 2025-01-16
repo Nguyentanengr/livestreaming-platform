@@ -2,30 +2,42 @@
 
 import { useSelector } from "react-redux";
 import { ChatListContainer } from "./ChatList.styled"
-import Thumbnail from "../../commons/Thumbnail";
 import { useNavigate } from "react-router-dom";
-import { Icons } from "../../../assets/icons/Icon";
+import { useEffect, useRef } from "react";
+import Thumbnail from "../../commons/Thumbnail";
 
 const ChatList = () => {
 
     const list = useSelector((state) => state.chat.chats);
 
     const navigate = useNavigate();
+    const containerRef = useRef(null);
+    const itemRefs = useRef([]);
+
+    useEffect(() => {
+        let lastItem = list[list.length - 1].id;
+        containerRef.current.scrollTo({
+            top: itemRefs.current[lastItem].offsetTop,
+            behavior: "smooth",
+        })
+    }, [list])
 
     return (
-        <ChatListContainer>
+        <ChatListContainer ref={containerRef}>
             {list.map(chat => {
-                return <div className="chat-item" key={chat.id}>
+                return <div className="chat-item" key={chat.id} ref={el => itemRefs.current[chat.id] = el}>
                     <div className="thumbnail">
                         <Thumbnail src={chat.thumbnail} onclick={() => { navigate(`/profile/${chat.username}`) }} />
                     </div>
                     <div className="content">
-                        <div className="username">{chat.username}:</div>
-                        <div className="text">{chat.content}</div>
+                        <div className="box">
+                            <div className="username">{chat.username}</div>
+                            <div className="text">{chat.content}</div>
+                        </div>
                     </div>
-                    <div className="more-icon">
+                    {/* <div className="more-icon">
                         <Icons.More />
-                    </div>
+                    </div> */}
                 </div>
             })}
         </ChatListContainer>

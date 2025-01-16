@@ -7,7 +7,7 @@ export const reelSlice = createSlice({
             {
                 id: 1,
                 username: "Taryn",
-                title: "Ranked to Top 10 | Merry ChristmasNerds Top 10 Merry Christmas Nerds Ranked to Top 10 | Merry ChristmasNerds Top 10 Merry Christmas Nerds",
+                title: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
                 thumbnail: "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg",
                 tags: [
                     {id: 1, name: "funny"},

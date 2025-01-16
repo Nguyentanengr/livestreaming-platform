@@ -111,7 +111,7 @@ export const ChannelItemContainer = styled.div`
 
                 .username {
                     font-size: 16px;
-                    font-weight: 600;
+                    font-weight: 400;
                     color: ${Theme.lightDark};
                     line-height: 16px;
                     cursor: pointer;
@@ -130,7 +130,7 @@ export const ChannelItemContainer = styled.div`
                     .tag {
                         font-size: 16px;
                         line-height: 16px;
-                        color: ${Theme.dark};
+                        color: ${Theme.lightDark};
                         padding: 3px 10px;
                         border-radius: 5px;
                         background-color: ${Theme.hover};
@@ -138,7 +138,7 @@ export const ChannelItemContainer = styled.div`
                         transition: 0.2s;
 
                         &:hover {
-                            background-color: ${Theme.mediumSoft};
+                            background-color: ${Theme.midsoft};
                         }
                     }
 
@@ -149,8 +149,8 @@ export const ChannelItemContainer = styled.div`
                     align-items: center;
                     gap: 10px;
                     font-size: 16px;
-                    font-weight: 500;
-                    color: ${Theme.soft};
+                    font-weight: 400;
+                    color: ${Theme.lightDark};
 
                     .icon {
                         font-size: 8px;

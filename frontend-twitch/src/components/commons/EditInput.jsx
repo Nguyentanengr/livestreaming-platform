@@ -1,6 +1,6 @@
 import { EditInputContainer } from "./EditInput.styled"
 
-const EditInput = ({ ph, value, onchange, onenter }) => {
+const EditInput = ({ ph, value, onchange, onenter, type="text" }) => {
 
     const handleOnKeyDown = (e) => {
         if (e.key === "Enter" && e.target.value !== "") {
@@ -11,7 +11,7 @@ const EditInput = ({ ph, value, onchange, onenter }) => {
     return (
         <EditInputContainer>
             <input
-                type="text"
+                type={type}
                 placeholder={ph}
                 spellCheck={false}
                 value={value}

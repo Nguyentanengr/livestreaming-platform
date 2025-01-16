@@ -11,6 +11,9 @@ export const ButtonContainer = styled.div`
         background-color: ${props => props.color};
         color: ${Theme.header};
         cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .btn.large {

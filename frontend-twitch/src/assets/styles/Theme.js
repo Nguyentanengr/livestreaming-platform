@@ -11,6 +11,7 @@ export const Theme = {
     boldShadow: "#0000008a",
     soft: "#777777",
     mediumSoft: "#aaaaaa",
+    midsoft: "#cccccc",
     lightSoft: "#eeeeee",
     bits: "#e9e9e9",
     border: "#efeff1",

@@ -3,6 +3,7 @@ import { ReelContainer } from "./Reel.styled";
 import { useEffect, useRef } from "react";
 import ScrollReel from "../../features/rscroll/ScrollReel";
 import ReelSlide from "../../features/rreel/ReelSlide";
+import gsap from "gsap"; // library for smooth scroll
 
 const Reel = () => {
 
@@ -51,9 +52,14 @@ const Reel = () => {
             const itemTop = itemRefs.current[i].offsetTop;
             if (itemTop > currentScroll) {
                 const targetIndex = Math.min(i + offset, itemRefs.current.length - 1);
-                container.scrollTo({
-                    top: itemRefs.current[targetIndex].offsetTop,
-                    behavior: "smooth",
+                // container.scrollTo({
+                //     top: itemRefs.current[targetIndex].offsetTop,
+                //     behavior: "smooth",
+                // });
+                gsap.to(container, {
+                    scrollTop: itemRefs.current[targetIndex].offsetTop,
+                    duration: 0.3, // Thời gian cuộn (giảm để cuộn nhanh hơn)
+                    ease: "power1.inOut", // Hiệu ứng mượt
                 });
                 break;
             }
@@ -68,9 +74,14 @@ const Reel = () => {
             const itemTop = itemRefs.current[i].offsetTop;
             if (itemTop < currentScroll) {
                 const targetIndex = Math.max(i - offset, 0);
-                container.scrollTo({
-                    top: itemRefs.current[targetIndex].offsetTop,
-                    behavior: "smooth",
+                // container.scrollTo({
+                //     top: itemRefs.current[targetIndex].offsetTop,
+                //     behavior: "smooth",
+                // });
+                gsap.to(container, {
+                    scrollTop: itemRefs.current[targetIndex].offsetTop,
+                    duration: 0.3, // Thời gian cuộn (giảm để cuộn nhanh hơn)
+                    ease: "power1.inOut", // Hiệu ứng mượt
                 });
                 break;
             }

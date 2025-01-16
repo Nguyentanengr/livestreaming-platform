@@ -22,7 +22,7 @@ export const ViewLiveContainer = styled.div`
                 position: relative;
                 .span-live {
                     position: absolute;
-                    top: 65%;
+                    top: 70%;
                     right: 50%;
                     transform: translateX(50%);
                     font-size: 16px;
@@ -97,6 +97,7 @@ export const ViewLiveContainer = styled.div`
     .about-user {
         margin-top: 30px;
         display: flex;
+        justify-content: space-between;
         background-color: ${Theme.header};
         min-height: 200px;
         border-radius: 5px;
@@ -127,7 +128,7 @@ export const ViewLiveContainer = styled.div`
         }
 
         .links {
-            padding: 50px 100px;
+            padding: 30px 50px;
             display: flex;
             flex-direction: column;
             gap: 10px;

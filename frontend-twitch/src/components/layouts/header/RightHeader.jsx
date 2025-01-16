@@ -2,18 +2,21 @@ import { RightHeaderContainer } from "./RightHeader.styled";
 import { useEffect, useRef, useState } from "react";
 import { Icons } from "../../../assets/icons/Icon";
 import { Theme } from "../../../assets/styles/Theme";
-
+import { useNavigate } from "react-router-dom";
 import ProfileItem from "../../commons/ProfileItem";
 import Thumbnail from "../../commons/Thumbnail";
 import Button from "../../commons/Button";
-import { useNavigate } from "react-router-dom";
 import NotificationBox from "./NotificationBox";
+import LogIn from "./Login";
+import SignUp from "./SignUp";
 
 const RightHeader = () => {
 
     const [exProfile, setExProfile] = useState(false);
     const [exNotification, setExNotification] = useState(false);
-    const [isLogin, setIsLogin] = useState(true);
+    const [exLogin, setExLogin] = useState(false);
+    const [exSignUp, setExSignUp] = useState(false);
+    const [isLogin, setIsLogin] = useState(false);
     const [count, setCount] = useState(1);
 
     const profileRef = useRef(null);
@@ -22,7 +25,18 @@ const RightHeader = () => {
     const navigate = useNavigate();
     const src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQq5xtiFtIcvJqTpVbMI8K3jVG3tLXolM1fSA&s";
     const name = "Ripcode112";
-    
+
+
+    const handleOnClickLogin = () => {
+        setExLogin(!exLogin);
+    };
+
+    const handleOnClickSignUp = () => {
+        setExSignUp(!exSignUp);
+    };
+
+
+
     // Listen to click outside
     useEffect(() => {
         const handleOutsideClick = (event) => {
@@ -43,9 +57,11 @@ const RightHeader = () => {
 
     return (
         <RightHeaderContainer>
+            {exSignUp && <SignUp onclose={handleOnClickSignUp} onLogin={handleOnClickLogin} />}
+            {exLogin && <LogIn onclose={handleOnClickLogin} onSignUp={handleOnClickSignUp} />}
             <div className="action-container">
-                {isLogin && <Button color={Theme.highlight} styles="large" title="Login" onclick={() => { navigate("/login") }} />}
-                {!isLogin && <div className="notification-container">
+                {!isLogin && <Button color={Theme.highlight} styles="large" title="Login" onclick={handleOnClickLogin} />}
+                {isLogin && <div className="notification-container">
                     <div className="notification-icon" onClick={() => { setExNotification(!exNotification) }}>
                         <Icons.Notification />
                         <span className="notification-count">{count < 99 ? count : "99+"}</span>
@@ -54,9 +70,9 @@ const RightHeader = () => {
                 </div>}
                 <div className="profile-container">
                     <Thumbnail src={src} onclick={() => setExProfile(!exProfile)} />
-                    {exProfile && <div className="profile-menu-container"  ref={profileRef}>
+                    {exProfile && <div className="profile-menu-container" ref={profileRef}>
                         <div className="avatar-container">
-                            <Thumbnail src={src} size="large" onclick={() => navigate("/my-channel")}/>
+                            <Thumbnail src={src} size="large" onclick={() => navigate("/my-channel")} />
                             <div className="profile-name">{name}</div>
                         </div>
                         <hr />

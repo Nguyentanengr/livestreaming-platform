@@ -60,12 +60,13 @@ export const ReelViewContainer = styled.div`
 
     .reel-info-container {
         position: absolute;
-        bottom: 25px;
+        bottom: 15px;
         left: 17px;
         display: flex;
         flex-direction: column;
         align-items: start;
         color: ${Theme.header};
+        z-index: 10;
 
         .username {
             font-size: 20px;
@@ -81,10 +82,11 @@ export const ReelViewContainer = styled.div`
         }
 
         .reel-title {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 400;
+            max-width: 40vw;
             display: -webkit-box;
-            -webkit-line-clamp: 5;
+            -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
         
@@ -94,7 +96,7 @@ export const ReelViewContainer = styled.div`
             display: flex;
             gap: 5px;
             font-size: 18px;
-            font-weight: 400;
+            font-weight: 500;
             cursor: pointer;
             .tag {
                 &:hover {
@@ -102,6 +104,24 @@ export const ReelViewContainer = styled.div`
                 }
             }
         }
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 50px;
+        transition: opacity 0.2s;
+        z-index: 5;
+    }
+
+    &::after {
+        border-bottom-left-radius: 30px;
+        border-bottom-right-radius: 30px;
+        bottom: 0;
+        height: 150px;
+        background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
     }
 
     &:hover {

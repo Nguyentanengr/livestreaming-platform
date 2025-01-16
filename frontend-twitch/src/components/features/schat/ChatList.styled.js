@@ -13,10 +13,8 @@ export const ChatListContainer = styled.div`
 
     .chat-item {
         display: flex;
-        justify-content: space-between;
-        align-items: start;
-        gap: 10px;
-        padding: 15px 15px;
+        gap: 20px;
+        padding: 5px 15px;
         transition: 0.2s;
         cursor: pointer;
 
@@ -26,28 +24,32 @@ export const ChatListContainer = styled.div`
 
         .content {
             flex: 1;
-            display: inline;
-
-            .username {
+            display: flex;
+            align-items: center;
+            
+            .box {
                 display: inline;
-                margin-right: 10px;
-                font-size: 18px;
-                font-weight: 500;
-                
-                color: ${Theme.highlight};
+                .username {
+                    display: inline;
+                    margin-right: 10px;
+                    font-size: 18px;
+                    font-weight: 500;
+                    
+                    color: ${Theme.highlight};
 
-                &:hover {
-                    text-decoration: underline;
-                    text-decoration-thickness: 2px;
+                    &:hover {
+                        text-decoration: underline;
+                        text-decoration-thickness: 2px;
+                    }
+
                 }
 
-            }
+                .text {
+                    display: inline;
+                    font-size: 18px;
+                    color: ${Theme.dark}
 
-            .text {
-                display: inline;
-                font-size: 18px;
-                color: ${Theme.lightDark}
-
+                }
             }
         }
 

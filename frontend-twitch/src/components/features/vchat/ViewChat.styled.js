@@ -9,7 +9,7 @@ export const ViewChatContainer = styled.div`
     background-color: transparent;
 
     .title-chat {
-        padding: 30px 0;
+        padding: 25px 0;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -27,6 +27,6 @@ export const ViewChatContainer = styled.div`
     }
 
     .chat-send {
-        padding: 25px 0;
+        padding: 20px 0;
     }
 `

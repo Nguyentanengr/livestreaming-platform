@@ -86,8 +86,8 @@ export const CategoryItemContainer = styled.div`
 
             .interested {
                 font-size: 16px;
-                font-weight: 500;
-                color: ${Theme.soft};
+                font-weight: 400;
+                color: ${Theme.lightDark};
             }
 
         }
