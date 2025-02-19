@@ -1,12 +1,8 @@
 package com.nguyentan.livestream_platform.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.nguyentan.livestream_platform.constant.UserStatusEnum;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -16,6 +12,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "user")
@@ -59,11 +56,10 @@ public class User {
     private Boolean isActive;
 
     @ManyToOne
-    @JoinColumn(name = "role_id")
+    @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 
-    @OneToMany
-    @JoinColumn(name = "user_id")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<SocialLink> socialLinks = new HashSet<>();
 
     @PrePersist

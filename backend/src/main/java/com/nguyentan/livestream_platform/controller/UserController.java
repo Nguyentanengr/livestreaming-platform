@@ -33,10 +33,11 @@ public class UserController {
 
     @PostMapping
     public User createUser(@RequestBody User request) {
-//        log.info("CreateUser is running...");
-//        log.info(request);
-//        request.getSocialLinks().forEach(socialLink -> socialLink);
         log.info(request);
+        Role role = roleRepository.findById(request.getRole().getId())
+                .orElseThrow(() -> new RuntimeException("Could not find role by id"));
+        request.setRole(role);
+        request.getSocialLinks().forEach(socialLink -> socialLink.setUser(request));
         return userRepository.save(request);
     }
 

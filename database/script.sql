@@ -66,6 +66,7 @@ CREATE TABLE `social_link`(
     `platform` VARCHAR(50) NOT NULL, 
 	`url` VARCHAR(255) NOT NULL,
     `user_id` BINARY(16) NOT NULL,
+    `is_active` BIT(1) NOT NULL DEFAULT 1,
     
     PRIMARY KEY (`id`),
     UNIQUE KEY `UK_social_link_url` (`url`),

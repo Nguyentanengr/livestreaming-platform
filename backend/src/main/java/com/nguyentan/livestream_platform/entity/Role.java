@@ -1,18 +1,12 @@
 package com.nguyentan.livestream_platform.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import lombok.*;
 
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "role")
@@ -24,9 +18,6 @@ public class Role {
 
     @Column(nullable = false, unique = true)
     private String name;
-
-    @OneToMany(mappedBy = "role")
-    private Set<User> users = new HashSet<>();
 
     @Override
     public String toString() {
