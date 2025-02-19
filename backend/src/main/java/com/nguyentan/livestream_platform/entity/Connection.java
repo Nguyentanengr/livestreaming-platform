@@ -1,6 +1,7 @@
 package com.nguyentan.livestream_platform.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -23,11 +24,13 @@ public class Connection {
     private ConnectionId id;
 
     @ManyToOne
+    @JsonBackReference
     @MapsId("followingId")
     @JoinColumn(name = "following_id", nullable = false)
     private User following;
 
     @ManyToOne
+    @JsonBackReference
     @MapsId("followerId")
     @JoinColumn(name = "follower_id", nullable = false)
     private User follower;

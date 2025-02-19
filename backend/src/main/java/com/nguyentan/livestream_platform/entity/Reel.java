@@ -1,6 +1,8 @@
 package com.nguyentan.livestream_platform.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.nguyentan.livestream_platform.constant.CommentSettingEnum;
 import com.nguyentan.livestream_platform.constant.VisibilityEnum;
 import jakarta.persistence.*;
@@ -56,11 +58,17 @@ public class Reel {
     private Boolean isActive;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "reel", cascade = CascadeType.ALL)
     private Set<ReelTag> reelTags;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "reel", cascade = CascadeType.ALL)
+    private Set<Comment> comments;
 
 
     @PrePersist

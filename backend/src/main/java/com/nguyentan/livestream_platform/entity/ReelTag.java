@@ -1,6 +1,7 @@
 package com.nguyentan.livestream_platform.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,6 +25,7 @@ public class ReelTag {
     private UUID id;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "reel_id", nullable = false)
     private Reel reel;
 

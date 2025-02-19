@@ -2,7 +2,7 @@ package com.nguyentan.livestream_platform.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.nguyentan.livestream_platform.constant.NotiTypeEnum;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -16,15 +16,12 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "notification")
-public class Notification {
+@Table(name = "comment")
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-
-    @Column(nullable = false)
-    private NotiTypeEnum type;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
@@ -33,28 +30,44 @@ public class Notification {
     @Column(nullable = false, updatable = false)
     private LocalDateTime timestamp;
 
-    @Column(name = "is_read", nullable = false)
-    private Boolean isRead;
+    @Column(name = "like_count")
+    private Integer likeCount;
 
     @ManyToOne
     @JsonBackReference
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "reel_id", nullable = false)
+    private Reel reel;
+
+    @ManyToOne
+    @JsonBackReference
+    @JoinColumn(name = "user_id" ,nullable = false)
     private User user;
 
+    @ManyToOne
+    @JsonBackReference
+    @JoinColumn(name = "reply_id")
+    private Comment reply;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "reply", cascade = CascadeType.ALL)
+    private java.util.List<Comment> replies;
+
     @PrePersist
-    private void onCreate() {
-        this.isRead = false;
+    protected void onCreate() {
+        this.likeCount = 0;
     }
 
     @Override
     public String toString() {
-        return "Notification{" +
+        return "Comment{" +
                 "id=" + id +
-                ", type=" + type +
                 ", content='" + content + '\'' +
                 ", timestamp=" + timestamp +
-                ", isRead=" + isRead +
+                ", likeCount=" + likeCount +
+                ", reel=" + reel +
                 ", user=" + user +
+                ", reply=" + reply +
+                ", replies=" + replies +
                 '}';
     }
 }
