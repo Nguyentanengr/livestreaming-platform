@@ -3,8 +3,6 @@ package com.nguyentan.livestream_platform.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
 import java.util.UUID;
 
@@ -14,26 +12,28 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "reel_tag")
+@Table(name = "reel_tag", uniqueConstraints =
+        {
+                @UniqueConstraint(columnNames = {"reel_id", "tag_name"})
+        }
+)
 public class ReelTag {
 
-    @EmbeddedId
-    private ReelTagId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @ManyToOne
-    @MapsId("reelId")
     @JoinColumn(name = "reel_id", nullable = false)
     private Reel reel;
 
-    @MapsId("tagName")
-    @Column(name = "tag_name")
+    @Column(name = "tag_name", nullable = false)
     private String tagName;
 
     @Override
     public String toString() {
         return "ReelTag{" +
-                "id=" + id +
-                ", reel=" + reel +
+                "reel=" + reel +
                 ", tagName='" + tagName + '\'' +
                 '}';
     }

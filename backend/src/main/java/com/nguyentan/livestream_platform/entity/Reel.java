@@ -58,9 +58,9 @@ public class Reel {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-    
+
     @OneToMany(mappedBy = "reel", cascade = CascadeType.ALL)
-    private Set<ReelTag> reelTag;
+    private Set<ReelTag> reelTags;
 
 
     @PrePersist

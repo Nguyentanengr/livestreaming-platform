@@ -90,6 +90,10 @@ public class UserController {
 
         request.setUser(user);
 
+        request.getReelTags().forEach(reelTag -> {
+            reelTag.setReel(request);
+        });
+
         return reelRepository.save(request);
     }
 

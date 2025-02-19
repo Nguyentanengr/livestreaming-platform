@@ -127,12 +127,12 @@ CREATE TABLE `reel`(
 
 
 CREATE TABLE `reel_tag`(
+	`id` BINARY(16) NOT NULL,
 	`reel_id` BINARY(16), 
     `tag_name` VARCHAR(255), 
-    
-    PRIMARY KEY (`reel_id`, `tag_name`),
+    PRIMARY KEY (`id`),
 	FOREIGN KEY (`reel_id`) REFERENCES reel(`id`) ON DELETE CASCADE,
-    
+    UNIQUE KEY `UK_reel_tag_reel_id_tag_name` (`reel_id`, `tag_name`),
     CONSTRAINT `chk_reel_tag_tag_name_not_empty` CHECK (`tag_name` <> '')
 );
 
