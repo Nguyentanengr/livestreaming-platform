@@ -1,5 +1,6 @@
 package com.nguyentan.livestream_platform.entity;
 
+
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -10,9 +11,9 @@ import java.util.UUID;
 
 @Embeddable
 @EqualsAndHashCode
-@AllArgsConstructor
 @NoArgsConstructor
-public class ConnectionId implements Serializable {
-    private UUID followingId;
-    private UUID followerId;
+@AllArgsConstructor
+public class ReelTagId implements Serializable {
+    private UUID reelId;
+    private String tagName;
 }

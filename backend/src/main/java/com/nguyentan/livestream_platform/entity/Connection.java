@@ -1,10 +1,7 @@
 package com.nguyentan.livestream_platform.entity;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -22,24 +19,30 @@ import java.util.UUID;
 @Table(name = "connection")
 public class Connection {
 
+    @EmbeddedId
+    private ConnectionId id;
+
+    @ManyToOne
+    @MapsId("followingId")
+    @JoinColumn(name = "following_id", nullable = false)
+    private User following;
+
+    @ManyToOne
+    @MapsId("followerId")
+    @JoinColumn(name = "follower_id", nullable = false)
+    private User follower;
+
     @CreationTimestamp
     @Column(name = "following_at", nullable = false, updatable = false)
     private LocalDateTime followingAt;
 
-    @Id
-    @Column(name = "following_id")
-    private UUID followingId;
-
-    @Id
-    @Column(name = "follower_id")
-    private UUID followerId;
-
     @Override
     public String toString() {
         return "Connection{" +
-                "followingAt=" + followingAt +
-                ", following=" + followingId +
-                ", follower=" + followerId +
+                "id=" + id +
+                ", following=" + following +
+                ", follower=" + follower +
+                ", followingAt=" + followingAt +
                 '}';
     }
 }

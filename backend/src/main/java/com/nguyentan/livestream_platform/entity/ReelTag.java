@@ -2,10 +2,7 @@ package com.nguyentan.livestream_platform.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -14,23 +11,29 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "reel_tag")
 public class ReelTag {
 
-    @Id
-    @Column(name = "reel_id")
-    private UUID reelId;
+    @EmbeddedId
+    private ReelTagId id;
 
-    @Id
-    @Column(name = "tag_name", length = 255)
+    @ManyToOne
+    @MapsId("reelId")
+    @JoinColumn(name = "reel_id", nullable = false)
+    private Reel reel;
+
+    @MapsId("tagName")
+    @Column(name = "tag_name")
     private String tagName;
 
     @Override
     public String toString() {
         return "ReelTag{" +
-                "reelId=" + reelId +
+                "id=" + id +
+                ", reel=" + reel +
                 ", tagName='" + tagName + '\'' +
                 '}';
     }
