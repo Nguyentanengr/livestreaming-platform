@@ -153,7 +153,7 @@ CREATE TABLE `comment`(
     CONSTRAINT `chk_comment_content_not_empty` CHECK (`content` <> '')
 );
 
-CREATE TABLE category (
+CREATE TABLE `category` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) NOT NULL,
     `thumbnail` VARCHAR(255) NOT NULL,
@@ -167,7 +167,7 @@ CREATE TABLE category (
     
 );
 
-CREATE TABLE user_category (
+CREATE TABLE `user_category` (
     `user_id` BINARY(16) NOT NULL, 
     `category_id` INT NOT NULL, 
     PRIMARY KEY (`user_id`, `category_id`), 
@@ -175,7 +175,7 @@ CREATE TABLE user_category (
     FOREIGN KEY (`category_id`) REFERENCES category(`id`) ON DELETE CASCADE
 );
 
-CREATE TABLE livestream (
+CREATE TABLE `livestream` (
     `id` BINARY(16) NOT NULL,
     `user_id` BINARY(16) NOT NULL,
     `title` VARCHAR(255) NOT NULL,
@@ -204,17 +204,19 @@ CREATE TABLE livestream (
 );
 
 
-CREATE TABLE livestream_tag (
+CREATE TABLE `livestream_tag` (
+	`id` BINARY(16) NOT NULL,
     `livestream_id` BINARY(16) NOT NULL,
     `tag_name` VARCHAR(255) NOT NULL,
     
-    PRIMARY KEY (`livestream_id`, `tag_name`),
+    PRIMARY KEY (`id`),
+	UNIQUE KEY `UK_livestream_tag_livestream_id_tag_name` (`livestream_id`, `tag_name`),
     FOREIGN KEY (`livestream_id`) REFERENCES livestream(`id`) ON DELETE CASCADE,
     
     CONSTRAINT `chk_livestream_tag_tag_name_not_empty` CHECK (`tag_name` <> '')
 );
 
-CREATE TABLE viewer (
+CREATE TABLE `viewer` (
     `id` BINARY(16) NOT NULL,
     `user_id` BINARY(16) NOT NULL,
     `livestream_id` BINARY(16) NOT NULL,
@@ -228,7 +230,7 @@ CREATE TABLE viewer (
     CONSTRAINT `chk_viewer_leave_time` CHECK (`leave_time` IS NULL OR `leave_time` > `join_time`)
 );
 
-CREATE TABLE chat (
+CREATE TABLE `chat` (
     `id` BINARY(16) NOT NULL,
     `livestream_id` BINARY(16) NOT NULL,
     `user_id` BINARY(16) NOT NULL,
@@ -242,7 +244,7 @@ CREATE TABLE chat (
     CONSTRAINT `chk_chat_content_not_empty` CHECK (`content` <> '')
 );
 
-CREATE TABLE activity_feed (
+CREATE TABLE `activity_feed` (
     `id` BINARY(16) NOT NULL,
     `livestream_id` BINARY(16) NOT NULL,
     `user_id` BINARY(16) NOT NULL,
@@ -256,7 +258,7 @@ CREATE TABLE activity_feed (
 	CONSTRAINT `chk_activity_feed_valid_type` CHECK (`type` BETWEEN 0 AND 1)
 );
 
-CREATE TABLE blocked_chat (
+CREATE TABLE `blocked_chat` (
     `user_id` BINARY(16) NOT NULL,
     `livestream_id` BINARY(16) NOT NULL,
     `block_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -266,7 +268,7 @@ CREATE TABLE blocked_chat (
     FOREIGN KEY (`livestream_id`) REFERENCES livestream(`id`) ON DELETE CASCADE
 );
 
-CREATE TABLE blocked_viewer (
+CREATE TABLE `blocked_viewer` (
     `user_id` BINARY(16) NOT NULL,
     `livestream_id` BINARY(16) NOT NULL,
     `blocked_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,

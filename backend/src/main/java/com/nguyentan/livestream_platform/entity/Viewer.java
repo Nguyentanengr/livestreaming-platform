@@ -14,19 +14,19 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "chat")
-public class Chat {
+@Table(name = "viewer")
+public class Viewer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String content;
-
     @CreationTimestamp
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime timestamp;
+    @Column(name = "join_time", nullable = false, updatable = false)
+    private LocalDateTime joinTime;
+
+    @Column(name = "leave_time", nullable = false, updatable = false)
+    private LocalDateTime leaveTime;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -38,10 +38,10 @@ public class Chat {
 
     @Override
     public String toString() {
-        return "Chat{" +
+        return "Viewer{" +
                 "id=" + id +
-                ", content='" + content + '\'' +
-                ", timestamp=" + timestamp +
+                ", joinTime=" + joinTime +
+                ", leaveTime=" + leaveTime +
                 ", user=" + user +
                 ", livestream=" + livestream +
                 '}';

@@ -1,7 +1,5 @@
 package com.nguyentan.livestream_platform.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.nguyentan.livestream_platform.constant.UserStatusEnum;
 import jakarta.persistence.*;
 import lombok.*;
@@ -58,13 +56,20 @@ public class User {
     private Boolean isActive;
 
     @ManyToOne
-    @JsonBackReference
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<SocialLink> socialLinks = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_category",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private Set<Category> categories = new HashSet<>();
+
 
     @PrePersist
     protected void onCreate() {

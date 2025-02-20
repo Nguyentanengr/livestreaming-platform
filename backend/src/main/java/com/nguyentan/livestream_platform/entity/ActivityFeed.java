@@ -1,6 +1,7 @@
 package com.nguyentan.livestream_platform.entity;
 
 
+import com.nguyentan.livestream_platform.constant.ActivityTypeEnum;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -14,15 +15,15 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "chat")
-public class Chat {
+@Table(name = "activity_feed")
+public class ActivityFeed {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String content;
+    @Column(nullable = false)
+    private ActivityTypeEnum type;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
@@ -38,9 +39,9 @@ public class Chat {
 
     @Override
     public String toString() {
-        return "Chat{" +
+        return "ActivityFeed{" +
                 "id=" + id +
-                ", content='" + content + '\'' +
+                ", type=" + type +
                 ", timestamp=" + timestamp +
                 ", user=" + user +
                 ", livestream=" + livestream +

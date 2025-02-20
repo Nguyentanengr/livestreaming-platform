@@ -1,6 +1,5 @@
 package com.nguyentan.livestream_platform.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,7 +28,6 @@ public class SocialLink {
     private Boolean isActive;
 
     @ManyToOne
-    @JsonBackReference
     @JoinColumn(name = "user_id")
     private User user;
 

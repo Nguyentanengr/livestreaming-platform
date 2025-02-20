@@ -1,12 +1,10 @@
 package com.nguyentan.livestream_platform.entity;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Getter
@@ -14,36 +12,37 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "chat")
-public class Chat {
+@Table(name = "blocked_chat")
+public class BlockedViewer {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
-
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String content;
-
-    @CreationTimestamp
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime timestamp;
+    @EmbeddedId
+    private BlockedViewerId id;
 
     @ManyToOne
+    @MapsId("userId")
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne
+    @MapsId("livestreamId")
     @JoinColumn(name = "livestream_id", nullable = false)
     private Livestream livestream;
 
+    @Column(columnDefinition = "TEXT")
+    private String reason;
+
+    @CreationTimestamp
+    @Column(name = "block_time", nullable = false, updatable = false)
+    private LocalDateTime blockTime;
+
     @Override
     public String toString() {
-        return "Chat{" +
+        return "BlockedChat{" +
                 "id=" + id +
-                ", content='" + content + '\'' +
-                ", timestamp=" + timestamp +
                 ", user=" + user +
                 ", livestream=" + livestream +
+                ", reason='" + reason + '\'' +
+                ", blockTime=" + blockTime +
                 '}';
     }
 }

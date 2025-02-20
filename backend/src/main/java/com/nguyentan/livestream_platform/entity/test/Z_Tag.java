@@ -1,4 +1,4 @@
-package com.nguyentan.livestream_platform.entity;
+package com.nguyentan.livestream_platform.entity.test;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Tag {
+public class Z_Tag {
 
     private Long id;
     private String name;

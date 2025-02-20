@@ -12,28 +12,29 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "reel_tag", uniqueConstraints =
+@Table(name = "livestream_tag", uniqueConstraints =
         {
-                @UniqueConstraint(columnNames = {"reel_id", "tag_name"})
+                @UniqueConstraint(columnNames = {"livestream_id", "tag_name"})
         }
 )
-public class ReelTag {
+public class LivestreamTag {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "reel_id", nullable = false)
-    private Reel reel;
+    @JoinColumn(name = "livestream_id", nullable = false)
+    private Livestream livestream;
 
     @Column(name = "tag_name", nullable = false)
     private String tagName;
 
     @Override
     public String toString() {
-        return "ReelTag{" +
-                "reel=" + reel +
+        return "LivestreamTag{" +
+                "id=" + id +
+                ", livestream=" + livestream +
                 ", tagName='" + tagName + '\'' +
                 '}';
     }

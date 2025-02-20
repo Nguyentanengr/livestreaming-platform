@@ -1,8 +1,6 @@
 package com.nguyentan.livestream_platform.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.nguyentan.livestream_platform.constant.CommentSettingEnum;
 import com.nguyentan.livestream_platform.constant.VisibilityEnum;
 import jakarta.persistence.*;
@@ -10,6 +8,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -51,24 +50,21 @@ public class Reel {
     private Integer commentCount;
 
     @CreationTimestamp
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "is_active", nullable = false)
     private Boolean isActive;
 
     @ManyToOne
-    @JsonBackReference
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "reel", cascade = CascadeType.ALL)
-    private Set<ReelTag> reelTags;
+    private Set<ReelTag> reelTags = new HashSet<>();
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "reel", cascade = CascadeType.ALL)
-    private Set<Comment> comments;
+    private Set<Comment> comments = new HashSet<>();
 
 
     @PrePersist

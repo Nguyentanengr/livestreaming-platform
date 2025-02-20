@@ -1,13 +1,13 @@
 package com.nguyentan.livestream_platform.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -34,23 +34,19 @@ public class Comment {
     private Integer likeCount;
 
     @ManyToOne
-    @JsonBackReference
     @JoinColumn(name = "reel_id", nullable = false)
     private Reel reel;
 
     @ManyToOne
-    @JsonBackReference
     @JoinColumn(name = "user_id" ,nullable = false)
     private User user;
 
     @ManyToOne
-    @JsonBackReference
     @JoinColumn(name = "reply_id")
     private Comment reply;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "reply", cascade = CascadeType.ALL)
-    private java.util.List<Comment> replies;
+    private Set<Comment> replies = new HashSet<>();
 
     @PrePersist
     protected void onCreate() {

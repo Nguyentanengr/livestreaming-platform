@@ -1,7 +1,6 @@
 package com.nguyentan.livestream_platform.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.nguyentan.livestream_platform.constant.NotiTypeEnum;
 import jakarta.persistence.*;
 import lombok.*;
@@ -37,7 +36,6 @@ public class Notification {
     private Boolean isRead;
 
     @ManyToOne
-    @JsonBackReference
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 

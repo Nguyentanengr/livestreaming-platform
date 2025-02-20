@@ -6,18 +6,17 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
-
 @Log4j2
 @RestController
 @RequestMapping("/identity/users")
 public class UserController {
-
+    private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final ConnectionRepository connectionRepository;
     private final NotificationRepository notificationRepository;
     private final ReelRepository reelRepository;
+    private final CommentRepository commentRepository;
 
 
     public UserController(@Autowired UserRepository userRepository
@@ -25,13 +24,16 @@ public class UserController {
             , @Autowired ConnectionRepository connectionRepository
             , @Autowired NotificationRepository notificationRepository
             , @Autowired ReelRepository reelRepository
+            , @Autowired CommentRepository commentRepository
+            , @Autowired CategoryRepository categoryRepository) {
 
-    ) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.connectionRepository = connectionRepository;
         this.notificationRepository = notificationRepository;
         this.reelRepository = reelRepository;
+        this.commentRepository = commentRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @GetMapping("/{username}")
@@ -95,6 +97,48 @@ public class UserController {
         });
 
         return reelRepository.save(request);
+    }
+
+    @PostMapping("/comment")
+    public Comment createNotification(@RequestBody Comment request) {
+        User user = userRepository.findById(request.getUser().getId())
+                .orElseThrow(() -> new RuntimeException("Could not find following by id"));
+        Reel reel = reelRepository.findById(request.getReel().getId())
+                .orElseThrow(() -> new RuntimeException("Could not find reel by id"));
+
+        request.setUser(user);
+        request.setReel(reel);
+        if (request.getReply() != null) {
+            request.setReply(commentRepository.findById(request.getReply().getId())
+                    .orElseThrow(() -> new RuntimeException("Could not find comment by id"))
+            );
+        }
+
+        return commentRepository.save(request);
+    }
+
+    @PostMapping("/category")
+    public Category createNotification(@RequestBody Category request) {
+        return categoryRepository.save(request);
+    }
+
+    @GetMapping("/user-category")
+    public void createUserCategory() {
+
+        User user = userRepository.findByUsername("tannguyen")
+                .orElseThrow(() -> new RuntimeException("Could not find user by username"));
+
+        Category ca1 = categoryRepository.findById(1)
+                .orElseThrow(() -> new RuntimeException("Could not find category by id"));
+
+        Category ca2 = categoryRepository.findById(2)
+                .orElseThrow(() -> new RuntimeException("Could not find category by id"));
+
+        user.getCategories().add(ca1);
+        user.getCategories().add(ca2);
+
+        userRepository.save(user);
+
     }
 
 
