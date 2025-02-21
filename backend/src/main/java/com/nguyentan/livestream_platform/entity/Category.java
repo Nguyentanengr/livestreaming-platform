@@ -32,6 +32,9 @@ public class Category {
     @ManyToMany(mappedBy = "categories")
     private Set<User> users = new HashSet<>();
 
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    private Set<Livestream> livestreams = new HashSet<>();
+
     @PrePersist
     protected void onCreate() {
         this.interestedCount = 0;

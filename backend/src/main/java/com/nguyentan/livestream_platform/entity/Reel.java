@@ -60,7 +60,7 @@ public class Reel {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "reel", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "reel", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<ReelTag> reelTags = new HashSet<>();
 
     @OneToMany(mappedBy = "reel", cascade = CascadeType.ALL)
@@ -77,6 +77,26 @@ public class Reel {
         }
         this.likeCount = this.commentCount = this.shareCount = 0;
         this.isActive = true;
+    }
+
+    public void addReelTag(ReelTag reelTag) {
+        this.getReelTags().add(reelTag);
+        reelTag.setReel(this);
+    }
+
+    public void removeReelTag(ReelTag reelTag) {
+        this.getReelTags().remove(reelTag);
+        reelTag.setReel(null);
+    }
+
+    public void addComment(Comment comment) {
+        this.getComments().add(comment);
+        comment.setReel(this);
+    }
+
+    public void removeComment(Comment comment) {
+        this.getComments().remove(comment);
+        comment.setReel(null);
     }
 
     @Override

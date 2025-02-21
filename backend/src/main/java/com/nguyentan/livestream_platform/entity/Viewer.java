@@ -25,7 +25,7 @@ public class Viewer {
     @Column(name = "join_time", nullable = false, updatable = false)
     private LocalDateTime joinTime;
 
-    @Column(name = "leave_time", nullable = false, updatable = false)
+    @Column(name = "leave_time", updatable = false)
     private LocalDateTime leaveTime;
 
     @ManyToOne

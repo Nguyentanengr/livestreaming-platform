@@ -55,7 +55,7 @@ public class User {
     @Column(name = "is_active", nullable = false)
     private Boolean isActive;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 
@@ -77,6 +77,24 @@ public class User {
         this.status = UserStatusEnum.OFFLINE;
         this.createdAt = this.updatedAt = LocalDateTime.now();
         this.isActive = true;
+    }
+
+    public void addSocialLink(SocialLink socialLink) {
+        this.socialLinks.add(socialLink);
+        socialLink.setUser(this);
+    }
+
+    public void removeSocialLink(SocialLink socialLink) {
+        this.socialLinks.remove(socialLink);
+        socialLink.setUser(null);
+    }
+
+    public void addCategory(Category category) {
+        this.getCategories().add(category);
+    }
+
+    public void removerCategory(Category category) {
+        this.getCategories().remove(category);
     }
 
     @Override

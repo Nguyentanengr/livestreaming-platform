@@ -60,11 +60,11 @@ public class Livestream {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
-    @OneToMany(mappedBy = "livestream", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "livestream", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<LivestreamTag> livestreamTags = new HashSet<>();
 
     @OneToMany(mappedBy = "livestream", cascade = CascadeType.ALL)
@@ -75,6 +75,75 @@ public class Livestream {
 
     @OneToMany(mappedBy = "livestream", cascade = CascadeType.ALL)
     private Set<ActivityFeed> activityFeeds = new HashSet<>();
+
+    @OneToMany(mappedBy = "livestream", cascade = CascadeType.ALL)
+    private Set<BlockedChat> blockedChats = new HashSet<>();
+
+    @OneToMany(mappedBy = "livestream", cascade = CascadeType.ALL)
+    private Set<BlockedViewer> blockedViewers = new HashSet<>();
+
+    public void addLivestreamTag(LivestreamTag tag) {
+        this.livestreamTags.add(tag);
+        tag.setLivestream(this);
+    }
+
+    public void removeLivestreamTag(LivestreamTag tag) {
+        this.livestreamTags.remove(tag);
+        tag.setLivestream(null);
+    }
+
+
+    public void addViewer(Viewer viewer) {
+        this.viewers.add(viewer);
+        viewer.setLivestream(this);
+    }
+
+    public void removeViewer(Viewer viewer) {
+        this.viewers.remove(viewer);
+        viewer.setLivestream(null);
+    }
+
+    public void addChat(Chat chat) {
+        this.chats.add(chat);
+        chat.setLivestream(this);
+    }
+
+    public void removeChat(Chat chat) {
+        this.chats.remove(chat);
+        chat.setLivestream(null);
+    }
+
+    public void addActivityFeed(ActivityFeed activityFeed) {
+        this.activityFeeds.add(activityFeed);
+        activityFeed.setLivestream(this);
+    }
+
+    public void removeActivityFeed(ActivityFeed activityFeed) {
+        this.activityFeeds.remove(activityFeed);
+        activityFeed.setLivestream(null);
+    }
+
+    public void addBlockedChat(BlockedChat blockedChat) {
+        this.blockedChats.add(blockedChat);
+        blockedChat.setLivestream(this);
+    }
+
+    public void removeBlockedChat(BlockedChat blockedChat) {
+        this.blockedChats.remove(blockedChat);
+        blockedChat.setLivestream(null);
+    }
+
+    public void addBlockedViewer(BlockedViewer blockedViewer) {
+        this.blockedViewers.add(blockedViewer);
+        blockedViewer.setLivestream(this);
+    }
+
+    public void removeBlockedViewer(BlockedViewer blockedViewer) {
+        this.blockedViewers.remove(blockedViewer);
+        blockedViewer.setLivestream(null);
+    }
+
+
 
     @Override
     public String toString() {

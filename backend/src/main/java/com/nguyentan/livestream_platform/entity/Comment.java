@@ -41,7 +41,7 @@ public class Comment {
     @JoinColumn(name = "user_id" ,nullable = false)
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reply_id")
     private Comment reply;
 
@@ -51,6 +51,16 @@ public class Comment {
     @PrePersist
     protected void onCreate() {
         this.likeCount = 0;
+    }
+
+    public void addReply(Comment comment) {
+        this.getReplies().add(comment);
+        comment.setReply(comment);
+    }
+
+    public void removeReply(Comment comment) {
+        this.getReplies().remove(comment);
+        comment.setReply(null);
     }
 
     @Override
