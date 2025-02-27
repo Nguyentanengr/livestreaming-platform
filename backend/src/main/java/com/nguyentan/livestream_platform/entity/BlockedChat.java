@@ -18,12 +18,12 @@ public class BlockedChat {
     @EmbeddedId
     private BlockedChatId id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("userId")
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("livestreamId")
     @JoinColumn(name = "livestream_id", nullable = false)
     private Livestream livestream;

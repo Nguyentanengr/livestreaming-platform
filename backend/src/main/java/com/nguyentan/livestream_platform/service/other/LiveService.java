@@ -1,13 +1,13 @@
-package com.nguyentan.livestream_platform.service;
+package com.nguyentan.livestream_platform.service.other;
 
 
 import com.nguyentan.livestream_platform.constant.RtcActionEnum;
 import com.nguyentan.livestream_platform.context.LiveSession;
 import com.nguyentan.livestream_platform.context.LiveSessionManager;
 import com.nguyentan.livestream_platform.context.UserSession;
-import com.nguyentan.livestream_platform.dto.LiveRequestDTO;
-import com.nguyentan.livestream_platform.dto.LiveTransportDTO;
-import com.nguyentan.livestream_platform.dto.RtcTransportDTO;
+import com.nguyentan.livestream_platform.dto.other.LiveRequestDTO;
+import com.nguyentan.livestream_platform.dto.other.LiveTransportDTO;
+import com.nguyentan.livestream_platform.dto.other.RtcTransportDTO;
 import lombok.extern.log4j.Log4j2;
 import org.kurento.client.EventListener;
 import org.kurento.client.IceCandidateFoundEvent;
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Log4j2

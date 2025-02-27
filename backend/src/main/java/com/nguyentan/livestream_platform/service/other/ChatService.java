@@ -1,9 +1,7 @@
-package com.nguyentan.livestream_platform.service;
+package com.nguyentan.livestream_platform.service.other;
 
-import com.nguyentan.livestream_platform.context.LiveSessionManager;
-import com.nguyentan.livestream_platform.dto.ChatRequestDTO;
-import com.nguyentan.livestream_platform.dto.ChatResponseDTO;
-import com.nguyentan.livestream_platform.dto.RtcTransportDTO;
+import com.nguyentan.livestream_platform.dto.other.ChatRequestDTO;
+import com.nguyentan.livestream_platform.dto.other.ChatResponseDTO;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;

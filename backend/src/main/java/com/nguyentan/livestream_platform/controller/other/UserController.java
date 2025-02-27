@@ -1,4 +1,4 @@
-package com.nguyentan.livestream_platform.controller;
+package com.nguyentan.livestream_platform.controller.other;
 
 import com.nguyentan.livestream_platform.entity.*;
 import com.nguyentan.livestream_platform.repository.*;

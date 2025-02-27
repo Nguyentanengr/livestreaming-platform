@@ -1,10 +1,10 @@
-package com.nguyentan.livestream_platform.controller;
+package com.nguyentan.livestream_platform.controller.other;
 
 import com.nguyentan.livestream_platform.constant.RtcActionEnum;
-import com.nguyentan.livestream_platform.dto.LiveRequestDTO;
-import com.nguyentan.livestream_platform.dto.LiveTransportDTO;
-import com.nguyentan.livestream_platform.dto.RtcTransportDTO;
-import com.nguyentan.livestream_platform.service.LiveService;
+import com.nguyentan.livestream_platform.dto.other.LiveRequestDTO;
+import com.nguyentan.livestream_platform.dto.other.LiveTransportDTO;
+import com.nguyentan.livestream_platform.dto.other.RtcTransportDTO;
+import com.nguyentan.livestream_platform.service.other.LiveService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.GetMapping;

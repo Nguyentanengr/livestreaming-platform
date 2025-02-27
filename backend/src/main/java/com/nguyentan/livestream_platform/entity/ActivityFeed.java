@@ -33,7 +33,7 @@ public class ActivityFeed {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "livestream_id", nullable = false)
     private Livestream livestream;
 

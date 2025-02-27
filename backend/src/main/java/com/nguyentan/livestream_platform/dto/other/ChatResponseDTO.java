@@ -1,4 +1,4 @@
-package com.nguyentan.livestream_platform.dto;
+package com.nguyentan.livestream_platform.dto.other;
 
 import com.nguyentan.livestream_platform.constant.ChatActionEnum;
 import lombok.*;

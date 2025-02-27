@@ -33,7 +33,7 @@ public class Comment {
     @Column(name = "like_count")
     private Integer likeCount;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reel_id", nullable = false)
     private Reel reel;
 
