@@ -5,6 +5,7 @@ import com.nguyentan.livestream_platform.dto.request.*;
 import com.nguyentan.livestream_platform.dto.response.EntityResponse;
 import com.nguyentan.livestream_platform.dto.response.RefreshTokenResponse;
 import com.nguyentan.livestream_platform.dto.response.UserAuthenticationResponse;
+import com.nguyentan.livestream_platform.service.OTP.OTPTokenManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,12 +19,14 @@ public class UserAuthController implements AuthBase{
 
     public static final String USER_SECURITY_API_URL = "/api/v1/auth/";
 
+    private final OTPTokenManager tokenManager;
+
     @Override
     public EntityResponse<Void> requireOTP(RequireOTPRequest request) {
         String email = request.email();
 
         // tao token
-
+        String OTPToken = tokenManager.generateOTPToken(email);
 
         // send email voi token do
         return null;
