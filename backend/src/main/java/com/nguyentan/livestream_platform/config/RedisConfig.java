@@ -13,7 +13,7 @@ public class RedisConfig {
     public LettuceConnectionFactory lettuceConnection() {
         RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration();
         configuration.setHostName("localhost");
-        configuration.setPort(6308);
+        configuration.setPort(6379);
         configuration.setUsername("");
         configuration.setPassword("");
 

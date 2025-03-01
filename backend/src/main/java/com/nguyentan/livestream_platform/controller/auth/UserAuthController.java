@@ -1,13 +1,15 @@
 package com.nguyentan.livestream_platform.controller.auth;
 
-
 import com.nguyentan.livestream_platform.dto.request.*;
 import com.nguyentan.livestream_platform.dto.response.EntityResponse;
 import com.nguyentan.livestream_platform.dto.response.RefreshTokenResponse;
 import com.nguyentan.livestream_platform.dto.response.UserAuthenticationResponse;
-import com.nguyentan.livestream_platform.service.OTP.OTPTokenManager;
+import com.nguyentan.livestream_platform.service.email.EmailSender;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,21 +21,26 @@ public class UserAuthController implements AuthBase{
 
     public static final String USER_SECURITY_API_URL = "/api/v1/auth/";
 
-    private final OTPTokenManager tokenManager;
+    private final EmailSender emailSender;
 
     @Override
-    public EntityResponse<Void> requireOTP(RequireOTPRequest request) {
+    @PostMapping("/register/require-otp")
+    public EntityResponse<Void> requireRegistrationOTP(@RequestBody @Valid RequireOTPRequest request) {
+
+        
         String email = request.email();
 
-        // tao token
-        String OTPToken = tokenManager.generateOTPToken(email);
+        emailSender.sendRegistrationOTPTokenEmail(email);
 
-        // send email voi token do
-        return null;
+        return EntityResponse.<Void>builder()
+                .code(1000L)
+                .message("Email has been sent")
+                .build();
     }
 
     @Override
-    public EntityResponse<Void> register(UserRegistrationRequest request) {
+    @PostMapping("/register")
+    public EntityResponse<Void> register(@RequestBody @Valid UserRegistrationRequest request) {
         return null;
     }
 

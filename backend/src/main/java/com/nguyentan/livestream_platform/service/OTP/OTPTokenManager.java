@@ -1,6 +1,7 @@
 package com.nguyentan.livestream_platform.service.OTP;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -8,6 +9,7 @@ import javax.xml.datatype.Duration;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class OTPTokenManager {
@@ -23,6 +25,8 @@ public class OTPTokenManager {
 
         if (cacheValue.isPresent()) {
             // Not allowed generate token
+
+            log.error("Cannot generate OTP because previous OTP is existing in cache");
             throw new RuntimeException("Cannot generate OTP for email in this time");
         }
 
@@ -30,6 +34,8 @@ public class OTPTokenManager {
         String OTP = tokenGenerator.generateToken();
 
         tokenCache.cachingToken(identity, OTP, 60);
+
+        log.info("All Item in Redis: " + tokenCache.getAllItem());
 
         return OTP;
     }

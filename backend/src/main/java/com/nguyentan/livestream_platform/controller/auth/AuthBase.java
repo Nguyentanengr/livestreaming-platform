@@ -6,7 +6,7 @@ import com.nguyentan.livestream_platform.dto.response.UserAuthenticationResponse
 
 public interface AuthBase {
 
-    EntityResponse<Void> requireOTP(RequireOTPRequest request);
+    EntityResponse<Void> requireRegistrationOTP(RequireOTPRequest request);
 
     EntityResponse<Void> register(UserRegistrationRequest request);
 
