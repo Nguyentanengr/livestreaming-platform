@@ -53,5 +53,6 @@ public class EmailSender {
         resetPasswordTokenTemplate.setUsername("Pham Tan Nguyen");
 
         mailService.sendMail(resetPasswordTokenTemplate);
+
     }
 }
