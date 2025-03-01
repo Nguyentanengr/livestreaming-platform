@@ -4,6 +4,9 @@ import com.nguyentan.livestream_platform.dto.request.*;
 import com.nguyentan.livestream_platform.dto.response.EntityResponse;
 import com.nguyentan.livestream_platform.dto.response.RefreshTokenResponse;
 import com.nguyentan.livestream_platform.dto.response.UserAuthenticationResponse;
+import com.nguyentan.livestream_platform.dto.response.UserRegistrationResponse;
+import com.nguyentan.livestream_platform.service.OTP.OTPTokenManager;
+import com.nguyentan.livestream_platform.service.auth.UserRegistrationService;
 import com.nguyentan.livestream_platform.service.email.EmailSender;
 import com.nguyentan.livestream_platform.service.user.SingleUserService;
 import jakarta.validation.Valid;
@@ -23,12 +26,14 @@ public class UserAuthController implements AuthBase{
     public static final String USER_SECURITY_API_URL = "/api/v1/auth/";
 
     private final EmailSender emailSender;
+    private final OTPTokenManager tokenManager;
+
     private final SingleUserService singleUserService;
+    private final UserRegistrationService userRegistrationService;
 
     @Override
     @PostMapping("/register/require-otp")
     public EntityResponse<Void> requireRegistrationOTP(@RequestBody @Valid RequireOTPRequest request) {
-
 
         String email = request.email();
 
@@ -48,8 +53,17 @@ public class UserAuthController implements AuthBase{
 
     @Override
     @PostMapping("/register")
-    public EntityResponse<Void> register(@RequestBody @Valid UserRegistrationRequest request) {
-        return null;
+    public EntityResponse<UserRegistrationResponse> register(@RequestBody @Valid UserRegistrationRequest request) {
+
+        // Verify the email & validate token
+        boolean isVerified = !singleUserService.existUserByEmail(request.email())
+                && tokenManager.validateOTPToken(request.email(), request.code());
+
+        return EntityResponse.<UserRegistrationResponse>builder()
+                .code(isVerified ? 1000L : 1050L)
+                .value(isVerified ? userRegistrationService.register(request) : null)
+                .message(isVerified ? null : "OTP is invalid or expired")
+                .build();
     }
 
     @Override

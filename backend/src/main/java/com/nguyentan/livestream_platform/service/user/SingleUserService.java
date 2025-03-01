@@ -19,7 +19,7 @@ public class SingleUserService {
 
         UserResponse response = UserResponse.builder()
                 .id(user.getId())
-                .username(user.getUsername())
+                .nickname(user.getNickname())
                 .email(user.getEmail())
                 .googleId(user.getGoogleId())
                 .thumbnail(user.getThumbnail())

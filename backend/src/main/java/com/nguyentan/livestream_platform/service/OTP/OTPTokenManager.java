@@ -40,7 +40,7 @@ public class OTPTokenManager {
         return OTP;
     }
 
-    public void validateOTPToken(String identity, String OTP) {
+    public boolean validateOTPToken(String identity, String OTP) {
 
         boolean isFormatted = tokenGenerator.checkFormat(OTP);
 
@@ -52,6 +52,8 @@ public class OTPTokenManager {
         if (!isValidated) {
             throw new RuntimeException("OTP is incorrect or expired");
         }
+
+        return true;
     }
 
     public void removeOTPToken(String identity) {

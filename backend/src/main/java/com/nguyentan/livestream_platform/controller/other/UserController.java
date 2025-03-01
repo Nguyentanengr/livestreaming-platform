@@ -39,7 +39,7 @@ public class UserController {
     @GetMapping("/{username}")
     public User getUserByUsername(@PathVariable("username") String username) {
         log.info("GetUserById is running...");
-        return userRepository.findByUsername(username)
+        return userRepository.findByNickname(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
@@ -125,7 +125,7 @@ public class UserController {
     @GetMapping("/user-category")
     public void createUserCategory() {
 
-        User user = userRepository.findByUsername("tannguyen")
+        User user = userRepository.findByNickname("tannguyen")
                 .orElseThrow(() -> new RuntimeException("Could not find user by username"));
 
         Category ca1 = categoryRepository.findById(1)

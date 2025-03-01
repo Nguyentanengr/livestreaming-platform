@@ -1,6 +1,7 @@
 package com.nguyentan.livestream_platform.entity;
 
 import com.nguyentan.livestream_platform.constant.UserStatusEnum;
+import com.nguyentan.livestream_platform.service.user.UserNicknameGenerator;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,13 +23,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(length = 50, nullable = false, unique = true)
-    private String username;
+    @Column(length = 50, nullable = false)
+    private String nickname;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(length = 100)
+    @Column(length = 100, nullable = false)
     private String password;
 
     @Column(name = "google_id", unique = true)
@@ -73,11 +74,13 @@ public class User {
 
     @PrePersist
     protected void onCreate() {
+        if (this.nickname == null) this.nickname = UserNicknameGenerator.getUniqueUserNickname();
         this.thumbnail = this.thumbnail == null ? "/default/thumbnail" : this.thumbnail;
         this.status = UserStatusEnum.OFFLINE;
         this.createdAt = this.updatedAt = LocalDateTime.now();
         this.isActive = true;
     }
+
 
     public void addSocialLink(SocialLink socialLink) {
         this.socialLinks.add(socialLink);
@@ -101,7 +104,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", username='" + username + '\'' +
+                ", username='" + nickname + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", googleId='" + googleId + '\'' +
