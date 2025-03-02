@@ -2,6 +2,8 @@ package com.nguyentan.livestream_platform.service.OTP;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -10,30 +12,33 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor
 public class OTPTokenCache {
 
-    private final RedisTemplate<String, String> redisTemplate;
+    private final RedisTemplate<String, String> cache;
+
+    public OTPTokenCache(@Qualifier("OTPTokenCacheRedis") RedisTemplate<String, String> redisTemplate) {
+        this.cache = redisTemplate;
+    }
 
     public Optional<String> getTokenById(String identity) {
-         return Optional.ofNullable(redisTemplate.opsForValue().get(identity));
+         return Optional.ofNullable(cache.opsForValue().get(identity));
     }
 
     public void cachingToken(String identity, String token, long seconds) {
-        redisTemplate.opsForValue().set(identity, token, seconds, TimeUnit.SECONDS);
+        cache.opsForValue().set(identity, token, seconds, TimeUnit.SECONDS);
     }
 
-    public void removeById(String key) {
-        redisTemplate.delete(key);
+    public void removeById(String identity) {
+        cache.delete(identity);
     }
 
     public Map<String, Object> getAllItem() {
         Map<String, Object> allValues = new HashMap<>();
         try {
-            Set<String> keys = redisTemplate.keys("*"); // Lấy tất cả keys trong Redis
+            Set<String> keys = cache.keys("*"); // Lấy tất cả keys trong Redis
             if (keys != null) {
                 for (String key : keys) {
-                    Object value = redisTemplate.opsForValue().get(key);
+                    Object value = cache.opsForValue().get(key);
                     allValues.put(key, value);
                 }
             }

@@ -8,6 +8,7 @@ import com.nguyentan.livestream_platform.entity.Role;
 import com.nguyentan.livestream_platform.entity.User;
 import com.nguyentan.livestream_platform.repository.RoleRepository;
 import com.nguyentan.livestream_platform.repository.UserRepository;
+import com.nguyentan.livestream_platform.service.jwt.JwtTokenGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,6 +23,7 @@ public class UserRegistrationService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final JwtTokenGenerator tokenGenerator;
 
 
     public UserRegistrationResponse register(UserRegistrationRequest request) {
@@ -40,8 +42,8 @@ public class UserRegistrationService {
             throw new RuntimeException("An error occurred while save user into database: " + e.getMessage());
         }
 
-        String jwtAccessToken = "dfT3vfX34WfTlsif4Fscx9scy6JK4S0FdfT3vfX34WfTlsif4Fscx9scy6JK4S0F";
-        String jwtRefreshToken = "wfTlsif4Fscxdlsif4Fscx9scy6fTlsif4FscxfX34WfTlsifTlsfTlsif4Fscxj";
+        String jwtAccessToken = tokenGenerator.generateAccessToken(user);
+        String jwtRefreshToken = tokenGenerator.generateRefreshToken(user);
 
         UserRegistrationResponse response = UserRegistrationResponse.builder()
                 .accessToken(jwtAccessToken)

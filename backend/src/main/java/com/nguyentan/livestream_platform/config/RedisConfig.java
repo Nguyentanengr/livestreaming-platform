@@ -6,6 +6,8 @@ import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 
+import java.util.Date;
+
 @Configuration
 public class RedisConfig {
 
@@ -21,9 +23,19 @@ public class RedisConfig {
     }
 
     @Bean
-    RedisTemplate<String, Object> redisTemplate(LettuceConnectionFactory redisConnection) {
-        RedisTemplate<String, Object> template = new RedisTemplate<>();
+    RedisTemplate<String, String> OTPTokenCacheRedis(LettuceConnectionFactory redisConnection) {
+        RedisTemplate<String, String> template = new RedisTemplate<>();
         template.setConnectionFactory(redisConnection);
         return template;
     }
+
+    @Bean
+    RedisTemplate<String, Date> JwtBlackListRedis(LettuceConnectionFactory redisConnection) {
+        RedisTemplate<String, Date> template = new RedisTemplate<>();
+        template.setConnectionFactory(redisConnection);
+        return template;
+    }
+
+
+
 }
