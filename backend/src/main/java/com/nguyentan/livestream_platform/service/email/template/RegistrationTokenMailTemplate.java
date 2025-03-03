@@ -13,13 +13,13 @@ public class RegistrationTokenMailTemplate extends MailTemplate {
     protected String token;
 
     public RegistrationTokenMailTemplate() {
-        super(MailTemplateConstant.MAIL_SENDER, MailTemplateConstant.MAIL_TEMPLATE_TOKEN_SUBJECT);
+        super(MailTemplateConstant.MAIL_SENDER, MailTemplateConstant.MAIL_TEMPLATE_REGISTRATION_TOKEN_SUBJECT);
     }
 
 
     @Override
     public String buildBody() {
-        return MailTemplateConstant.MAIL_TEMPLATE_TOKEN_HTML
+        return MailTemplateConstant.MAIL_TEMPLATE_REGISTRATION_TOKEN_HTML
                 .replace("${this.token}", this.token);
     }
 }

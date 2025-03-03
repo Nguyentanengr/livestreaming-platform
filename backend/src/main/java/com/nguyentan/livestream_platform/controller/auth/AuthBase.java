@@ -1,9 +1,6 @@
 package com.nguyentan.livestream_platform.controller.auth;
 import com.nguyentan.livestream_platform.dto.request.*;
-import com.nguyentan.livestream_platform.dto.response.EntityResponse;
-import com.nguyentan.livestream_platform.dto.response.RefreshTokenResponse;
-import com.nguyentan.livestream_platform.dto.response.UserAuthenticationResponse;
-import com.nguyentan.livestream_platform.dto.response.UserRegistrationResponse;
+import com.nguyentan.livestream_platform.dto.response.*;
 
 public interface AuthBase {
 
@@ -11,7 +8,7 @@ public interface AuthBase {
 
     EntityResponse<UserRegistrationResponse> register(UserRegistrationRequest request);
 
-    EntityResponse<Void> resetPassword(ResetPasswordRequest request);
+    EntityResponse<UserResetPasswordResponse> resetPassword(UserResetPasswordRequest request);
 
     EntityResponse<UserAuthenticationResponse> authenticate(UserAuthenticationRequest request);
 

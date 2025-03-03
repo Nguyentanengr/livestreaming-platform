@@ -9,6 +9,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class SingleUserService implements UserDetailsService {
@@ -45,6 +48,13 @@ public class SingleUserService implements UserDetailsService {
 
     public boolean existUserByEmail(String email) {
         return userRepository.existsByEmail(email);
+    }
+
+    public Optional<String> getNicknameByEmail(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+        String nickname = user.map(User::getNickname).orElse(null);
+
+        return Optional.ofNullable(nickname);
     }
 
 

@@ -42,7 +42,7 @@ public class EmailSender {
         mailService.sendMail(registrationTokenTemplate);
     }
 
-    public void sendResetPasswordOTPTokenEmail(String email) {
+    public void sendResetPasswordOTPTokenEmail(String email, String nickname) {
 
         // Generate token
         String OTPToken = tokenManager.generateOTPToken(email);
@@ -50,7 +50,7 @@ public class EmailSender {
         // Create a mail template
         resetPasswordTokenTemplate.setRecipient(email);
         resetPasswordTokenTemplate.setToken(OTPToken);
-        resetPasswordTokenTemplate.setUsername("Pham Tan Nguyen");
+        resetPasswordTokenTemplate.setNickname(nickname);
 
         mailService.sendMail(resetPasswordTokenTemplate);
 

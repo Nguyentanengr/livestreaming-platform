@@ -3,10 +3,10 @@ package com.nguyentan.livestream_platform.service.jwt;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSVerifier;
 import com.nimbusds.jose.crypto.MACVerifier;
+import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -21,7 +21,7 @@ public class VerifyJwtRefreshToken {
 
     private final JwtBlackList blackList;
 
-    public SignedJWT verifyToken(String token) {
+    public JWTClaimsSet verifyToken(String token) {
 
         try {
             SignedJWT signedJWT = SignedJWT.parse(token);
@@ -39,10 +39,9 @@ public class VerifyJwtRefreshToken {
             boolean isExistInBlackedList = blackList.isExist(jit);
 
             if (!verified || isExpired || isExistInBlackedList) {
-                throw new RuntimeException("Jwt token is invalid or expired");
+                throw new RuntimeException("Refresh token is invalid or expired");
             }
-
-            return signedJWT;
+            return signedJWT.getJWTClaimsSet();
 
         } catch (ParseException | JOSEException | RuntimeException e) {
             throw new RuntimeException("An error occurred while verify token: " + e.getMessage());

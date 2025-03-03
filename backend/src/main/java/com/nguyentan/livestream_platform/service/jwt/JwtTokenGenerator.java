@@ -33,7 +33,7 @@ public class JwtTokenGenerator {
 
     private final JWSAlgorithm alg = JWSAlgorithm.HS512;
 
-    public String generateAccessToken(User user) {
+    public String generateAccessToken(final User user) {
 
         // create header jwt token
         JWSHeader header = new JWSHeader(alg);
@@ -64,7 +64,7 @@ public class JwtTokenGenerator {
         }
     }
 
-    public String generateRefreshToken(User user) {
+    public String generateRefreshToken(final User user) {
 
         // create header jwt token
         JWSHeader header = new JWSHeader(alg);
@@ -94,7 +94,37 @@ public class JwtTokenGenerator {
         }
     }
 
-    private String buildScope(User user) {
+    public String generateRefreshToken(final User user, Date exp) {
+
+        // create header jwt token
+        JWSHeader header = new JWSHeader(alg);
+
+        // create payload jwt token
+        JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
+                .jwtID(UUID.randomUUID().toString())
+                .subject(user.getEmail())
+                .issuer(issuer)
+                .issueTime(new Date())
+                .expirationTime(exp)
+                .build();
+
+        Payload payload = new Payload(claimsSet.toJSONObject());
+
+        // create jwt object with header and payload
+        JWSObject object = new JWSObject(header, payload);
+
+        // sign secret key into jwt object and serialize jwt object -> jwt token
+        try {
+            object.sign(new MACSigner(secretKey.getBytes()));
+            return object.serialize();
+        } catch (Exception e) {
+            throw new RuntimeException("An error occurred while serialize jwt object: " + e.getMessage());
+        }
+    }
+
+
+
+    private String buildScope(final User user) {
         StringJoiner stringJoiner = new StringJoiner("");
         stringJoiner.add("ROLE_" + user.getRole().getName());
         return stringJoiner.toString();

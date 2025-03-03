@@ -11,16 +11,17 @@ import org.springframework.stereotype.Component;
 public class ResetPasswordTokenMailTemplate extends MailTemplate {
 
     protected String token;
-    protected String username;
+    protected String nickname;
 
     public ResetPasswordTokenMailTemplate() {
-        super(MailTemplateConstant.MAIL_SENDER, MailTemplateConstant.MAIL_TEMPLATE_TOKEN_SUBJECT);
+        super(MailTemplateConstant.MAIL_SENDER, MailTemplateConstant.MAIL_TEMPLATE_RESET_PASSWORD_TOKEN_SUBJECT);
     }
 
 
     @Override
     public String buildBody() {
-        return MailTemplateConstant.MAIL_TEMPLATE_TOKEN_HTML
-                .replace("${this.token}", this.token);
+        return MailTemplateConstant.MAIL_TEMPLATE_RESET_PASSWORD_TOKEN_HTML
+                .replace("${this.token}", this.token)
+                .replace("${this.nickname", this.nickname);
     }
 }

@@ -1,19 +1,20 @@
 package com.nguyentan.livestream_platform.controller.auth;
 
 import com.nguyentan.livestream_platform.dto.request.*;
-import com.nguyentan.livestream_platform.dto.response.EntityResponse;
-import com.nguyentan.livestream_platform.dto.response.RefreshTokenResponse;
-import com.nguyentan.livestream_platform.dto.response.UserAuthenticationResponse;
-import com.nguyentan.livestream_platform.dto.response.UserRegistrationResponse;
+import com.nguyentan.livestream_platform.dto.response.*;
 import com.nguyentan.livestream_platform.service.OTP.OTPTokenManager;
+import com.nguyentan.livestream_platform.service.auth.RefreshTokenService;
 import com.nguyentan.livestream_platform.service.auth.UserAuthenticationService;
 import com.nguyentan.livestream_platform.service.auth.UserRegistrationService;
+import com.nguyentan.livestream_platform.service.auth.UserResetPasswordService;
 import com.nguyentan.livestream_platform.service.email.EmailSender;
 import com.nguyentan.livestream_platform.service.user.SingleUserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -27,7 +28,9 @@ public class UserAuthController implements AuthBase{
     private final OTPTokenManager tokenManager;
 
     private final SingleUserService singleUserService;
+    private final RefreshTokenService refreshTokenService;
     private final UserRegistrationService userRegistrationService;
+    private final UserResetPasswordService userResetPasswordService;
     private final UserAuthenticationService userAuthenticationService;
 
     @Override
@@ -39,14 +42,32 @@ public class UserAuthController implements AuthBase{
         // Check if email already has an account
         boolean isExistAccount = singleUserService.existUserByEmail(email);
 
+        // Call OTPTokenManager to check & generate OTP and send mail by MailService
         if (!isExistAccount) {
             emailSender.sendRegistrationOTPTokenEmail(email);
         }
 
-        // Call OTPTokenManager to generate OTP and send mail by MailService
         return EntityResponse.<Void>builder()
                 .code(isExistAccount ? 1408L : 1000L)
                 .message(isExistAccount ? "Email already has an account" : "Email has been sent")
+                .build();
+    }
+
+
+    @PostMapping("/reset-password/require-otp")
+    public EntityResponse<Void> requireResetPasswordOTP(@RequestBody @Valid RequireOTPRequest request) {
+
+        String email = request.email();
+
+        // Check if email already has an account
+        Optional<String> nickname = singleUserService.getNicknameByEmail(email);
+
+        // Call OTPTokenManager to check & generate OTP and send mail by MailService
+        nickname.ifPresent(value -> emailSender.sendResetPasswordOTPTokenEmail(email, value));
+
+        return EntityResponse.<Void>builder()
+                .code(nickname.isEmpty() ? 1080L : 1000L)
+                .message(nickname.isEmpty() ? "Email is not registered" : "Email has been sent")
                 .build();
     }
 
@@ -55,8 +76,7 @@ public class UserAuthController implements AuthBase{
     public EntityResponse<UserRegistrationResponse> register(@RequestBody @Valid UserRegistrationRequest request) {
 
         // Verify the email & validate token
-        boolean isVerified = !singleUserService.existUserByEmail(request.email())
-                && tokenManager.validateOTPToken(request.email(), request.code());
+        boolean isVerified = tokenManager.validateOTPToken(request.email(), request.code());
 
         return EntityResponse.<UserRegistrationResponse>builder()
                 .code(isVerified ? 1000L : 1050L)
@@ -65,10 +85,6 @@ public class UserAuthController implements AuthBase{
                 .build();
     }
 
-    @Override
-    public EntityResponse<Void> resetPassword(ResetPasswordRequest request) {
-        return null;
-    }
 
     @Override
     @PostMapping("/login")
@@ -80,13 +96,38 @@ public class UserAuthController implements AuthBase{
     }
 
     @Override
-    public EntityResponse<RefreshTokenResponse> refreshToken(RefreshTokenRequest request) {
-        return null;
+    @PostMapping("/refresh-token")
+    public EntityResponse<RefreshTokenResponse> refreshToken(@RequestBody @Valid RefreshTokenRequest request) {
+        return EntityResponse.<RefreshTokenResponse>builder()
+                .code(1000L)
+                .value(refreshTokenService.refreshToken(request))
+                .build();
     }
 
     @Override
-    public EntityResponse<Void> logout(LogoutRequest request) {
-        return null;
+    @PostMapping("/logout")
+    public EntityResponse<Void> logout(@RequestBody @Valid LogoutRequest request) {
+        return EntityResponse.<Void>builder()
+                .code(1000L)
+                .message("Logout successfully")
+                .build();
+    }
+
+
+    @Override
+    @PostMapping("/reset-password")
+    public EntityResponse<UserResetPasswordResponse> resetPassword(@RequestBody @Valid UserResetPasswordRequest request) {
+
+        // Verify the email & validate token
+        boolean isVerified = singleUserService.existUserByEmail(request.email())
+                && tokenManager.validateOTPToken(request.email(), request.code());
+
+        return EntityResponse.<UserResetPasswordResponse>builder()
+                .code(isVerified ? 1000L : 1050L)
+                .value(isVerified ? userResetPasswordService.resetPassword(request) : null)
+                .message(isVerified ? null : "OTP is invalid or expired")
+                .build();
+
     }
 
     @GetMapping("/hello")

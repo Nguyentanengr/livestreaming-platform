@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Builder;
 
 @Builder
-public record ResetPasswordRequest(
+public record UserResetPasswordRequest(
 
         @NotBlank(message = "OTP cannot be blank")
         @NotNull(message = "OTP cannot be blank")
