@@ -4,20 +4,31 @@ import com.nguyentan.livestream_platform.dto.response.UserResponse;
 import com.nguyentan.livestream_platform.entity.User;
 import com.nguyentan.livestream_platform.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class SingleUserService {
+public class SingleUserService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    public Object findUserByEmail(String email) {
+    // This method only use when authenticate
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found by email"));
+    }
+
+
+    public UserResponse findUserByEmail(String email) {
 
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found by email"));
 
-        UserResponse response = UserResponse.builder()
+        return UserResponse.builder()
                 .id(user.getId())
                 .nickname(user.getNickname())
                 .email(user.getEmail())
@@ -30,12 +41,11 @@ public class SingleUserService {
                 .updatedAt(user.getUpdatedAt())
                 .isActive(user.getIsActive())
                 .build();
-
-        return response;
     }
 
     public boolean existUserByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
+
 
 }

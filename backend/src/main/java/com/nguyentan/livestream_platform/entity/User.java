@@ -4,8 +4,11 @@ import com.nguyentan.livestream_platform.constant.UserStatusEnum;
 import com.nguyentan.livestream_platform.service.user.UserNicknameGenerator;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -17,7 +20,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "user")
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -101,6 +104,21 @@ public class User {
     }
 
     @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return this.isActive;
+    }
+
+    @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
@@ -119,4 +137,5 @@ public class User {
                 ", socialLinks=" + socialLinks +
                 '}';
     }
+
 }

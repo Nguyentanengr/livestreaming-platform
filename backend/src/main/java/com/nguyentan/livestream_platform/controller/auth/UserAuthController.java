@@ -6,6 +6,7 @@ import com.nguyentan.livestream_platform.dto.response.RefreshTokenResponse;
 import com.nguyentan.livestream_platform.dto.response.UserAuthenticationResponse;
 import com.nguyentan.livestream_platform.dto.response.UserRegistrationResponse;
 import com.nguyentan.livestream_platform.service.OTP.OTPTokenManager;
+import com.nguyentan.livestream_platform.service.auth.UserAuthenticationService;
 import com.nguyentan.livestream_platform.service.auth.UserRegistrationService;
 import com.nguyentan.livestream_platform.service.email.EmailSender;
 import com.nguyentan.livestream_platform.service.user.SingleUserService;
@@ -27,6 +28,7 @@ public class UserAuthController implements AuthBase{
 
     private final SingleUserService singleUserService;
     private final UserRegistrationService userRegistrationService;
+    private final UserAuthenticationService userAuthenticationService;
 
     @Override
     @PostMapping("/register/require-otp")
@@ -69,8 +71,12 @@ public class UserAuthController implements AuthBase{
     }
 
     @Override
-    public EntityResponse<UserAuthenticationResponse> authenticate(UserAuthenticationRequest request) {
-        return null;
+    @PostMapping("/login")
+    public EntityResponse<UserAuthenticationResponse> authenticate(@RequestBody @Valid UserAuthenticationRequest request) {
+        return EntityResponse.<UserAuthenticationResponse>builder()
+                .code(1000L)
+                .value(userAuthenticationService.authenticate(request))
+                .build();
     }
 
     @Override
