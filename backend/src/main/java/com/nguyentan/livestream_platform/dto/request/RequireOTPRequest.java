@@ -9,9 +9,9 @@ import lombok.Builder;
 @Builder
 public record RequireOTPRequest(
 
-        @NotBlank(message = "Email cannot be blank")
-        @NotNull(message = "Email cannot be blank")
-        @Size(min = 8, max = 255, message = "Email cannot be too long or too short")
-        @Email(message = "Invalid email format")
+        @NotBlank(message = "EMAIL_IS_BLANK")
+        @NotNull(message = "EMAIL_IS_BLANK")
+        @Size(min = 8, max = 255, message = "EMAIL_INVALID_SIZE")
+        @Email(message = "EMAIL_INVALID_FORMAT")
         String email
 ) {}

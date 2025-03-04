@@ -10,21 +10,21 @@ import lombok.Builder;
 @Builder
 public record UserResetPasswordRequest(
 
-        @NotBlank(message = "OTP cannot be blank")
-        @NotNull(message = "OTP cannot be blank")
-        @Size(min = 6, max = 6, message = "OTP must be exactly 6 digits")
+        @NotBlank(message = "OTP_IS_BLANK")
+        @NotNull(message = "OTP_IS_BLANK")
+        @Size(min = 6, max = 6, message = "OTP_INVALID_SIZE")
         String code,
 
-        @NotBlank(message = "Email cannot be blank")
-        @NotNull(message = "Email cannot be blank")
-        @Size(min = 8, max = 255, message = "Email cannot be too long or too short")
-        @Email(message = "Invalid email format")
+        @NotBlank(message = "EMAIL_IS_BLANK")
+        @NotNull(message = "EMAIL_IS_BLANK")
+        @Size(min = 8, max = 255, message = "EMAIL_INVALID_SIZE")
+        @Email(message = "EMAIL_INVALID_FORMAT")
         String email,
 
         @StrongPassword
-        @NotBlank(message = "Password cannot be blank")
-        @NotNull(message = "Password cannot be blank")
-        @Size(min = 8, max = 255, message = "Password cannot be too long or too short")
+        @NotBlank(message = "PASSWORD_IS_BLANK")
+        @NotNull(message = "PASSWORD_IS_BLANK")
+        @Size(min = 8, max = 255, message = "PASSWORD_INVALID_SIZE")
         String newPassword
 
 ) {}

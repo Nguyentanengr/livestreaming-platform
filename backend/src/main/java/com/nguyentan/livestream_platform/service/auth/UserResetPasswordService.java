@@ -29,6 +29,9 @@ public class UserResetPasswordService {
 
         if (!isVerified) throw new BusinessException(CodeResponse.OTP_INCORRECT_OR_EXPIRED);
 
+        // invalid OTP token
+        tokenManager.removeOTPToken(request.email());
+
         // get user by email
         User user = userRepository.findByEmail(request.email())
                 .orElseThrow(() -> new BusinessException(CodeResponse.OTP_INCORRECT_OR_EXPIRED));

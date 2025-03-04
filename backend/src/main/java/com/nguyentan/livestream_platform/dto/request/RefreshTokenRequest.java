@@ -7,7 +7,7 @@ import lombok.Builder;
 @Builder
 public record RefreshTokenRequest(
 
-        @NotBlank(message = "Token cannot be blank")
-        @NotNull(message = "Token cannot be blank")
+        @NotBlank(message = "JWT_TOKEN_IS_BLANK")
+        @NotNull(message = "JWT_TOKEN_IS_BLANK")
         String token
 ) {}

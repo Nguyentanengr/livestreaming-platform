@@ -18,6 +18,16 @@ public enum CodeResponse {
     LOGOUT_SUCCESSFULLY(1000, HttpStatus.OK, "Logout successfully"),
     RESET_PASSWORD_SUCCESSFULLY(1000, HttpStatus.OK, "Reset password successfully"),
 
+
+    OTP_INVALID_SIZE(9035, HttpStatus.BAD_REQUEST, "OTP must be exactly 6 digits"),
+    OTP_IS_BLANK(9035, HttpStatus.BAD_REQUEST, "OTP cannot be blank"),
+    PASSWORD_NO_STRONG(9033, HttpStatus.BAD_REQUEST, "Password must be stronger. Try using a mix of uppercase, lowercase, numbers, and symbols"),
+    PASSWORD_INVALID_SIZE(9031, HttpStatus.BAD_REQUEST, "Password cannot be too long or too short"),
+    PASSWORD_IS_BLANK(9029, HttpStatus.BAD_REQUEST, "Password cannot be blank"),
+    JWT_TOKEN_IS_BLANK(9027, HttpStatus.BAD_REQUEST, "Token cannot be blank"),
+    EMAIL_INVALID_FORMAT(9025, HttpStatus.BAD_REQUEST, "Invalid email format"),
+    EMAIL_INVALID_SIZE(9023, HttpStatus.BAD_REQUEST, "Email cannot be too long or too short"),
+    EMAIL_IS_BLANK(9021, HttpStatus.BAD_REQUEST, "Email cannot be blank"),
     INVALID_REFRESH_TOKEN(9019, HttpStatus.BAD_REQUEST, "Refresh token is invalid or expired"),
     LOGIN_FAIL(9017, HttpStatus.UNAUTHORIZED, "Login failed"),
     ACCOUNT_HAS_BEEN_LOCKED(9015, HttpStatus.BAD_REQUEST, "Account has been locked"),

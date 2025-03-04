@@ -3,7 +3,6 @@ package com.nguyentan.livestream_platform.controller.auth;
 import com.nguyentan.livestream_platform.dto.request.*;
 import com.nguyentan.livestream_platform.dto.response.*;
 import com.nguyentan.livestream_platform.service.auth.*;
-import com.nguyentan.livestream_platform.service.email.EmailSender;
 import com.nguyentan.livestream_platform.service.otp.OTPTokenManager;
 import com.nguyentan.livestream_platform.service.user.SingleUserService;
 import jakarta.validation.Valid;

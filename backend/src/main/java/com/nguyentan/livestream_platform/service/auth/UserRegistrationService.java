@@ -40,6 +40,10 @@ public class UserRegistrationService {
             throw new BusinessException(CodeResponse.OTP_INCORRECT_OR_EXPIRED);
         }
 
+        // invalid OTP token
+        tokenManager.removeOTPToken(request.email());
+
+        // map user to entity
         User user = userConverter.mapToUserEntity(request);
         user.setPassword(passwordEncoder.encode(request.password()));
 

@@ -12,8 +12,7 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = StrongPasswordValidator.class)
 public @interface StrongPassword {
 
-    String message() default "Password must be stronger. Try using a mix of uppercase," +
-            " lowercase, numbers, and symbols.";
+    String message() default "PASSWORD_NO_STRONG";
 
     Class<?>[] groups() default {};
 
