@@ -3,12 +3,15 @@ package com.nguyentan.livestream_platform.service.auth;
 
 import com.nguyentan.livestream_platform.converter.UserConverter;
 import com.nguyentan.livestream_platform.dto.request.UserRegistrationRequest;
+import com.nguyentan.livestream_platform.dto.response.CodeResponse;
 import com.nguyentan.livestream_platform.dto.response.UserRegistrationResponse;
 import com.nguyentan.livestream_platform.entity.Role;
 import com.nguyentan.livestream_platform.entity.User;
+import com.nguyentan.livestream_platform.exception.BusinessException;
 import com.nguyentan.livestream_platform.repository.RoleRepository;
 import com.nguyentan.livestream_platform.repository.UserRepository;
 import com.nguyentan.livestream_platform.service.jwt.JwtTokenGenerator;
+import com.nguyentan.livestream_platform.service.otp.OTPTokenManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,33 +26,37 @@ public class UserRegistrationService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final JwtTokenGenerator tokenGenerator;
+    private final JwtTokenGenerator jwtTokenGenerator;
+    private final OTPTokenManager tokenManager;
 
 
     public UserRegistrationResponse register(UserRegistrationRequest request) {
+
+        // Verify the email & validate token
+        boolean isVerified = !userRepository.existsByEmail(request.email())
+                && tokenManager.validateOTPToken(request.email(), request.code());
+
+        if (!isVerified) {
+            throw new BusinessException(CodeResponse.OTP_INCORRECT_OR_EXPIRED);
+        }
 
         User user = userConverter.mapToUserEntity(request);
         user.setPassword(passwordEncoder.encode(request.password()));
 
         Role role = roleRepository.findByName("USER").orElseThrow(()
-                -> new RuntimeException("Could not find role by name: USER"));
+                -> new BusinessException(CodeResponse.ROLE_NOT_FOUND));
         user.setRole(role);
 
-        try {
-            user = userRepository.save(user);
-        } catch (Exception e) {
-            log.error("An error occurred while save user into database");
-            throw new RuntimeException("An error occurred while save user into database: " + e.getMessage());
-        }
+        // catch exception in here
+        user = userRepository.save(user);
 
-        String jwtAccessToken = tokenGenerator.generateAccessToken(user);
-        String jwtRefreshToken = tokenGenerator.generateRefreshToken(user);
+        String jwtAccessToken = jwtTokenGenerator.generateAccessToken(user);
+        String jwtRefreshToken = jwtTokenGenerator.generateRefreshToken(user);
 
-        UserRegistrationResponse response = UserRegistrationResponse.builder()
+        return UserRegistrationResponse.builder()
                 .accessToken(jwtAccessToken)
                 .refreshToken(jwtRefreshToken)
                 .build();
 
-        return response;
     }
 }

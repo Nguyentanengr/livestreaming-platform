@@ -4,15 +4,17 @@ import com.nguyentan.livestream_platform.dto.response.*;
 
 public interface AuthBase {
 
-    EntityResponse<Void> requireRegistrationOTP(RequireOTPRequest request);
+    DataResponse<Void> requireRegistrationOTP(RequireOTPRequest request);
 
-    EntityResponse<UserRegistrationResponse> register(UserRegistrationRequest request);
+    DataResponse<Void> requireResetPasswordOTP(RequireOTPRequest request);
 
-    EntityResponse<UserResetPasswordResponse> resetPassword(UserResetPasswordRequest request);
+    DataResponse<UserRegistrationResponse> register(UserRegistrationRequest request);
 
-    EntityResponse<UserAuthenticationResponse> authenticate(UserAuthenticationRequest request);
+    DataResponse<UserResetPasswordResponse> resetPassword(UserResetPasswordRequest request);
 
-    EntityResponse<RefreshTokenResponse> refreshToken(RefreshTokenRequest request);
+    DataResponse<UserAuthenticationResponse> authenticate(UserAuthenticationRequest request);
 
-    EntityResponse<Void> logout(LogoutRequest request);
+    DataResponse<RefreshTokenResponse> refreshToken(RefreshTokenRequest request);
+
+    DataResponse<Void> logout(UserLogoutRequest request);
 }

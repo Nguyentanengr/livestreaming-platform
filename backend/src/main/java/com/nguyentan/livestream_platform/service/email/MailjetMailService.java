@@ -6,6 +6,8 @@ import com.mailjet.client.transactional.SendContact;
 import com.mailjet.client.transactional.SendEmailsRequest;
 import com.mailjet.client.transactional.TransactionalEmail;
 import com.mailjet.client.transactional.response.SendEmailsResponse;
+import com.nguyentan.livestream_platform.dto.response.CodeResponse;
+import com.nguyentan.livestream_platform.exception.BusinessException;
 import com.nguyentan.livestream_platform.service.email.template.MailTemplate;
 import com.nguyentan.livestream_platform.service.email.template.MailTemplateConstant;
 import lombok.RequiredArgsConstructor;
@@ -36,10 +38,7 @@ public class MailjetMailService implements MailService {
             SendEmailsResponse response = request.sendWith(mailjetClient);
         } catch (MailjetException e) {
             log.error("An error occurred while sending email with Mailjet: {}", e.getMessage());
-            throw new RuntimeException("An error occurred while sending email with Mailjet: "
-                    + e.getMessage());
+            throw new BusinessException(CodeResponse.EMAIl_CANNOT_SEND);
         }
-
-
     }
 }

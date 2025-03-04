@@ -1,12 +1,15 @@
 package com.nguyentan.livestream_platform.service.jwt;
 
+import com.nguyentan.livestream_platform.dto.response.CodeResponse;
 import com.nguyentan.livestream_platform.entity.User;
+import com.nguyentan.livestream_platform.exception.BusinessException;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
 import com.nimbusds.jose.JWSObject;
 import com.nimbusds.jose.Payload;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jwt.JWTClaimsSet;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +19,7 @@ import java.util.Date;
 import java.util.StringJoiner;
 import java.util.UUID;
 
+@Slf4j
 @Service
 public class JwtTokenGenerator {
 
@@ -60,7 +64,8 @@ public class JwtTokenGenerator {
             object.sign(new MACSigner(secretKey.getBytes()));
             return object.serialize();
         } catch (Exception e) {
-            throw new RuntimeException("An error occurred while serialize jwt object: " + e.getMessage());
+            log.error("An error occurred while serialize jwt object: " + e.getMessage());
+            throw new BusinessException(CodeResponse.JWT_TOKEN_CANNOT_GENERATE);
         }
     }
 
@@ -90,7 +95,8 @@ public class JwtTokenGenerator {
             object.sign(new MACSigner(secretKey.getBytes()));
             return object.serialize();
         } catch (Exception e) {
-            throw new RuntimeException("An error occurred while serialize jwt object: " + e.getMessage());
+            log.error("An error occurred while serialize jwt object: " + e.getMessage());
+            throw new BusinessException(CodeResponse.JWT_TOKEN_CANNOT_GENERATE);
         }
     }
 
@@ -118,7 +124,8 @@ public class JwtTokenGenerator {
             object.sign(new MACSigner(secretKey.getBytes()));
             return object.serialize();
         } catch (Exception e) {
-            throw new RuntimeException("An error occurred while serialize jwt object: " + e.getMessage());
+            log.error("An error occurred while serialize jwt object: " + e.getMessage());
+            throw new BusinessException(CodeResponse.JWT_TOKEN_CANNOT_GENERATE);
         }
     }
 

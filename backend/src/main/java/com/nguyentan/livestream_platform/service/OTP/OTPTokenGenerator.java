@@ -1,9 +1,9 @@
-package com.nguyentan.livestream_platform.service.OTP;
+package com.nguyentan.livestream_platform.service.otp;
 
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 
 import java.security.SecureRandom;
-import java.util.Optional;
 
 @Component
 public class OTPTokenGenerator {

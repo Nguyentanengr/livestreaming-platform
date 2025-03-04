@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
 @Builder
-public record LogoutRequest(
+public record UserLogoutRequest(
         @NotBlank(message = "Token cannot be blank")
         @NotNull(message = "Token cannot be blank")
         String token

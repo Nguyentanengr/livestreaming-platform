@@ -1,7 +1,7 @@
 package com.nguyentan.livestream_platform.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nguyentan.livestream_platform.dto.response.EntityResponse;
+import com.nguyentan.livestream_platform.dto.response.DataResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,6 +33,8 @@ public class SecurityConfig {
     private final String[] PUBLIC_ENDPOINTS = {
             "/api/v1/auth/register", "/api/v1/auth/register/require-otp",
             "/api/v1/auth/reset-password", "api/v1/auth/login",
+            "/api/v1/auth/refresh-token", "api/v1/auth/reset-password/require-otp",
+            "/api/v1/auth/reset-password", "api/v1/auth/hello"
 
     };
 
@@ -48,6 +50,9 @@ public class SecurityConfig {
                     request.requestMatchers(PUBLIC_ENDPOINTS).permitAll()
                             .anyRequest().authenticated();
                 })
+                .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(sessionManagement ->
+                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(auth -> {
                     auth.jwt(jwtConfigurer -> jwtConfigurer.decoder(jwtDecoder()))
                             .authenticationEntryPoint(((request, response, authException) -> {
@@ -55,7 +60,7 @@ public class SecurityConfig {
                                 response.setStatus(401);
                                 response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
-                                EntityResponse<?> entityResponse = EntityResponse.builder()
+                                DataResponse<?> entityResponse = DataResponse.builder()
                                         .code(401L)
                                         .message("User is unauthorized")
                                         .build();
@@ -65,10 +70,7 @@ public class SecurityConfig {
                                 response.getWriter().write(mapper.writeValueAsString(entityResponse));
                                 response.flushBuffer();
                             }));
-                })
-                .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(sessionManagement ->
-                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                });
 
         return httpSecurity.build();
     }

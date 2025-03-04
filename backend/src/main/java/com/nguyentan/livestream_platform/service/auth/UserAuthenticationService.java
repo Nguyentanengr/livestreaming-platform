@@ -1,8 +1,10 @@
 package com.nguyentan.livestream_platform.service.auth;
 
 import com.nguyentan.livestream_platform.dto.request.UserAuthenticationRequest;
+import com.nguyentan.livestream_platform.dto.response.CodeResponse;
 import com.nguyentan.livestream_platform.dto.response.UserAuthenticationResponse;
 import com.nguyentan.livestream_platform.entity.User;
+import com.nguyentan.livestream_platform.exception.BusinessException;
 import com.nguyentan.livestream_platform.service.jwt.JwtTokenGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -38,10 +40,8 @@ public class UserAuthenticationService {
                     .refreshToken(jwtRefreshToken)
                     .build();
 
-        } catch (UsernameNotFoundException | BadCredentialsException e) {
+        } catch (UsernameNotFoundException | BadCredentialsException | LockedException e) {
             return UserAuthenticationResponse.builder().isAuthenticated(false).build();
-        } catch (LockedException e) {
-            throw new RuntimeException("Account has been disabled");
         }
     }
 }

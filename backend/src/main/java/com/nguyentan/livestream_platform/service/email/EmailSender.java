@@ -1,6 +1,6 @@
 package com.nguyentan.livestream_platform.service.email;
 
-import com.nguyentan.livestream_platform.service.OTP.OTPTokenManager;
+import com.nguyentan.livestream_platform.service.otp.OTPTokenManager;
 import com.nguyentan.livestream_platform.service.email.template.RegistrationTokenMailTemplate;
 import com.nguyentan.livestream_platform.service.email.template.ResetPasswordTokenMailTemplate;
 import lombok.RequiredArgsConstructor;

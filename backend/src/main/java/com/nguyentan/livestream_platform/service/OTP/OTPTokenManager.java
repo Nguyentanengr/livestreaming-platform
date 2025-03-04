@@ -1,13 +1,12 @@
-package com.nguyentan.livestream_platform.service.OTP;
+package com.nguyentan.livestream_platform.service.otp;
 
+import com.nguyentan.livestream_platform.dto.response.CodeResponse;
+import com.nguyentan.livestream_platform.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
-import javax.xml.datatype.Duration;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
@@ -27,7 +26,7 @@ public class OTPTokenManager {
             // Not allowed generate token
 
             log.error("Cannot generate OTP because previous OTP is existing in cache");
-            throw new RuntimeException("Cannot generate OTP for email in this time");
+            throw new BusinessException(CodeResponse.OTP_CANNOT_GENERATE);
         }
 
         // generate & caching token
@@ -47,13 +46,8 @@ public class OTPTokenManager {
         // Get token with email
         Optional<String> cacheValue = tokenCache.getTokenById(identity);
 
-        boolean isValidated = isFormatted && cacheValue.isPresent() && OTP.equals(cacheValue.get());
+        return isFormatted && cacheValue.isPresent() && OTP.equals(cacheValue.get());
 
-        if (!isValidated) {
-            throw new RuntimeException("OTP is incorrect or expired");
-        }
-
-        return true;
     }
 
     public void removeOTPToken(String identity) {

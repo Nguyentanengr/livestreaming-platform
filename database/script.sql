@@ -34,30 +34,9 @@
 		CONSTRAINT `chk_user_password_length` CHECK (CHAR_LENGTH(`password`) >= 8),
 		CONSTRAINT `chk_user_google_id_not_empty` CHECK (`google_id` IS NULL OR `google_id` <> ''), 
 		CONSTRAINT `chk_user_thumbnail_not_empty` CHECK (`thumbnail` <> ''),
-		CONSTRAINT `chk_user_last_login` CHECK (`last_login` IS NULL OR `created_at` <= `last_login`),
-		CONSTRAINT `chk_user_created_updated` CHECK (`created_at` <= `updated_at`),
 		CONSTRAINT `chk_user_valid_status` CHECK (`status` BETWEEN 0 AND 1)
 	);
 
-	DELIMITER $$
-
-	CREATE TRIGGER before_user_update 
-	BEFORE UPDATE ON `user`
-	FOR EACH ROW 
-	BEGIN 
-		IF OLD.nickname <> NEW.nickname OR 
-		   OLD.email <> NEW.email OR 
-		   OLD.password <> NEW.password OR 
-		   OLD.thumbnail <> NEW.thumbnail OR 
-		   OLD.bio <> NEW.bio THEN
-			SET NEW.updated_at = CURRENT_TIMESTAMP;
-		END IF;
-		IF OLD.status <> 'online' AND NEW.status = 'online' THEN
-			SET NEW.last_login = CURRENT_TIMESTAMP;
-		END IF;
-	END$$
-
-	DELIMITER ;
 
 
 	CREATE TABLE `social_link`(
