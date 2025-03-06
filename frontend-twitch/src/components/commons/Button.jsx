@@ -1,8 +1,14 @@
 import { ButtonContainer } from "./Button.styled";
-const Button = ({color, styles, title, onclick }) => {
+const Button = ({ color, styles, title, onclick, onMouseEnter }) => {
     return (
         <ButtonContainer color={color}>
-            <div className={`btn ${styles}`} onClick={onclick}>{title}</div>
+            <div
+                className={`btn ${styles}`}
+                onClick={onclick}
+                onMouseEnter={onMouseEnter}
+            >
+                {title}
+            </div>
         </ButtonContainer>
     )
 }

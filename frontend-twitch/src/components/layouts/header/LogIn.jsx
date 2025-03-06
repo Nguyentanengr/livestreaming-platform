@@ -4,28 +4,69 @@ import { useEffect, useState } from "react";
 import EditInput from "../../commons/EditInput"
 import Button from "../../commons/Button";
 import { Theme } from "../../../assets/styles/Theme";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser, resetAuthState } from "../../../stores/slices/authSlice";
+import ErrorAlert from "../../commons/ErrorAlert";
+import CircleSpinner from "../../commons/CircleSpinner";
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const LogIn = ({ onclose, onSignUp }) => {
 
-    const [usernameInput, setUsernameInput] = useState("");
-    const [passwordInput, setPasswordInput] = useState("");
+    const dispatch = useDispatch();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [isLockLogin, setIsLockLogin] = useState(true);
 
-    const handleOnChangeUsername = (e) => {
-        setUsernameInput(e.target.value);
-    };
+    const { authLoading, authError, authSuccess, message }
+        = useSelector((state) => state.auth);
 
-    const handleOnChangePassword = (e) => {
-        setPasswordInput(e.target.value);
-    };
+    useEffect(() => {
+
+        if (!password || !isValidEmail(email)) {
+            setIsLockLogin(true);
+        } else {
+            setIsLockLogin(false);
+        }
+
+    }, [email, password]);
+
+    useEffect(() => {
+        if (authSuccess) window.location.reload();
+    }, [authSuccess]);
+
+    useEffect(() => {
+        dispatch(resetAuthState());
+    }, [dispatch]);
 
     const handleOnClickSignUp = () => {
         onclose();
         onSignUp();
     };
 
+    const handleOnClickLogin = () => {
+        if (password && isValidEmail(email)) {
+            console.log(email, password);
+            
+            dispatch(loginUser({ email, password }));
+        }
+    }
+
+    const handleOnChangeUsername = (e) => {
+        setEmail(e.target.value.trim());
+    };
+
+    const handleOnChangePassword = (e) => {
+        setPassword(e.target.value.trim());
+    };
+
+    const isValidEmail = (email) => {
+        return EMAIL_REGEX.test(email) && email !== "";
+    };
 
     return (
         <LogInContainer>
+            {authError && <ErrorAlert message={authError} />}
             <div className="login-form">
                 <div className="close-icon" onClick={onclose}>
                     <Icons.Close />
@@ -43,7 +84,7 @@ const LogIn = ({ onclose, onSignUp }) => {
                         </div>
                         <div className="input">
                             <EditInput
-                                value={usernameInput}
+                                value={email}
                                 onchange={handleOnChangeUsername}
                             />
                         </div>
@@ -54,7 +95,7 @@ const LogIn = ({ onclose, onSignUp }) => {
                         </div>
                         <div className="input">
                             <EditInput
-                                value={passwordInput}
+                                value={password}
                                 onchange={handleOnChangePassword} type="password"
                             />
                         </div>
@@ -64,7 +105,12 @@ const LogIn = ({ onclose, onSignUp }) => {
                     </div>
                 </div>
                 <div className="footer-container">
-                    <Button title="Log In" color={Theme.highlight} styles="large" />
+                    <Button
+                        title={authLoading ? <CircleSpinner size={20}/> : "Log In"}
+                        color={Theme.highlight}
+                        styles={`large ${isLockLogin ? "lock" : ""}`}
+                        onclick={handleOnClickLogin}
+                    />
                     <div className="sign-up" onClick={handleOnClickSignUp}>
                         Don't have an account? Sign up
                     </div>

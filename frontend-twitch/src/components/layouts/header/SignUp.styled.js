@@ -67,19 +67,123 @@ export const SignUpContainer = styled.div`
             display: flex;
             flex-direction: column;
 
+            .email-input .input input {
+                height: 45px;
+                width: 100%;
+                font-size: 18px;
+                background-color: transparent;
+                border: 1px solid ${Theme.mediumSoft};
+                border-radius: 5px;
+                padding: 0 10px;
+                font-size: sans-serif;
+                font-weight: 400;
+
+                &:hover {
+                    border: 1px solid ${Theme.soft};
+                }
+
+                &:focus {
+                    border: 4px solid ${Theme.highlight};
+                }
+            }
+
+            .password-input .input input {
+                height: 45px;
+                width: 100%;
+                font-size: 18px;
+                background-color: transparent;
+                border: 1px solid ${Theme.mediumSoft};
+                border-radius: 5px;
+                padding: 0 10px;
+                font-size: sans-serif;
+                font-weight: 400;
+
+                &:hover {
+                    border: 1px solid ${Theme.soft};
+                }
+
+                &:focus {
+                    border: 4px solid ${Theme.highlight};
+                }
+            }
+
             .title {
                 font-size: 18px;
                 font-weight: 500;
             }
 
-            .username-input, .password-input, .email-input {
+            .email-input, .password-input, .otp-input {
                 display: flex;
                 flex-direction: column;
                 gap: 5px;
             }
 
-            .password-input, .email-input {
+            .password-input, .otp-input {
                 margin-top: 25px;
+            }
+
+            .otp-input .input-send {
+                display: flex;
+                
+                .input {
+                    flex: 1;
+                    input {
+                        height: 45px;
+                        width: 100%;
+                        font-size: 18px;
+                        background-color: transparent;
+                        border: 1px solid ${Theme.mediumSoft};
+                        border-top-left-radius: 5px;
+                        border-bottom-left-radius: 5px;
+                        padding: 0 10px;
+                        font-size: sans-serif;
+                        font-weight: 400;
+
+                        &:hover {
+                            border: 1px solid ${Theme.soft};
+                        }
+
+                        &:focus {
+                            border: 4px solid ${Theme.highlight};
+                        }
+                    }
+                }
+                .send {
+                    display: flex;
+                    width: 130px;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 2px 15px;
+                    font-size: 18px;
+                    font-weight: 500;
+                    color: ${Theme.header};
+                    border-top-right-radius: 5px;
+                    border-bottom-right-radius: 5px;
+                    background-color: ${Theme.highlight};
+                    cursor: pointer; 
+                }
+
+                .send.lock {
+                    cursor: not-allowed;
+                }
+            }
+
+            .error-email, .error-code {
+                color: ${Theme.hotRed};
+                padding-top: 5px;
+                font-size: 17px;
+                display: none;
+            }
+
+            .error-email.highlight, .error-code.highlight, .error-password.highlight {
+                display: block;
+            }
+
+            .error-password {
+                padding-top: 5px;
+                font-size: 17px;
+                color: ${Theme.hotRed};
+                display: none;
             }
 
             .term {
@@ -105,6 +209,10 @@ export const SignUpContainer = styled.div`
             display: flex;
             flex-direction: column;
             gap: 30px;
+
+            .sign-up-btn.lock {
+                cursor: not-allowed;
+            }
 
             .login {
                 display: flex;

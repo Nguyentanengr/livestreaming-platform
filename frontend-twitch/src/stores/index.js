@@ -9,10 +9,12 @@ import reelReducer from "./slices/reelSlice";
 import commentReducer from "./slices/commentSlice";
 import editStreamReducer from "./slices/editStreamSlice";
 import chatReducer from "./slices/chatSlice";
+import inputSignUpReducer from "./slices/inputSignUpSlice";
 
 
 export default configureStore({
     reducer: {
+        inputSignUp: inputSignUpReducer,
         user: userReducer,
         auth: authReducer,
         outstanding: outstandingReducer,

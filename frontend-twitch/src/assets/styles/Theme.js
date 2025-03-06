@@ -23,4 +23,5 @@ export const Theme = {
     pink: "#ff75e6",
     blue: "#0000FF",
     violet: "#C516A5",
+    success: "#00f510"
 }

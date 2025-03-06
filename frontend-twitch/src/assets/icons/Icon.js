@@ -5,9 +5,10 @@ import { BiUserCircle, BiSlideshow, BiChevronLeft, BiChevronRight, BiUser, BiSol
 import { BiChevronDown, BiChevronUp, BiHeart, BiCommentDots, BiShare, BiSolidHeart } from "react-icons/bi";
 import { BiPlus, BiCheck, BiVolumeFull, BiVolumeMute, BiSend, BiPlay, BiFullscreen} from "react-icons/bi";
 import { BiLogoYoutube, BiLogoTiktok, BiLogoDiscord, BiBroadcast, BiCaretRightSquare} from "react-icons/bi";
-import { BiImageAdd } from "react-icons/bi";
+import { BiImageAdd, BiMessageAltError, BiUserCheck, BiLogIn  } from "react-icons/bi";
 import { BsXLg } from "react-icons/bs";
 import { HiOutlineXMark } from "react-icons/hi2";
+import { FaTimes } from "react-icons/fa";
 
 export const Icons = {
     TwitchLogo: BiLogoTwitch,
@@ -18,6 +19,7 @@ export const Icons = {
     Analytics: BiBarChartSquare,
     Privacy: BiLockAlt ,
     Logout: BiLogOut,
+    LogIn: BiLogIn,
     Setting: BiSolidBrightness,
     Close: HiOutlineXMark,
     CloseSmall: BiX,
@@ -50,4 +52,8 @@ export const Icons = {
     Live: BiBroadcast,
     Content: BiCaretRightSquare,
     UploadImage: BiImageAdd,
+    Time: FaTimes,
+    ErrorAlert: BiMessageAltError,
+    UserCheck: BiUserCheck,
+
 }

@@ -30,4 +30,8 @@ export const ButtonContainer = styled.div`
         line-height: 16px;
     }
 
+    .btn.lock {
+        cursor: not-allowed;
+    }
+
 `
