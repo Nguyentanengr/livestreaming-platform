@@ -1,5 +1,6 @@
 import { RightHeaderContainer } from "./RightHeader.styled";
 import { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Icons } from "../../../assets/icons/Icon";
 import { Theme } from "../../../assets/styles/Theme";
 import { useNavigate } from "react-router-dom";
@@ -7,10 +8,10 @@ import ProfileItem from "../../commons/ProfileItem";
 import Thumbnail from "../../commons/Thumbnail";
 import Button from "../../commons/Button";
 import NotificationBox from "./NotificationBox";
-import LogIn from "./Login";
+import LogIn from "./LogIn";
 import SignUp from "./SignUp";
-import { useDispatch } from "react-redux";
-import { logoutUser } from "../../../stores/slices/authSlice";
+import { logoutUser, resetAuthState } from "../../../stores/slices/authSlice";
+import ResetPassword from "./ResetPassword";
 
 
 const RightHeader = () => {
@@ -19,6 +20,7 @@ const RightHeader = () => {
     const [exNotification, setExNotification] = useState(false);
     const [exLogin, setExLogin] = useState(false);
     const [exSignUp, setExSignUp] = useState(false);
+    const [exResetPass, setExResetPass] = useState(false);
     const [count, setCount] = useState(1);
     const profileRef = useRef(null);
     const notificationRef = useRef(null);
@@ -34,31 +36,36 @@ const RightHeader = () => {
 
     const handleOnClickLogin = () => {
         setExLogin(!exLogin);
+        setExProfile(false);
     };
 
     const handleOnClickSignUp = () => { // button login
         setExSignUp(!exSignUp);
     };
 
-    const handleOnClickLogout = () => {
-        dispatch(logoutUser());
-        dispatch(logout());
-        window.location.reload();
-        handleOnClickLogin();
+    const handleOnClickResetPass = () => {
+        setExResetPass(!exResetPass);
     }
 
-
+    const handleOnClickLogout = () => {
+        dispatch(logoutUser())
+            .then(() => {
+                dispatch(resetAuthState());
+                setExProfile(false);
+                window.location.reload();
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
 
     // Listen to click outside
     useEffect(() => {
         console.log(user);
-
-
         const handleOutsideClick = (event) => {
             if (profileRef.current && !profileRef.current.contains(event.target)) {
                 setExProfile(false);
             }
-
             if (notificationRef.current && !notificationRef.current.contains(event.target)) {
                 setExNotification(false);
             }
@@ -68,12 +75,27 @@ const RightHeader = () => {
         return () => {
             document.removeEventListener("mousedown", handleOutsideClick);
         }
-    }, []);
+    }, [user]);
 
     return (
         <RightHeaderContainer>
-            {exSignUp && <SignUp onclose={handleOnClickSignUp} onLogin={handleOnClickLogin} />}
-            {exLogin && <LogIn onclose={handleOnClickLogin} onSignUp={handleOnClickSignUp} />}
+            {exSignUp &&
+                <SignUp
+                    onclose={handleOnClickSignUp}
+                    onLogin={handleOnClickLogin}
+                />}
+            {exLogin &&
+                <LogIn
+                    onclose={handleOnClickLogin}
+                    onSignUp={handleOnClickSignUp}
+                    onResetPass={handleOnClickResetPass}
+                />}
+            {exResetPass &&
+                <ResetPassword
+                    onclose={handleOnClickResetPass}
+                    onLogin={handleOnClickLogin}
+                    onSignUp={handleOnClickSignUp}
+                />}
             <div className="action-container">
                 {!user && <Button color={Theme.highlight} styles="large" title="Login" onclick={handleOnClickLogin} />}
                 {user && <div className="notification-container">
@@ -118,16 +140,16 @@ const RightHeader = () => {
                                 <ProfileItem
                                     icon={<Icons.Logout />}
                                     title="Log Out"
-                                    onclick={() => {handleOnClickLogout }}
+                                    onclick={handleOnClickLogout}
                                 />
                             </>
-                            : <>
-                                <ProfileItem
-                                    icon={<Icons.LogIn />}
-                                    title="Log In"
-                                    onclick={() => { }}
-                                />
-                            </>}
+                                : <>
+                                    <ProfileItem
+                                        icon={<Icons.LogIn />}
+                                        title="Log In"
+                                        onclick={handleOnClickLogin}
+                                    />
+                                </>}
                         </div>
                     </div>}
                 </div>

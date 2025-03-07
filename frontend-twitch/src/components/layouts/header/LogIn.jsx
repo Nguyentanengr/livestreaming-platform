@@ -1,42 +1,37 @@
-import { Icons } from "../../../assets/icons/Icon";
 import { LogInContainer } from "./Login.styled"
 import { useEffect, useState } from "react";
-import EditInput from "../../commons/EditInput"
-import Button from "../../commons/Button";
-import { Theme } from "../../../assets/styles/Theme";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser, resetAuthState } from "../../../stores/slices/authSlice";
+import { Theme } from "../../../assets/styles/Theme";
+import { Icons } from "../../../assets/icons/Icon";
+import Button from "../../commons/Button";
+import EditInput from "../../commons/EditInput"
 import ErrorAlert from "../../commons/ErrorAlert";
 import CircleSpinner from "../../commons/CircleSpinner";
+import { loginUser, resetLoginState } from "../../../stores/slices/authSlice";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-const LogIn = ({ onclose, onSignUp }) => {
+const LogIn = ({ onclose, onSignUp, onResetPass }) => {
 
     const dispatch = useDispatch();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isLockLogin, setIsLockLogin] = useState(true);
 
-    const { authLoading, authError, authSuccess, message }
+    const { user } = useSelector((state) => state.auth);
+    const { loginLoading, loginSuccess, loginError, loginMessage }
         = useSelector((state) => state.auth);
 
     useEffect(() => {
-
-        if (!password || !isValidEmail(email)) {
-            setIsLockLogin(true);
-        } else {
-            setIsLockLogin(false);
-        }
-
+        setIsLockLogin(!password || !isValidEmail(email));
     }, [email, password]);
 
     useEffect(() => {
-        if (authSuccess) window.location.reload();
-    }, [authSuccess]);
+        if (user) window.location.reload();
+    }, [user]);
 
     useEffect(() => {
-        dispatch(resetAuthState());
+        dispatch(resetLoginState());
     }, [dispatch]);
 
     const handleOnClickSignUp = () => {
@@ -47,9 +42,15 @@ const LogIn = ({ onclose, onSignUp }) => {
     const handleOnClickLogin = () => {
         if (password && isValidEmail(email)) {
             console.log(email, password);
-            
             dispatch(loginUser({ email, password }));
+        } else {
+
         }
+    }
+
+    const handleOnClickTrouble = () => {
+        onclose();
+        onResetPass();
     }
 
     const handleOnChangeUsername = (e) => {
@@ -64,9 +65,22 @@ const LogIn = ({ onclose, onSignUp }) => {
         return EMAIL_REGEX.test(email) && email !== "";
     };
 
+    const handleOnEnterEmail = (e) => {
+        if (e.target.value !== "") {
+            document.querySelector("input[name='password']")?.focus();
+        }
+    }
+
+    const handleOnEnterPassword = (e) => {
+        if (e.target.value !== "") {
+            handleOnClickLogin();
+        }
+    }
+
+
     return (
         <LogInContainer>
-            {authError && <ErrorAlert message={authError} />}
+            {loginError && <ErrorAlert message={loginError} />}
             <div className="login-form">
                 <div className="close-icon" onClick={onclose}>
                     <Icons.Close />
@@ -80,12 +94,14 @@ const LogIn = ({ onclose, onSignUp }) => {
                 <div className="input-container">
                     <div className="username-input">
                         <div className="title">
-                            Username
+                            Email
                         </div>
                         <div className="input">
                             <EditInput
+                                name="email"
                                 value={email}
                                 onchange={handleOnChangeUsername}
+                                onenter={handleOnEnterEmail}
                             />
                         </div>
                     </div>
@@ -95,18 +111,23 @@ const LogIn = ({ onclose, onSignUp }) => {
                         </div>
                         <div className="input">
                             <EditInput
+                                name="password"
                                 value={password}
                                 onchange={handleOnChangePassword} type="password"
+                                onenter={handleOnEnterPassword}
                             />
                         </div>
                     </div>
-                    <div className="trouble">
+                    <div
+                        className="trouble"
+                        onClick={handleOnClickTrouble}
+                    >
                         Trouble loggin in?
                     </div>
                 </div>
                 <div className="footer-container">
                     <Button
-                        title={authLoading ? <CircleSpinner size={20}/> : "Log In"}
+                        title={loginLoading ? <CircleSpinner size={20} /> : "Log In"}
                         color={Theme.highlight}
                         styles={`large ${isLockLogin ? "lock" : ""}`}
                         onclick={handleOnClickLogin}

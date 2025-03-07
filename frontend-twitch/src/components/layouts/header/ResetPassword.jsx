@@ -1,12 +1,14 @@
-import { SignUpContainer } from "./SignUp.styled";
+import { ResetPasswordContainer } from "./ResetPassword.styled";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Theme } from "../../../assets/styles/Theme";
 import { Icons } from "../../../assets/icons/Icon";
-import { onChangeCode, onChangeEmail, onChangePassword } from "../../../stores/slices/inputSignUpSlice";
-import { registerUser, requestOTP, resetOtpState, resetRegisterState } from "../../../stores/slices/authSlice";
+import { changePassUser, otpPassUser, resetChangePassState, resetOtpPassState }
+    from "../../../stores/slices/authSlice";
+import { onChangeCode, onChangeEmail, onChangeNewPassword }
+    from "../../../stores/slices/inputResetPasswordSlice";
 
 import ErrorAlert from "../../commons/ErrorAlert";
 import CircleSpinner from "../../commons/CircleSpinner";
@@ -17,11 +19,10 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PASSWORD_REGEX = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 const CODE_REGEX = /^\d{6}$/;
 
-const SignUp = ({ onclose, onLogin }) => {
+const ResetPassword = ({ onclose, onLogin, onSignUp }) => {
 
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const [isSignUp, setIsSignUp] = useState(false);
+    const [isLogin, setIsLogin] = useState(false);
     const [isSendedCode, setIsSendedCode] = useState(false);
     const [counter, setCounter] = useState(60);
     const [highlights, setHighlights] = useState({
@@ -30,21 +31,23 @@ const SignUp = ({ onclose, onLogin }) => {
         code: ""
     });
     const { user } = useSelector((state) => state.auth);
-    const { email, password, code } = useSelector((state) => state.inputSignUp);
-    const { otpLoading, otpSuccess, otpError, otpMessage } = useSelector((state) => state.auth);
-    const { registerLoading, registerSusscess, registerError, registerMessage } = useSelector((state) => state.auth);
+    const { email, newPassword, code } = useSelector((state) => state.inputResetPassword);
+    const { otpPassLoading, otpPassSuccess, otpPassError, otpPassMessage } =
+        useSelector((state) => state.auth);
+    const { changePassLoading, changePassSuccess, changePassError, changePassMessage } =
+        useSelector((state) => state.auth);
 
 
     useEffect(() => {
-        if (otpError) {
+        if (otpPassError) {
             setIsSendedCode(false);
-            startCount(60);  
+            startCount(60);
         }
-    }, [otpError]);
+    }, [otpPassError]);
 
     useEffect(() => {
-        dispatch(resetOtpState());
-        dispatch(resetRegisterState());
+        dispatch(resetOtpPassState());
+        dispatch(resetChangePassState());
     }, [dispatch]);
 
     useEffect(() => {
@@ -52,8 +55,8 @@ const SignUp = ({ onclose, onLogin }) => {
     }, [user])
 
     useEffect(() => {
-        console.log(otpLoading, otpSuccess, otpError, otpMessage);  
-    }, [otpLoading, otpSuccess, otpError, otpMessage])
+        console.log(otpPassLoading, otpPassSuccess, otpPassError, otpPassMessage);
+    }, [otpPassLoading, otpPassSuccess, otpPassError, otpPassMessage])
 
 
     const handleOnClickSendCode = () => {
@@ -62,23 +65,23 @@ const SignUp = ({ onclose, onLogin }) => {
                 setIsSendedCode(true);
                 startCount();
                 // fetch
-                dispatch(requestOTP({email}));
+                dispatch(otpPassUser({ email }));
             }
         } else {
             setHighlights((prev) => ({ ...prev, ["email"]: "highlight" }))
         }
     };
 
-    const handleOnClickSignUp = () => {
-        if (isValidEmail(email) && isValidCode(code) && isValidPassword(password)) {
+    const handleOnClickLogin = () => {
+        if (isValidEmail(email) && isValidCode(code) && isValidPassword(newPassword)) {
             // fetch
-            dispatch(registerUser({email, password, code}));
+            dispatch(changePassUser({ email, newPassword, code }));
         }
     }
 
-    const handleOnClickLogin = () => {
+    const handleOnClickSignUp = () => {
         onclose();
-        onLogin();
+        onSignUp();
     };
 
     // handle input action
@@ -143,7 +146,7 @@ const SignUp = ({ onclose, onLogin }) => {
         }
     }
     const handleOnMouseEnterSignup = (e) => {
-        setIsSignUp(isValidEmail(email) && isValidCode(code) && isValidPassword(password));
+        setIsLogin(isValidEmail(email) && isValidCode(code) && isValidPassword(newPassword));
     }
     const startCount = () => {
         setCounter(60);
@@ -160,11 +163,11 @@ const SignUp = ({ onclose, onLogin }) => {
     }
 
     return (
-        <SignUpContainer>
-            {otpError && <ErrorAlert message={otpError} ></ErrorAlert>}
-            {otpSuccess && <ErrorAlert message={otpMessage} type="success" ></ErrorAlert>}
-            {registerError && <ErrorAlert message={registerError} ></ErrorAlert>}
-            {registerSusscess && <ErrorAlert message={registerMessage} type="success" ></ErrorAlert>}
+        <ResetPasswordContainer>
+            {otpPassError && <ErrorAlert message={otpPassError} ></ErrorAlert>}
+            {otpPassSuccess && <ErrorAlert message={otpPassMessage} type="success" ></ErrorAlert>}
+            {changePassError && <ErrorAlert message={changePassError} ></ErrorAlert>}
+            {changePassMessage && <ErrorAlert message={changePassMessage} type="success" ></ErrorAlert>}
             <div className="sign-up-form">
                 <div className="close-icon" onClick={onclose}>
                     <Icons.Close />
@@ -172,14 +175,14 @@ const SignUp = ({ onclose, onLogin }) => {
                 <div className="header-container">
                     <div className="title-header">
                         <Icons.TwitchLogo className="t-icon" />
-                        Join Twitch today
+                        Reset your password
                     </div>
                 </div>
                 <div className="input-container">
 
 
                     <div className="email-input">
-                        <div className="title"> 
+                        <div className="title">
                             Email
                         </div>
                         <div className="input">
@@ -204,7 +207,7 @@ const SignUp = ({ onclose, onLogin }) => {
 
                     <div className="password-input">
                         <div className="title">
-                            Password
+                            New password
                         </div>
                         <div className="input">
                             <input
@@ -214,8 +217,8 @@ const SignUp = ({ onclose, onLogin }) => {
                                 type="password"
                                 placeholder="Password"
                                 spellCheck={false}
-                                value={password}
-                                onChange={(e) => dispatch(onChangePassword(e.target.value.trim()))}
+                                value={newPassword}
+                                onChange={(e) => dispatch(onChangeNewPassword(e.target.value.trim()))}
                                 onKeyDown={(e) => handleOnKeyDown(e)}
                             />
                         </div>
@@ -245,7 +248,7 @@ const SignUp = ({ onclose, onLogin }) => {
                                 />
                             </div>
                             <div className={`send ${isSendedCode ? "lock" : ""}`} onClick={handleOnClickSendCode}>
-                                {otpLoading ? <CircleSpinner size={30} /> : isSendedCode ? `Resend ${counter}s` : "Send code"}
+                                {otpPassLoading ? <CircleSpinner size={30} /> : isSendedCode ? `Resend ${counter}s` : "Send code"}
                             </div>
                         </div>
                     </div>
@@ -254,32 +257,27 @@ const SignUp = ({ onclose, onLogin }) => {
                     <div className={`error-code ${highlights.code}`}>
                         Enter 6-digit code
                     </div>
-
-
-                    <div className="term">
-                        By clicking Sign Up, you are agreeing to Twitch’s <h4>Terms of Service</h4> and are acknowledging our <h4>Privacy Notice</h4> applies.
-                    </div>
                 </div>
 
 
                 <div className="footer-container">
                     <Button
-                        title={registerLoading ? <CircleSpinner size={20}/> : "Sign Up"}
+                        title={changePassLoading ? <CircleSpinner size={20} /> : "Login"}
                         color={Theme.highlight}
-                        styles={`large ${isSignUp ? "" : "lock"}`}
+                        styles={`large ${isLogin ? "" : "lock"}`}
                         onMouseEnter={handleOnMouseEnterSignup}
-                        onclick={handleOnClickSignUp}
+                        onclick={handleOnClickLogin}
                     />
                     <div
-                        className="login"
-                        onClick={handleOnClickLogin}
+                        className="sign-up"
+                        onClick={handleOnClickSignUp}
                     >
-                        Have an account? Log in
+                        Don't have an account? Sign up
                     </div>
                 </div>
             </div>
-        </SignUpContainer>
+        </ResetPasswordContainer>
     );
 };
 
-export default SignUp;
+export default ResetPassword;

@@ -10,11 +10,12 @@ import commentReducer from "./slices/commentSlice";
 import editStreamReducer from "./slices/editStreamSlice";
 import chatReducer from "./slices/chatSlice";
 import inputSignUpReducer from "./slices/inputSignUpSlice";
-
+import inputResetPasswordReducer from "./slices/inputResetPasswordSlice";
 
 export default configureStore({
     reducer: {
         inputSignUp: inputSignUpReducer,
+        inputResetPassword: inputResetPasswordReducer,
         user: userReducer,
         auth: authReducer,
         outstanding: outstandingReducer,
