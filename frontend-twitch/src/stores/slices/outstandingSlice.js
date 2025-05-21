@@ -5,7 +5,7 @@ export const outstandingSlice = createSlice({
         lives: [
             {
                 id: 1,
-                title: "Twitch !bonus round 🎄Merry Christmas Eve all! 🎄!tree, Twitch !bonus round 🎄Merry Christmas Eve all! 🎄!tree, Twitch !bonus round 🎄Merry Christmas Eve all! 🎄!tree.",
+                title: "Minecraft Cherry Blossom Forest Ambience w/ C418 Music (Slowed) | 4 Hours",
                 thumbnail: "./assets/images/game-dota.jpg",
                 views: 889,
                 tags: [
@@ -17,7 +17,7 @@ export const outstandingSlice = createSlice({
             },
             {
                 id: 2,
-                title: "Lorem ipsum is a dummy or placeholder text commonly used in graphic design, publishing, and web development to fill empty spaces in a layout that does not yet have content.",
+                title: "Minecraft Cherry Blossom Forest Ambience w/ C418 Music (Slowed) | 4 Hours",
                 thumbnail: "./assets/images/game-dota.jpg",
                 views: 1029,
                 tags: [

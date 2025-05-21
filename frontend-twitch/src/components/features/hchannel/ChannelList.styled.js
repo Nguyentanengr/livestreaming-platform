@@ -8,7 +8,7 @@ export const ChannelListContainer = styled.div`
     padding: 10px 30px;
 
     .title-heading {
-        font-size: 20px;
+        font-size: 18px;
         font-weight: 700;
         color: ${Theme.dark};
     }

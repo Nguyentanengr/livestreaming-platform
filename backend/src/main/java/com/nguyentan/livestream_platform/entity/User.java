@@ -22,6 +22,9 @@ import java.util.UUID;
 @Table(name = "user")
 public class User implements UserDetails {
 
+    @Transient
+    private final String DEFAULT_THUMBNAIL = "https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671142.jpg";
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -78,7 +81,7 @@ public class User implements UserDetails {
     @PrePersist
     protected void onCreate() {
         if (this.nickname == null) this.nickname = UserNicknameGenerator.getUniqueUserNickname();
-        this.thumbnail = this.thumbnail == null ? "/default/thumbnail" : this.thumbnail;
+        this.thumbnail = this.thumbnail == null ? DEFAULT_THUMBNAIL : this.thumbnail;
         this.status = UserStatusEnum.OFFLINE;
         this.createdAt = this.updatedAt = LocalDateTime.now();
         this.isActive = true;

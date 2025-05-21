@@ -5,7 +5,7 @@ export const ReelViewContainer = styled.div`
     background-color: ${Theme.dark};
     border-radius: 30px;
     aspect-ratio: 16/9;
-    width: 71%;
+    width: auto;
     position: relative;
 
     video {
@@ -28,7 +28,7 @@ export const ReelViewContainer = styled.div`
         border-radius: 50%;
         
         .mute-icon {
-            font-size: 32px;
+            font-size: 24px;
             color: ${Theme.header};
             opacity: 0;
             transition: 0.2s;
@@ -51,7 +51,7 @@ export const ReelViewContainer = styled.div`
         border-radius: 50%;
 
         .more-icon {
-            font-size: 32px;
+            font-size: 24px;
             color: ${Theme.header};
             opacity: 0;
             transition: 0.2s;
@@ -69,8 +69,8 @@ export const ReelViewContainer = styled.div`
         z-index: 10;
 
         .username {
-            font-size: 20px;
-            font-weight: 600;
+            font-size:16px;
+            font-weight: 500;
             margin-bottom: 10px;
             cursor: pointer;
             transition: 0.2s;
@@ -82,7 +82,7 @@ export const ReelViewContainer = styled.div`
         }
 
         .reel-title {
-            font-size: 20px;
+            font-size: 16px;
             font-weight: 400;
             max-width: 40vw;
             display: -webkit-box;
@@ -95,7 +95,7 @@ export const ReelViewContainer = styled.div`
         .tags-container {
             display: flex;
             gap: 5px;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 500;
             cursor: pointer;
             .tag {

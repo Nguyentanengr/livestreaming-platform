@@ -5,7 +5,7 @@ import { Theme } from "../../../assets/styles/Theme";
 export const CategoryScrollContainer = styled.div`
     .scroll-box {
         width: 350px;
-        max-height: 500px;
+        max-height: 400px;
         background-color: ${Theme.header};
         box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.1);
         display: flex;
@@ -18,7 +18,7 @@ export const CategoryScrollContainer = styled.div`
         }
 
         ::-webkit-scrollbar-thumb {
-            background-color: ${Theme.soft};
+            background-color: ${Theme.mediumSoft};
             border-radius: 5px;
         }
 
@@ -35,8 +35,8 @@ export const CategoryScrollContainer = styled.div`
 
             .thumbnail {
                 img {
-                    width: 60px;
-                    height: 80px;
+                    width: 50px;
+                    height: 65px;
                     object-fit: cover;
                     display: block;
                 }
@@ -49,7 +49,7 @@ export const CategoryScrollContainer = styled.div`
                 padding: 5px 0;
 
                 .name {
-                    font-size: 18px;
+                    font-size: 16px;
                     font-weight: 500;
 
                 }
@@ -57,7 +57,7 @@ export const CategoryScrollContainer = styled.div`
                 .interested {
                     display: flex;
                     gap: 5px;
-                    font-size: 17px;
+                    font-size: 14px;
                     font-weight: 500;
                     color: ${Theme.dark};
 

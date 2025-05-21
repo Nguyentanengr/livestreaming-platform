@@ -7,7 +7,7 @@ export const ActionButtonContainer = styled.div`
         align-items: center;
         justify-content: center;
         padding: 2px 3px;
-        font-size: 25px;
+        font-size: 22px;
         background-color: transparent;
         border-radius: 5px;
         cursor: pointer;

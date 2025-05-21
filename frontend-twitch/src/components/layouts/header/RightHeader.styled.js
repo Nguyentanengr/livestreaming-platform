@@ -15,10 +15,10 @@ export const RightHeaderContainer = styled.div`
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                font-size: 35px;
+                font-size: 24px;
                 cursor: pointer;
                 background-color: ${Theme.header};
-                padding: 2px;
+                padding: 6px;
                 border-radius: 5px;
                 transition: 0.2s;
 
@@ -28,9 +28,9 @@ export const RightHeaderContainer = styled.div`
 
                 .notification-count {
                     position: absolute;
-                    top: 0;
-                    left: 20px;
-                    font-size: 12px;
+                    top: 4px;
+                    left: 17px;
+                    font-size: 8px;
                     font-weight: 700;
                     color: ${Theme.header};
                     background-color: ${Theme.highlight};
@@ -54,7 +54,7 @@ export const RightHeaderContainer = styled.div`
                 top: 100%;
                 right: -20px;
                 background-color: ${Theme.header};
-                width: 300px;
+                width: 250px;
                 z-index: 100;
                 padding: 15px 15px;
                 border-radius: 10px;

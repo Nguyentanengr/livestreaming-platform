@@ -54,7 +54,7 @@ const ReelView = ({ reel}) => {
 
     return (
         <ReelViewContainer onClick={handleViewClick}>
-            <video ref={videoRef} src={reel.videoUrl} loop />
+            <video  ref={videoRef} src={reel.videoUrl} loop/>
             <div className="mute-container" onClick={(e) => handleMuteClick(e)}>
                 {isMuted ? <Icons.Unmute className="mute-icon display" /> : <Icons.Mute className="mute-icon" />}
             </div>

@@ -11,9 +11,9 @@ export const VideoActionContainer = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 52px;
-        width: 52px;
-        font-size: 30px;
+        height: 42px;
+        width: 42px;
+        font-size: 22px;
         border-radius: 50%;
         cursor: pointer;
         transition: 0.1s;
@@ -21,7 +21,7 @@ export const VideoActionContainer = styled.div`
     }
 
     .action-count {
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 500;
     }
 `;

@@ -41,8 +41,7 @@ export const ViewLiveContainer = styled.div`
                 gap: 10px;
 
                 .title {
-                    padding-top: 5px;
-                    font-size: 20px;
+                    font-size: 16px;
                     font-weight: 500;
 
                 }
@@ -51,11 +50,11 @@ export const ViewLiveContainer = styled.div`
                     display: flex;
                     align-items: center;
                     gap: 5px;
-                    font-size: 20px;
+                    font-size: 16px;
                     font-weight: 700;
                     
                     .check-icon {
-                        font-size: 18px;
+                        font-size: 16px;
                         background-color: ${Theme.highlight};
                         display: flex;
                         align-items: center;
@@ -69,11 +68,11 @@ export const ViewLiveContainer = styled.div`
         }
 
         .follow-container {
-            padding-top: 5px;
             display: flex;
             flex-direction: column;
             align-items: end;
             gap: 20px;
+            margin-left: 50px;
             
 
             .view-time {
@@ -83,7 +82,7 @@ export const ViewLiveContainer = styled.div`
                 display: flex;
                 align-items: center;
                 gap: 10px;
-                font-size: 18px;
+                font-size: 16px;
                 font-weight: 500;
 
                 .dot {
@@ -95,15 +94,18 @@ export const ViewLiveContainer = styled.div`
     }
 
     .about-user {
+        padding: 30px 0;
         margin-top: 30px;
         display: flex;
+        flex-direction: column;
         justify-content: space-between;
         background-color: ${Theme.header};
         min-height: 200px;
         border-radius: 5px;
+        gap: 30px;
 
         .description {
-            padding: 30px 30px;
+            padding: 0 30px;
             display: flex;
             flex-direction: column;
             gap: 25px;
@@ -112,7 +114,7 @@ export const ViewLiveContainer = styled.div`
                 display: flex;
                 align-items: center;
                 gap: 10px;
-                font-size: 20px;
+                font-size: 16px;
                 font-weight: 700;
 
                 .dot {
@@ -121,31 +123,30 @@ export const ViewLiveContainer = styled.div`
             }
 
             .des {
-                font-size: 20px;
+                font-size: 16px;
                 color: ${Theme.dark};
             }
 
         }
 
         .links {
-            padding: 30px 50px;
+            padding: 0 30px;
             display: flex;
-            flex-direction: column;
-            gap: 10px;
+            gap: 20px;
 
 
             .link-item {
                 display: flex;
                 align-items: center;
-                gap: 10px;
-                font-size: 18px;
+                gap: 5px;
+                font-size: 14px;
                 font-weight: 500;
                 opacity: 0.7;
                 cursor: pointer;
                 transition: 0.2s;
 
                 .link-icon {
-                    font-size: 26px;
+                    font-size: 20px;
                 }
 
                 &:hover {

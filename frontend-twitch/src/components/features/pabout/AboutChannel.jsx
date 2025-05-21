@@ -1,46 +1,64 @@
 import { useSelector } from "react-redux";
 import { AboutChannelContainer } from "./AboutChannel.styled"
 
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Icons } from "../../../assets/icons/Icon"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Thumbnail from "../../../components/commons/Thumbnail";
-import ChannelList from "../../features/hchannel/ChannelList";
+import AccountSettingModal from "./AccountSettingModal";
+import EditProfileModal from "./EditProfileModal";
+import { convertView } from "../../../utils/convert";
+import StreamList from "./StreamList";
+import ReelList from "./ReelList";
 
 
 const AboutChannel = () => {
 
     const [selectNav, setSelectNav] = useState(1);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [showSettingModal, setShowSettingModal] = useState(false);
 
-    const user = useSelector((state) => state.user.user);
+    const { myProfile } = useSelector((state) => state.profile);
+
+    const { myStream } = useSelector((state) => state.myStream);
+    const streamsToShow = myStream.streams?.slice(0, myProfile.streamsCount);
+
+    const { myReel } = useSelector((state) => state.myReel);
+    const reelsToShow = myReel.reels?.slice(0, myProfile.reelsCount);
+
     const navigate = useNavigate();
-    const links = [
-        {id: 1, icon: Icons.Youtube, name:"Youtube", link: "http://youtube.com"},
-        {id: 2, icon: Icons.Discord, name:"Discord", link: "http://discord.com"},
-        {id: 3, icon: Icons.Tiktok, name:"Tiktok", link: "http://tiktok.com"},
-    ];
+
     const navigations = [
-        {id: 1, name: "Videos" },
-        {id: 2, name: "Reels" },
+        { id: 1, name: "Videos" },
+        { id: 2, name: "Reels" },
     ]
+
 
     return (
         <AboutChannelContainer>
             <div className="short-info">
                 <div className="info">
                     <Thumbnail
-                        src={user.thumbnail}
-                        onclick={() => navigate(`/profile/${user.username}`)}
+                        src={myProfile.avatar}
+                        onclick={() => { }}
                         size="vlarge"
                     />
                     <div className="username">
-                        {user.username}
+                        {myProfile.username}
                     </div>
                 </div>
                 <div className="action">
-                    <div className="follow-btn">
-                        <Icons.Like className="fol-icon"/>
+                    {/* <div className="follow-btn">
+                        <Icons.HeartEmpty className="fol-icon"/>
                         Follow
+                    </div> */}
+                    <div className="edit-btn" onClick={() => setShowEditModal(true)} >
+                        <Icons.Edit className="edit-icon" />
+                        Edit Profile
+                    </div>
+                    <div className="edit-btn" onClick={() => setShowSettingModal(true)} >
+                        <Icons.Setting className="edit-icon" />
+                        Account Setting
                     </div>
                 </div>
 
@@ -49,24 +67,36 @@ const AboutChannel = () => {
                 <div className="description">
                     <div className="fol-vid">
                         <div className="fol">
-                            448K Follow
+                            {convertView(myProfile.followersCount)} Followers
                         </div>
-                        <Icons.HotLive className="dot"/>
+                        <Icons.HotLive className="dot" />
                         <div className="vid">
-                            48 Videos and Reels
+                            {convertView(myProfile.streamsCount)} Videos and {convertView(myProfile.reelsCount)} Reels
                         </div>
                     </div>
                     <div className="des">
-                    Australian streamer by the name of Zane playing a mixture of games in my spare time. Will usually stream 1-2 group sessions and 4-5 solo sessions per week. MUSIC BY youtube.com/@fantasylofi → https://ffm.bio/bitsandhits
+                        {myProfile.bio}
                     </div>
                 </div>
                 <div className="links">
-                    {links.map((link, index) => {
-                        return <div className="link-item">
-                            <link.icon className="link-icon" />
-                            {link.name}
-                        </div>
-                    })}
+                    {myProfile.link.youtube && (
+                        <Link to={myProfile.link.youtube} target="_blank" className="link-item">
+                            <Icons.Youtube className="link-icon" />
+                            Youtube
+                        </Link>
+                    )}
+                    {myProfile.link.tiktok && (
+                        <Link to={myProfile.link.tiktok} target="_blank" className="link-item">
+                            <Icons.Tiktok className="link-icon" />
+                            TikTok
+                        </Link>
+                    )}
+                    {myProfile.link.discord && (
+                        <Link to={myProfile.link.discord} target="_blank" className="link-item">
+                            <Icons.Discord className="link-icon" />
+                            Discord
+                        </Link>
+                    )}
 
                 </div>
             </div>
@@ -75,18 +105,44 @@ const AboutChannel = () => {
                     {navigations.map(navigation => {
                         let cl = navigation.id == selectNav ? "highlight" : "";
                         return (
-                        <div className={`navigation ${cl}`} key={navigation.id} onClick={() => {setSelectNav(navigation.id)}}>
-                            {navigation.name}
-                            {<div className={cl}></div>}
-                        </div>
-                        
-                    )
+                            <div
+                                className={`navigation ${cl}`}
+                                key={navigation.id}
+                                onClick={() => { setSelectNav(navigation.id) }}
+                            >
+                                {navigation.name}
+                                <div className={cl}></div>
+                            </div>
+                        )
                     })}
                 </div>
                 <div className="list">
-                    
+                    {selectNav == 1 && (
+                        <div className="stream-collection">
+                            <StreamList
+                                itemsToShow={streamsToShow}
+                            />
+                        </div>
+                    )}
+                    {selectNav == 2 && (
+                        <div className="reel-collection">
+                            <ReelList
+                                itemsToShow={reelsToShow}
+                            />
+                        </div>
+                    )}
                 </div>
             </div>
+            {showEditModal && (
+                <EditProfileModal
+                    onClose={() => setShowEditModal(false)}
+                />
+            )}
+            {showSettingModal && (
+                <AccountSettingModal
+                    onClose={() => setShowSettingModal(false)}
+                />
+            )}
         </AboutChannelContainer>
     );
 }

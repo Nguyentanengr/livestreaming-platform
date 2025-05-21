@@ -1,5 +1,5 @@
-import styled, { keyframes } from "styled-components";
-import { Theme } from "../../../assets/styles/Theme";
+import styled, { keyframes } from 'styled-components';
+import { Theme } from '../../../assets/styles/Theme';
 
 const slideIn = keyframes`
     from {
@@ -11,14 +11,13 @@ const slideIn = keyframes`
         width: 23%;
     }
 `;
+
 export const ReelCommentContainer = styled.div`
     width: 23%;
     background-color: ${Theme.header};
     animation: ${slideIn} 0.3s ease-in-out;
     border-radius: 10px;
     border: 1px solid ${Theme.hover};
-    
-   
 
     .comment-container {
         display: flex;
@@ -31,8 +30,8 @@ export const ReelCommentContainer = styled.div`
         }
 
         .comment-list-container {
-            padding: 20px 20px;
-            height: 550px;
+            padding: 10px;
+            height: 400px;
             display: flex;
             background-color: transparent;
             flex-direction: column;
@@ -53,7 +52,7 @@ export const ReelCommentContainer = styled.div`
                     gap: 5px;
 
                     .username {
-                        font-size: 18px;
+                        font-size: 16px;
                         font-weight: 500;
                         cursor: pointer;
 
@@ -63,10 +62,13 @@ export const ReelCommentContainer = styled.div`
                     }
 
                     .content {
-
-                        font-size: 18px;
-                        -webkit-line-clamp: 3;
+                        font-size: 16px;
+                        width: 100%;
+                        -webkit-line-clamp: 5;
                         -webkit-box-orient: vertical;
+                        overflow: hidden;
+                        word-break: break-word;
+                        display: -webkit-box;
                     }
 
                     .sub-info {
@@ -75,20 +77,64 @@ export const ReelCommentContainer = styled.div`
                         justify-content: space-between;
                         align-items: start;
                         color: ${Theme.soft};
-                        font-size: 18px;
-                    
+                        font-size: 16px;
 
                         .like-count {
                             display: flex;
                             align-items: center;
                             gap: 5px;
                             cursor: pointer;
+
+                            .like-icon {
+                                font-size: 15px;
+                            }
+                        }
+
+                        .menu-dots {
+                            position: relative;
+                            cursor: pointer;
+
+                            .more-icon {
+                                font-size: 20px;
+                                color: ${Theme.soft};
+                            }
+
+                            .dropdown-menu {
+                                display: none;
+                                position: absolute;
+                                right: 0;
+                                top: 100%;
+                                background-color: ${Theme.header};
+                                border: 1px solid ${Theme.hover};
+                                border-radius: 5px;
+                                padding: 5px;
+                                z-index: 10;
+                                min-width: 80px;
+
+                                button {
+                                    background: none;
+                                    border: none;
+                                    cursor: pointer;
+                                    font-size: 14px;
+                                    color: ${Theme.soft};
+                                    width: 100%;
+                                    text-align: left;
+                                    padding: 2px 5px;
+
+                                    &:hover {
+                                        color: ${Theme.highlight};
+                                    }
+                                }
+                            }
+
+                            &:hover .dropdown-menu {
+                                display: block;
+                            }
                         }
 
                         .reply-btn {
                             cursor: pointer;
                         }
-                       
                     }
                 }
             }
@@ -102,7 +148,6 @@ export const ReelCommentContainer = styled.div`
                 border-radius: 10px;
                 cursor: pointer;
             }
-            
         }
     }
-`
+`;

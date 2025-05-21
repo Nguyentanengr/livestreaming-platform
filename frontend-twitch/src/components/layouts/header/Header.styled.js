@@ -7,7 +7,7 @@ export const HeaderContainer = styled.div`
     top: 0;
     left: 0;
     right: 0;
-    height: 65px;
+    height: 55px;
     background-color: ${Theme.header};
     z-index: 20;
     width: 100%;

@@ -50,7 +50,7 @@ export const ResetPasswordContainer = styled.div`
             padding: 10px 0px;
 
             .title-header {
-                font-size: 28px;
+                font-size: 24px;
                 font-weight: 500;
                 display: flex;
                 align-items: center;
@@ -68,9 +68,9 @@ export const ResetPasswordContainer = styled.div`
             flex-direction: column;
 
             .email-input .input input {
-                height: 45px;
+                height: 40px;
                 width: 100%;
-                font-size: 18px;
+                font-size: 14px;
                 background-color: transparent;
                 border: 1px solid ${Theme.mediumSoft};
                 border-radius: 5px;
@@ -88,9 +88,9 @@ export const ResetPasswordContainer = styled.div`
             }
 
             .password-input .input input {
-                height: 45px;
+                height: 40px;
                 width: 100%;
-                font-size: 18px;
+                font-size: 14px;
                 background-color: transparent;
                 border: 1px solid ${Theme.mediumSoft};
                 border-radius: 5px;
@@ -108,7 +108,7 @@ export const ResetPasswordContainer = styled.div`
             }
 
             .title {
-                font-size: 18px;
+                font-size: 16px;
                 font-weight: 500;
             }
 
@@ -128,9 +128,9 @@ export const ResetPasswordContainer = styled.div`
                 .input {
                     flex: 1;
                     input {
-                        height: 45px;
+                        height: 40px;
                         width: 100%;
-                        font-size: 18px;
+                        font-size: 14px;
                         background-color: transparent;
                         border: 1px solid ${Theme.mediumSoft};
                         border-top-left-radius: 5px;
@@ -154,7 +154,7 @@ export const ResetPasswordContainer = styled.div`
                     align-items: center;
                     justify-content: center;
                     padding: 2px 15px;
-                    font-size: 18px;
+                    font-size: 16px;
                     font-weight: 500;
                     color: ${Theme.header};
                     border-top-right-radius: 5px;
@@ -171,7 +171,7 @@ export const ResetPasswordContainer = styled.div`
             .error-email, .error-code {
                 color: ${Theme.hotRed};
                 padding-top: 5px;
-                font-size: 17px;
+                font-size: 14px;
                 display: none;
             }
 
@@ -181,7 +181,7 @@ export const ResetPasswordContainer = styled.div`
 
             .error-password {
                 padding-top: 5px;
-                font-size: 17px;
+                font-size: 14px;
                 color: ${Theme.hotRed};
                 display: none;
             }
@@ -218,7 +218,7 @@ export const ResetPasswordContainer = styled.div`
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                font-size: 16px;
+                font-size: 14px;
                 font-weight: 600;
                 cursor: pointer;
                 background-color: transparent;
@@ -229,6 +229,20 @@ export const ResetPasswordContainer = styled.div`
                 &:hover {
                     background-color: ${Theme.hover};
                     color: ${Theme.dark};
+                }
+            }
+
+            .login {
+                display: flex;
+                gap: 5px;
+                transition: 0.2s;
+
+                .ref {
+                    cursor: pointer;
+                }
+                .ref:hover {
+                    color: ${Theme.highlight};
+                    border-bottom: 1px solid ${Theme.highlight};
                 }
             }
         }

@@ -8,7 +8,7 @@ export const AboutChannelContainer = styled.div`
     .short-info {
         display: flex;
         justify-content: space-between;
-        padding: 50px 70px;
+        padding: 30px 70px;
 
         .info {
             display: flex;
@@ -17,7 +17,7 @@ export const AboutChannelContainer = styled.div`
             gap: 20px;
 
             .username {
-                font-size: 26px;
+                font-size: 20px;
                 font-weight: 700;
             }
         }
@@ -26,6 +26,7 @@ export const AboutChannelContainer = styled.div`
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 10px;
 
             .follow-btn {
                 display: flex;
@@ -33,24 +34,35 @@ export const AboutChannelContainer = styled.div`
                 justify-content: center;
                 gap: 10px;
                 background-color: ${Theme.highlight};
-                font-size: 22px;
+                font-size: 16px;
                 font-weight: 500;
-                padding: 8px 15px;
+                padding: 6px 15px;
                 border-radius: 5px;
                 color: ${Theme.header};
                 cursor: pointer;
 
                 .fol-icon {
-                    font-size: 25px;
-                    stroke-width: 1;
+                    font-size: 16px;
                     transition: 0.2s;
                 }
+            }
+            .edit-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                background-color: ${Theme.header};
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                font-size: 16px;
+                font-weight: 500;
+                padding: 6px 15px;
+                border-radius: 5px;
+                color: ${Theme.lightDark};
+                cursor: pointer;
 
-                &:hover {
-                    .fol-icon {
-                        font-size: 25px;
-                        stroke-width: 3;
-                    }
+                .edit-icon {
+                    font-size: 18px;
+                    transition: 0.2s;
                 }
             }
         }
@@ -58,22 +70,23 @@ export const AboutChannelContainer = styled.div`
 
     .description-info {
         display: flex;
+        flex-direction: column;
         margin: 0 70px;
         background-color: ${Theme.header};
-        min-height: 200px;
+        /* min-height: 200px; */
         border-radius: 5px;
 
         .description {
             padding: 30px 40px;
             display: flex;
             flex-direction: column;
-            gap: 25px;
+            gap: 15px;
 
             .fol-vid {
                 display: flex;
                 align-items: center;
                 gap: 10px;
-                font-size: 20px;
+                font-size: 16px;
                 font-weight: 700;
 
                 .dot {
@@ -82,31 +95,31 @@ export const AboutChannelContainer = styled.div`
             }
 
             .des {
-                font-size: 20px;
+                font-size: 16px;
                 color: ${Theme.dark};
             }
 
         }
 
         .links {
-            padding: 50px 60px;
+            padding: 0px 40px;
             display: flex;
-            flex-direction: column;
-            gap: 10px;
+            gap: 15px;
+            margin-bottom: 30px;
 
 
             .link-item {
                 display: flex;
                 align-items: center;
-                gap: 10px;
-                font-size: 18px;
+                gap: 5px;
+                font-size: 14px;
                 font-weight: 500;
                 opacity: 0.7;
                 cursor: pointer;
                 transition: 0.2s;
 
                 .link-icon {
-                    font-size: 26px;
+                    font-size: 20px;
                 }
 
                 &:hover {
@@ -121,12 +134,12 @@ export const AboutChannelContainer = styled.div`
         display: flex;
         flex-direction: column;
         background-color: transparent;
-        margin: 40px 70px;
+        margin: 30px 70px;
 
         .navigations {
             display: flex;
             gap: 40px;
-            font-size: 24px;
+            font-size: 18px;
             font-weight: 700;
             cursor: pointer;
 

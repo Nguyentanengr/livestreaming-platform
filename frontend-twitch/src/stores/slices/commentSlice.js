@@ -1,117 +1,114 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
+import { getComments, createComment, deleteComment, likeComment, unlikeComment } from '../../service/api/reelApi';
 
 const commentSlice = createSlice({
-    name: "comment",
+    name: 'comment',
     initialState: {
-        comments: [
-            {
-                id: 1,
-                videoId: 1,
-                username: "John Doe",
-                avatar: "https://cdn11.dienmaycholon.vn/filewebdmclnew/public/userupload/files/Image%20FP_2024/avatar-cute-2.jpg",
-                timestamp: "2024-01-01",
-                content: "Good content with me",
-                replyCount: 3,
-                likeCount: 248,
-            },
-            {
-                id: 2,
-                videoId: 1,
-                username: "Chung Dong",
-                avatar: "https://imgv3.fotor.com/images/gallery/american-anime-stule-naked-man-avatar.jpg",
-                timestamp: "2024-01-01",
-                content: "That is very good",
-                replyCount: 0,
-                likeCount: 450,
-            },
-            {
-                id: 3,
-                videoId: 1,
-                username: "Haring Woo",
-                avatar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQE1KBCPl8x447HdgdioRuwZWGdQSJlBuQCNQ&s",
-                timestamp: "2024-01-01",
-                content: "Welcome to you, from my witd love from my witd love",
-                replyCount: 0,
-                likeCount: 380,
-            },
-        ],
-        replies: {
-            "1": [
-                {
-                    id: 1,
-                    parentId: 1,
-                    username: "John Hang",
-                    avatar: "https://via.placeholder.com/150",
-                    timestamp: "2024:01:01 12:07:00",
-                    content: "This is a reply",
-                    likeCount: 28,
-                },
-                {
-                    id: 2,
-                    parentId: 1,
-                    avatar: "https://via.placeholder.com/150",
-                    username: "John Nguyen",
-                    timestamp: "2024:01:01 12:09:00",
-                    content: "This is a content",
-                    likeCount: 12,
-                }
-            ]
-        },
-        loadingComment: false,
-        loadingReply: false,
-        commentError: null,
-        replyError: null,
+        comments: [],
+        currentPage: 0,
+        totalPages: 1,
+        isLoading: false,
+        error: null,
+        hasMore: true,
     },
     reducers: {
-        fetchCommentStart: (state) => {
-            state.loadingComment = true;
-            state.commentError = null;
-        }, 
-
-        fetchCommentSuccess: (state, action) => {
-            state.loadingComment = false;
-            state.comments = action.payload;
+        resetComments: (state) => {
+            state.comments = [];
+            state.currentPage = 0;
+            state.totalPages = 1;
+            state.isLoading = false;
+            state.error = null;
+            state.hasMore = true;
         },
-
-        fetchCommentFailure: (state, action) => {
-            state.loadingComment = false;
-            state.commentError = action.payload;
-        },
-
-        fetchMoreComment: (state, action) => {
-            state.comments = [...state.comments, ...action.payload];
-        },
-
-        fetchReplyStart: (state) => {
-            state.loadingReply = true;
-            state.replyError = null;
-        },
-
-        fetchReplySuccess: (state, action) => {
-            state.loadingReply = false;
-            state.replies = action.payload;
-        },  
-
-        fetchReplyFailure: (state, action) => {
-            state.loadingReply = false;
-            state.replyError = action.payload;
-        },
-
-        addComment: (state, action) => {
-            state.comments = [...state.comments, action.payload];
-        },
+    },
+    extraReducers: (builder) => {
+        builder
+            // Handle getComments
+            .addCase(getComments.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(getComments.fulfilled, (state, { payload }) => {
+                state.isLoading = false;
+                state.comments = [...state.comments, ...payload.comments];
+                state.currentPage = payload.currentPage;
+                state.totalPages = payload.totalPages;
+                state.hasMore = state.currentPage < state.totalPages - 1;
+            })
+            .addCase(getComments.rejected, (state, { payload }) => {
+                state.isLoading = false;
+                state.error = payload;
+                state.hasMore = false;
+            })
+            // Handle createComment
+            .addCase(createComment.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(createComment.fulfilled, (state, { payload }) => {
+                state.isLoading = false;
+                state.comments = [payload, ...state.comments];
+            })
+            .addCase(createComment.rejected, (state, { payload }) => {
+                state.isLoading = false;
+                state.error = payload;
+            })
+            // Handle deleteComment
+            .addCase(deleteComment.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(deleteComment.fulfilled, (state, { meta }) => {
+                const { reelId, commentId } = meta.arg;
+                state.isLoading = false;
+                state.comments = state.comments.filter((comment) => comment.id !== commentId);
+            })
+            .addCase(deleteComment.rejected, (state, { payload }) => {
+                state.isLoading = false;
+                state.error = payload;
+            })
+            // Handle likeComment
+            .addCase(likeComment.pending, (state, { meta }) => {
+                const { commentId } = meta.arg;
+                const comment = state.comments.find((c) => c.id === commentId);
+                if (comment) {
+                    comment.isLiked = true;
+                    comment.likesCount += 1; // Optimistic update
+                }
+            })
+            .addCase(likeComment.fulfilled, (state, { meta }) => {
+                // No action needed since backend returns null
+            })
+            .addCase(likeComment.rejected, (state, { meta }) => {
+                const { commentId } = meta.arg;
+                const comment = state.comments.find((c) => c.id === commentId);
+                if (comment) {
+                    comment.isLiked = false;
+                    comment.likesCount -= 1; // Revert optimistic update
+                }
+            })
+            // Handle unlikeComment
+            .addCase(unlikeComment.pending, (state, { meta }) => {
+                const { commentId } = meta.arg;
+                const comment = state.comments.find((c) => c.id === commentId);
+                if (comment) {
+                    comment.isLiked = false;
+                    comment.likesCount -= 1; // Optimistic update
+                }
+            })
+            .addCase(unlikeComment.fulfilled, (state, { meta }) => {
+                // No action needed since backend returns null
+            })
+            .addCase(unlikeComment.rejected, (state, { meta }) => {
+                const { commentId } = meta.arg;
+                const comment = state.comments.find((c) => c.id === commentId);
+                if (comment) {
+                    comment.isLiked = true;
+                    comment.likesCount += 1; // Revert optimistic update
+                }
+            });
     },
 });
 
-export const {
-    fetchCommentStart,
-    fetchCommentSuccess,
-    fetchCommentFailure,
-    fetchMoreComment,
-    fetchReplyStart,
-    fetchReplySuccess,
-    fetchReplyFailure,
-    addComment,
-} = commentSlice.actions;
-
+export const { resetComments } = commentSlice.actions;
 export default commentSlice.reducer;

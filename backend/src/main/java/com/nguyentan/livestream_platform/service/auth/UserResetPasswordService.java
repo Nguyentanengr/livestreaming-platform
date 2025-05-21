@@ -1,5 +1,6 @@
 package com.nguyentan.livestream_platform.service.auth;
 
+import com.nguyentan.livestream_platform.converter.UserConverter;
 import com.nguyentan.livestream_platform.dto.request.UserResetPasswordRequest;
 import com.nguyentan.livestream_platform.dto.response.CodeResponse;
 import com.nguyentan.livestream_platform.dto.response.UserResetPasswordResponse;
@@ -22,6 +23,7 @@ public class UserResetPasswordService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenGenerator jwtTokenGenerator;
     private final OTPTokenManager tokenManager;
+    private final UserConverter userConverter;
 
     public UserResetPasswordResponse resetPassword(UserResetPasswordRequest request) {
 
@@ -48,6 +50,7 @@ public class UserResetPasswordService {
         String jwtRefreshToken = jwtTokenGenerator.generateRefreshToken(user);
 
         return UserResetPasswordResponse.builder()
+                .user(userConverter.mapToUserResponse(user))
                 .accessToken(jwtAccessToken)
                 .refreshToken(jwtRefreshToken)
                 .build();

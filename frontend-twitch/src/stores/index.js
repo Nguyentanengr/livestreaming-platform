@@ -11,6 +11,12 @@ import editStreamReducer from "./slices/editStreamSlice";
 import chatReducer from "./slices/chatSlice";
 import inputSignUpReducer from "./slices/inputSignUpSlice";
 import inputResetPasswordReducer from "./slices/inputResetPasswordSlice";
+import profileReducer from "./slices/profileSlice";
+import myStreamReducer from "./slices/myStreamSlice";
+import myReelReducer from "./slices/myReelSlice";
+import createReudcer from "./slices/createReelSlice";
+import recommendReelReducer from "./slices/recommendReelSlice";
+import notiReducer from "./slices/notiSlice";
 
 export default configureStore({
     reducer: {
@@ -26,5 +32,24 @@ export default configureStore({
         comment: commentReducer,
         editStream: editStreamReducer,
         chat: chatReducer,
+        profile: profileReducer,
+        myStream: myStreamReducer,
+        myReel: myReelReducer,
+        createReel: createReudcer,
+        recommendReel: recommendReelReducer,
+        notifications: notiReducer
     },
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            serializableCheck: {
+                ignoredActions: [
+                    'createReel/setVideoFile',
+                    'createReel/setThumbnailFile',
+                    'reel/createReel/pending',
+                    'reel/createReel/fulfilled',
+                    'reel/createReel/rejected',
+                ],
+                ignoredPaths: ['createReel.videoFile', 'createReel.thumbnailFile'],
+            },
+        }),
 });

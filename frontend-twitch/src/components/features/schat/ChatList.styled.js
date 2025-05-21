@@ -13,13 +13,12 @@ export const ChatListContainer = styled.div`
 
     .chat-item {
         display: flex;
-        gap: 20px;
+        gap: 10px;
         padding: 5px 15px;
         transition: 0.2s;
         cursor: pointer;
 
         .thumbnail {
-
         }
 
         .content {
@@ -32,7 +31,7 @@ export const ChatListContainer = styled.div`
                 .username {
                     display: inline;
                     margin-right: 10px;
-                    font-size: 18px;
+                    font-size: 14px;
                     font-weight: 500;
                     
                     color: ${Theme.highlight};
@@ -46,7 +45,7 @@ export const ChatListContainer = styled.div`
 
                 .text {
                     display: inline;
-                    font-size: 18px;
+                    font-size: 14px;
                     color: ${Theme.dark}
 
                 }

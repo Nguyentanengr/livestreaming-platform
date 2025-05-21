@@ -10,8 +10,8 @@ export const SendCommentContainer = styled.div`
 
     input {
         margin-right: 10px;
-        font-size: 18px;
-        height: 45px;
+        font-size: 16px;
+        height: 40px;
         flex-grow: 1;
         padding: 5px;
         border: 1px solid #ccc;
@@ -39,7 +39,7 @@ export const SendCommentContainer = styled.div`
         justify-content: center;
         cursor: pointer;
         transition: 0.2s;
-        font-size: 28px;
+        font-size: 24px;
         border-radius: 5px;
 
         &:hover {
@@ -53,7 +53,7 @@ export const SendCommentContainer = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 28px;
+        font-size: 24px;
         cursor: pointer;    
         transition: 0.2s;
         border-radius: 5px;

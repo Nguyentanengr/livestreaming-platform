@@ -3,7 +3,7 @@ import { SlideScreenContainer } from "./SlideScreen.styled";
 import { useEffect, useRef, useState } from "react";
 import LiveScreen from "../../commons/LiveScreen";
 import { Icons } from "../../../assets/icons/Icon";
-import video from "/videos/streamvideo1.mp4";
+import video from "/videos/streamvideo3.mp4";
 
 const SlideScreen = () => {
 
@@ -41,27 +41,23 @@ const SlideScreen = () => {
 
     return (
         <SlideScreenContainer>
-            <div className="left-arrow-btn" onClick={handleLeftArrowClick}>
-                <Icons.ArrowLeft />
-            </div>
             <div className="live-channel-container" onClick={handleLiveChannelClick}>
                 <LiveScreen videoRef={videoRef} />
-                <div className="banner"><Icons.HotLive className="hot-live-icon" />live</div>
-                <div className="views"><Icons.Views className="views-icon" /> {lives[currentIndex].views}</div>
+                <div className="views"><Icons.HotLive className="views-icon" /> LIVE </div>
                 <div className="user-container">
-                    <div className="user-avatar-container">
-                        <img src={lives[currentIndex].avatar} className="user-avartar"></img>
-                        <div className="user-status">LIVE</div>
-                    </div>
-
                     <div className="description">
-                        <div className="user-name">{lives[currentIndex].username}</div>
                         <div className="title">{lives[currentIndex].title}</div>
+                        <div className="user-name">
+                            <div className="name">
+                                {lives[currentIndex].username}
+                            </div>
+                            <Icons.HotLive className="icon" />
+                            <div className="view">
+                                {lives[currentIndex].views} viewers
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="right-arrow-btn" onClick={handleRightArrowClick}>
-                <Icons.ArrowRight />
             </div>
         </SlideScreenContainer>
     );

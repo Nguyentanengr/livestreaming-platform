@@ -17,7 +17,7 @@ const recommendSlice = createSlice({
             },
             {
                 id: 2,
-                title: "🌸 Minecraft Cherry Blossom Forest Ambience w/ C418 Music (Slowed) | 4 Hours",
+                title: "Minecraft Cherry Blossom Forest Ambience w/ C418 Music (Slowed) | 4 Hours",
                 thumbnail: "/images/games/game-pubg.jpg",
                 views: 1029,
                 tags: [
@@ -28,7 +28,7 @@ const recommendSlice = createSlice({
             },
             {
                 id: 3,
-                title: "Ranked to Top 10 | Merry ChristmasNerds Top 10 Merry Christmas Nerds",
+                title: "Minecraft Cherry Blossom Forest Ambience w/ C418 Music (Slowed) | 4 Hours",
                 thumbnail: "/images/games/game-elder.jpg",
                 views: 478,
                 tags: [

@@ -11,15 +11,16 @@ export const ProfileItemContainer = styled.div`
     background-color: transparent;
     border-radius: 5px;
     transition: 0.2s;
+    
     .icon {
-        font-size: 26px;
+        font-size: 20px;
         display: flex;
         align-items: center;
         justify-content: center;
     }
 
     .title {
-        font-size: 16px;
+        font-size: 14px;
         color: ${Theme.text};
         opacity: 0.8;
     }

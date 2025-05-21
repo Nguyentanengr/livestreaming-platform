@@ -3,13 +3,13 @@ import { Theme } from "../../../assets/styles/Theme";
 
 
 export const CreatorContainer = styled.div`
-    height: 100%;
+    height: calc(100vh - 55px);
     width: 100%;
     background-color: ${Theme.header};
     display: flex;
 
     .up-video-container {
-        width: 45%;
+        width: 55%;
         height: calc(100vh - 65px);
         display: flex;
         flex-direction: column;

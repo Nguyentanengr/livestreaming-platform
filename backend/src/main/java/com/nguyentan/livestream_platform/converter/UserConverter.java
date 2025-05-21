@@ -1,6 +1,7 @@
 package com.nguyentan.livestream_platform.converter;
 
 import com.nguyentan.livestream_platform.dto.request.UserRegistrationRequest;
+import com.nguyentan.livestream_platform.dto.response.UserResponse;
 import com.nguyentan.livestream_platform.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -11,6 +12,7 @@ public interface UserConverter {
     @Mapping(target = "password", ignore = true)
     User mapToUserEntity(UserRegistrationRequest request);
 
-
+    @Mapping(target = "role", ignore = true)
+    UserResponse mapToUserResponse(User user);
 
 }

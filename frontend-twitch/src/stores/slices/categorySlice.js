@@ -40,6 +40,25 @@ export const categorySlice = createSlice({
                 name: "EA Sports",
                 thumbnail: "https://static-cdn.jtvnw.net/ttv-boxart/2011938005_IGDB-285x380.jpg",
                 interested: 558903,
+            },
+            {
+                id: 7,
+                name: "Dota 2",
+                thumbnail: "https://static-cdn.jtvnw.net/ttv-boxart/29595-285x380.jpg",
+                interested: 146603,
+            },
+            {
+                id: 8,
+                name: "Pubg Mobile",
+                thumbnail: "https://static-cdn.jtvnw.net/ttv-boxart/505884-285x380.jpg",
+                interested: 335046,
+
+            },
+            {
+                id: 9,
+                name: "EA Sports",
+                thumbnail: "https://static-cdn.jtvnw.net/ttv-boxart/2011938005_IGDB-285x380.jpg",
+                interested: 558903,
             }  
         ],
         loading: false,

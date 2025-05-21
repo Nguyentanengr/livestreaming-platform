@@ -17,7 +17,7 @@ export const ViewContainer = styled.div`
 
     .chat-container {
         position: fixed;
-        top: 65px;
+        top: 55px;
         right: 0;
         bottom: 0;
         width: 27vw;

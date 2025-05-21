@@ -12,14 +12,14 @@ export const ScrollReelContainer = styled.div`
         top: 65px;
         right: 0;
         bottom: 0;
-        width: 100px;
+        width: 80px;
 
         .control-up {
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 2px;
-            font-size: 50px;
+            font-size: 40px;
             cursor: pointer;
             border-radius: 10px;
             background-color: ${Theme.hover};
@@ -36,7 +36,7 @@ export const ScrollReelContainer = styled.div`
             justify-content: center;
             align-items: center;
             padding: 2px;
-            font-size: 50px;
+            font-size: 40px;
             cursor: pointer;
             border-radius: 10px;
             background-color: ${Theme.hover};

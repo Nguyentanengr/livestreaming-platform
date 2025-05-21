@@ -2,84 +2,47 @@ import styled from "styled-components";
 import { Theme } from "../../../assets/styles/Theme";
 
 export const SlideScreenContainer = styled.div`
-    padding: 50px 30px;
+    margin: 30px;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    height: 60vh;
     /* align-items: center; */
 
-    .left-arrow-btn {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        font-size: 50px;
-        cursor: pointer;
-        opacity: 0.3;
-        padding: 0 150px 0 50px;
-        transition: 0.2s;
-        
-        &:hover {
-            opacity: 1;
-        }
-    }
 
-    .right-arrow-btn {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        font-size: 50px;
-        cursor: pointer;
-        opacity: 0.3;
-        padding: 0 50px 0 150px;
-        transition: 0.2s;
-        
-        &:hover {
+
+
+    &:hover {
+        .left-arrow-btn, .right-arrow-btn {
             opacity: 1;
         }
     }
 
     .live-channel-container {
-        position: relative;
         background-color: ${Theme.dark};
+        flex: 1;
+        height: 80%;
+        border-radius: 15px;
+        overflow: hidden;
         /* border-radius: 30px; */
-
-        .banner {
+        .views {
             display: flex;
             align-items: center;
             gap: 5px;
             position: absolute;
             top: 10px;
             right: 15px;
-            padding: 3px 15px;
-            font-size: 18px;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: ${Theme.header};
-            border-radius: 7px;
-
-            .hot-live-icon {
-                font-size: 13px;
-                color: ${Theme.hotRed};
-            }
-        }
-        .views {
-            display: none;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            /* display: flex; */
-            align-items: center;
-            gap: 5px;
-            position: absolute;
-            top: 10px;
-            left: 15px;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 700;
             color: ${Theme.header};
-            padding: 3px 15px;
-            background-color: ${Theme.shadow};
+            padding: 2px 12px;
+            background-color: ${Theme.hotRed};
+            border-radius: 5px;
 
             .views-icon {
-                font-size: 20px;
-                stroke-width: 2;
-                color: ${Theme.hotRed};
+                font-size: 10px;
+                color: ${Theme.header};
             }
         }
 
@@ -127,11 +90,19 @@ export const SlideScreenContainer = styled.div`
                 gap: 10px;
 
                 .user-name {
-                    font-size: 22px;
-                    font-weight: 800;
+                    font-size: 16px;
+                    font-weight: 500;
                     color: ${Theme.header};
                     cursor: pointer;
                     transition: color 0.3s;
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+
+                    .icon {
+                        font-size: 8px;
+                        padding-top: 3px;
+                    }
 
                     &:hover {
                         color: ${Theme.highlight};
@@ -142,7 +113,7 @@ export const SlideScreenContainer = styled.div`
                 .title {
                     font-size: 18px;
                     font-weight: 500;
-                    width: 50%;
+                    width: 100%;
                     color: ${Theme.header};
                     cursor: pointer;
                     transition: color 0.3s;

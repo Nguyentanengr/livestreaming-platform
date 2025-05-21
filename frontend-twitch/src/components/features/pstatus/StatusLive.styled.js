@@ -4,9 +4,9 @@ import { Theme } from "../../../assets/styles/Theme";
 export const StatusLiveContainer = styled.div`
     display: flex;
     gap: 25px;
-    padding-top: 12vh;
+    padding-top: 6vh;
     padding-left: 13vw;
-    height: 60vh;
+    height: 45vh;
     width: 100%;
     background-image: linear-gradient(to right, ${Theme.highlight}, ${Theme.pink});
 
@@ -15,14 +15,15 @@ export const StatusLiveContainer = styled.div`
         flex-direction: column;
         align-items: start;
         width: 27vw;
-        height: calc(35vw * 9 / 16);
+        height: calc(30vw * 9 / 16);
         background-color: ${Theme.lightSoft};
 
         .banner {
             height: 70%;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: start;
+            padding-top: 35px;
             gap: 30px;
             padding-left: 40px;
 
@@ -33,7 +34,7 @@ export const StatusLiveContainer = styled.div`
                 gap: 10px;
 
                 .noti {
-                    font-size: 30px;
+                    font-size: 26px;
                     font-weight: 600;
                     color: ${Theme.dark}
                 }
@@ -73,7 +74,7 @@ export const StatusLiveContainer = styled.div`
             justify-content: center;
             align-items: center;
             gap: 5px;
-            font-size: 18px;
+            font-size: 16px;
             text-transform: uppercase;
             font-weight: 500;
             color: ${Theme.lightSoft};

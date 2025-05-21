@@ -1,173 +1,157 @@
-import { ResetPasswordContainer } from "./ResetPassword.styled";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Theme } from "../../../assets/styles/Theme";
 import { Icons } from "../../../assets/icons/Icon";
-import { changePassUser, otpPassUser, resetChangePassState, resetOtpPassState }
-    from "../../../stores/slices/authSlice";
-import { onChangeCode, onChangeEmail, onChangeNewPassword }
-    from "../../../stores/slices/inputResetPasswordSlice";
-
+import { resetOtpPasswordState, resetResetPasswordState } from "../../../stores/slices/authSlice";
 import ErrorAlert from "../../commons/ErrorAlert";
 import CircleSpinner from "../../commons/CircleSpinner";
 import Button from "../../commons/Button";
+import { ResetPasswordContainer } from "./ResetPassword.styled";
+import { REGEXS } from "../../../utils/regex";
+import { otpResetPassword, resetPassword } from "../../../service/api/authApi";
 
-
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const PASSWORD_REGEX = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-const CODE_REGEX = /^\d{6}$/;
 
 const ResetPassword = ({ onclose, onLogin, onSignUp }) => {
-
     const dispatch = useDispatch();
-    const [isLogin, setIsLogin] = useState(false);
-    const [isSendedCode, setIsSendedCode] = useState(false);
+    const navigate = useNavigate();
+    const { user, otpPasswordLoading, otpPasswordError, resetPasswordLoading, resetPasswordError } = useSelector((state) => state.auth);
+
+    const [formData, setFormData] = useState({
+        email: "",
+        newPassword: "",
+        code: "",
+    });
+    const [isFormValid, setIsFormValid] = useState(false);
+    const [isCodeSent, setIsCodeSent] = useState(false);
     const [counter, setCounter] = useState(60);
     const [highlights, setHighlights] = useState({
         email: "",
-        password: "",
-        code: ""
+        newPassword: "",
+        code: "",
     });
-    const { user } = useSelector((state) => state.auth);
-    const { email, newPassword, code } = useSelector((state) => state.inputResetPassword);
-    const { otpPassLoading, otpPassSuccess, otpPassError, otpPassMessage } =
-        useSelector((state) => state.auth);
-    const { changePassLoading, changePassSuccess, changePassError, changePassMessage } =
-        useSelector((state) => state.auth);
-
 
     useEffect(() => {
-        if (otpPassError) {
-            setIsSendedCode(false);
-            startCount(60);
-        }
-    }, [otpPassError]);
+        const isValid = REGEXS.EMAIL_REGEX.test(formData.email.trim()) &&
+                       REGEXS.PASSWORD_REGEX.test(formData.newPassword.trim()) &&
+                       REGEXS.CODE_REGEX.test(formData.code.trim());
+        setIsFormValid(isValid);
+    }, [formData]);
 
     useEffect(() => {
-        dispatch(resetOtpPassState());
-        dispatch(resetChangePassState());
-    }, [dispatch]);
+        if (user) {
+            window.location.reload();
+        }
+        return () => {
+            dispatch(resetOtpPasswordState());
+            dispatch(resetResetPasswordState());
+        };
+    }, [user, dispatch]);
 
     useEffect(() => {
-        if (user) window.location.reload();
-    }, [user])
-
-    useEffect(() => {
-        console.log(otpPassLoading, otpPassSuccess, otpPassError, otpPassMessage);
-    }, [otpPassLoading, otpPassSuccess, otpPassError, otpPassMessage])
-
-
-    const handleOnClickSendCode = () => {
-        if (isValidEmail(email)) {
-            if (!isSendedCode) {
-                setIsSendedCode(true);
-                startCount();
-                // fetch
-                dispatch(otpPassUser({ email }));
-            }
-        } else {
-            setHighlights((prev) => ({ ...prev, ["email"]: "highlight" }))
+        if (otpPasswordError) {
+            setIsCodeSent(false);
+            setCounter(60);
         }
-    };
+    }, [otpPasswordError]);
 
-    const handleOnClickLogin = () => {
-        if (isValidEmail(email) && isValidCode(code) && isValidPassword(newPassword)) {
-            // fetch
-            dispatch(changePassUser({ email, newPassword, code }));
-        }
-    }
-
-    const handleOnClickSignUp = () => {
-        onclose();
-        onSignUp();
-    };
-
-    // handle input action
-    const handleOnKeyDown = (e) => {
-
-        if (e.key === "Enter" && e.target.value !== "") {
-            e.preventDefault();
-            let named = e.target.name === "email" ? "password"
-                : e.target.name === "password" ? "code" : "";
-            if (named === "") {
-                handleOnClickSignUp();
-            }
-
-            let selector = `input[name='${named}']`;
-            document.querySelector(selector)?.focus();
-        }
-    };
-    const handleOnBlurInput = (e) => {
-        const { name, value } = e.target;
-
-        setHighlights((prev) => {
-            let highlightClass = "";
-            let isValid = false;
-
-            switch (name) {
-                case "email":
-                    isValid = EMAIL_REGEX.test(value) || !value || !value.trim();
-                    highlightClass = isValid ? "" : "highlight";
-                    break;
-                case "password":
-                    isValid = PASSWORD_REGEX.test(value) || !value || !value.trim();
-                    highlightClass = isValid ? "" : "highlight";
-                    break;
-                case "code":
-                    isValid = CODE_REGEX.test(value) || !value || !value.trim();
-                    highlightClass = isValid ? "" : "highlight";
-                    break;
-            };
-            return { ...prev, [name]: highlightClass };
-        });
-    };
-    const handleOnFocusInput = (e) => {
-        const { name } = e.target;
-        setHighlights((prev) => ({ ...prev, [name]: "" }))
-    };
-
-    // handle validate input
-    const isValidEmail = (email) => {
-        return EMAIL_REGEX.test(email) && email !== "";
-    };
-    const isValidPassword = (password) => {
-        return PASSWORD_REGEX.test(password) && password !== "";
-    };
-    const isValidCode = (code) => {
-        return CODE_REGEX.test(code) && code !== "";
-    };
-    const handleConstraintInputCode = (e) => {
-        console.log(e.target.value);
-
-        if (!e.target.value || /^\d+$/.test(e.target.value)) {
-            dispatch(onChangeCode(e.target.value))
-        }
-    }
-    const handleOnMouseEnterSignup = (e) => {
-        setIsLogin(isValidEmail(email) && isValidCode(code) && isValidPassword(newPassword));
-    }
-    const startCount = () => {
+    const startCountdown = () => {
         setCounter(60);
         const interval = setInterval(() => {
             setCounter((prev) => {
                 if (prev <= 1) {
                     clearInterval(interval);
-                    setIsSendedCode(false);
+                    setIsCodeSent(false);
                     return 0;
                 }
                 return prev - 1;
             });
         }, 1000);
-    }
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        let newValue = value.trim();
+        if (name === "code" && newValue && !/^\d+$/.test(newValue)) {
+            return;
+        }
+        setFormData((prev) => ({
+            ...prev,
+            [name]: newValue,
+        }));
+    };
+
+    const handleInputBlur = (e) => {
+        const { name, value } = e.target;
+        let isValid = true;
+        switch (name) {
+            case "email":
+                isValid = REGEXS.EMAIL_REGEX.test(value.trim()) || !value;
+                break;
+            case "newPassword":
+                isValid = REGEXS.PASSWORD_REGEX.test(value.trim()) || !value;
+                break;
+            case "code":
+                isValid = REGEXS.CODE_REGEX.test(value.trim()) || !value;
+                break;
+        }
+        setHighlights((prev) => ({
+            ...prev,
+            [name]: isValid ? "" : "highlight",
+        }));
+    };
+
+    const handleInputFocus = (e) => {
+        const { name } = e.target;
+        setHighlights((prev) => ({
+            ...prev,
+            [name]: "",
+        }));
+    };
+
+    const handleKeyPress = (e) => {
+        if (e.key !== "Enter" || !e.target.value.trim()) return;
+        e.preventDefault();
+        const fieldOrder = ["email", "newPassword", "code"];
+        const currentIndex = fieldOrder.indexOf(e.target.name);
+        if (currentIndex === fieldOrder.length - 1) {
+            handleResetPassword();
+        } else {
+            const nextField = fieldOrder[currentIndex + 1];
+            document.querySelector(`input[name="${nextField}"]`)?.focus();
+        }
+    };
+
+    const handleSendCode = () => {
+        if (REGEXS.EMAIL_REGEX.test(formData.email.trim()) && !isCodeSent) {
+            setIsCodeSent(true);
+            startCountdown();
+            dispatch(otpResetPassword({ email: formData.email }));
+        } else {
+            setHighlights((prev) => ({ ...prev, email: "highlight" }));
+        }
+    };
+
+    const handleResetPassword = () => {
+        if (isFormValid) {
+            dispatch(resetPassword(formData));
+        }
+    };
+
+    const handleSignUp = () => {
+        onclose();
+        onSignUp();
+    };
+
+    const handleLogin = () => {
+        onclose();
+        onLogin();
+    };
 
     return (
         <ResetPasswordContainer>
-            {otpPassError && <ErrorAlert message={otpPassError} ></ErrorAlert>}
-            {otpPassSuccess && <ErrorAlert message={otpPassMessage} type="success" ></ErrorAlert>}
-            {changePassError && <ErrorAlert message={changePassError} ></ErrorAlert>}
-            {changePassMessage && <ErrorAlert message={changePassMessage} type="success" ></ErrorAlert>}
+            {otpPasswordError && <ErrorAlert message={otpPasswordError.message || "Failed to send OTP"} />}
+            {resetPasswordError && <ErrorAlert message={resetPasswordError.message || "Password reset failed"} />}
             <div className="sign-up-form">
                 <div className="close-icon" onClick={onclose}>
                     <Icons.Close />
@@ -179,99 +163,77 @@ const ResetPassword = ({ onclose, onLogin, onSignUp }) => {
                     </div>
                 </div>
                 <div className="input-container">
-
-
                     <div className="email-input">
-                        <div className="title">
-                            Email
-                        </div>
+                        <div className="title">Email</div>
                         <div className="input">
                             <input
                                 name="email"
-                                onBlur={handleOnBlurInput}
-                                onFocus={handleOnFocusInput}
                                 type="text"
                                 placeholder="Email address"
                                 spellCheck={false}
-                                value={email}
-                                onChange={(e) => dispatch(onChangeEmail(e.target.value.trim()))}
-                                onKeyDown={(e) => handleOnKeyDown(e)}
+                                value={formData.email}
+                                onChange={handleInputChange}
+                                onBlur={handleInputBlur}
+                                onFocus={handleInputFocus}
+                                onKeyDown={handleKeyPress}
                             />
                         </div>
                     </div>
                     <div className={`error-email ${highlights.email}`}>
                         Enter a valid email address
                     </div>
-
-
-
                     <div className="password-input">
-                        <div className="title">
-                            New password
-                        </div>
+                        <div className="title">New password</div>
                         <div className="input">
                             <input
-                                name="password"
-                                onBlur={handleOnBlurInput}
-                                onFocus={handleOnFocusInput}
+                                name="newPassword"
                                 type="password"
-                                placeholder="Password"
+                                placeholder="New password"
                                 spellCheck={false}
-                                value={newPassword}
-                                onChange={(e) => dispatch(onChangeNewPassword(e.target.value.trim()))}
-                                onKeyDown={(e) => handleOnKeyDown(e)}
+                                value={formData.newPassword}
+                                onChange={handleInputChange}
+                                onBlur={handleInputBlur}
+                                onFocus={handleInputFocus}
+                                onKeyDown={handleKeyPress}
                             />
                         </div>
                     </div>
-                    <div className={`error-password ${highlights.password}`}>
+                    <div className={`error-password ${highlights.newPassword}`}>
                         Please enter a stronger password (8 - 20 characters)
                     </div>
-
-
-
                     <div className="otp-input">
-                        <div className="title">
-                            OTP
-                        </div>
+                        <div className="title">OTP</div>
                         <div className="input-send">
                             <div className="input">
                                 <input
                                     name="code"
-                                    onBlur={handleOnBlurInput}
-                                    onFocus={handleOnFocusInput}
                                     type="text"
                                     placeholder="Enter 6-digit code"
                                     spellCheck={false}
-                                    value={code}
-                                    onChange={(e) => handleConstraintInputCode(e)}
-                                    onKeyDown={(e) => handleOnKeyDown(e)}
+                                    value={formData.code}
+                                    onChange={handleInputChange}
+                                    onBlur={handleInputBlur}
+                                    onFocus={handleInputFocus}
+                                    onKeyDown={handleKeyPress}
                                 />
                             </div>
-                            <div className={`send ${isSendedCode ? "lock" : ""}`} onClick={handleOnClickSendCode}>
-                                {otpPassLoading ? <CircleSpinner size={30} /> : isSendedCode ? `Resend ${counter}s` : "Send code"}
+                            <div className={`send ${isCodeSent ? "lock" : ""}`} onClick={handleSendCode}>
+                                {otpPasswordLoading ? <CircleSpinner size={15} /> : isCodeSent ? `Resend ${counter}s` : "Send code"}
                             </div>
                         </div>
                     </div>
-
-
                     <div className={`error-code ${highlights.code}`}>
                         Enter 6-digit code
                     </div>
                 </div>
-
-
                 <div className="footer-container">
                     <Button
-                        title={changePassLoading ? <CircleSpinner size={20} /> : "Login"}
+                        title={resetPasswordLoading ? <CircleSpinner size={15} /> : "Reset Password"}
                         color={Theme.highlight}
-                        styles={`large ${isLogin ? "" : "lock"}`}
-                        onMouseEnter={handleOnMouseEnterSignup}
-                        onclick={handleOnClickLogin}
+                        styles={`medium ${isFormValid ? "" : "lock"}`}
+                        onclick={handleResetPassword}
                     />
-                    <div
-                        className="sign-up"
-                        onClick={handleOnClickSignUp}
-                    >
+                    <div className="sign-up" onClick={handleSignUp}>
                         Don't have an account? Sign up
                     </div>
                 </div>

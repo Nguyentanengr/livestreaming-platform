@@ -10,7 +10,7 @@ export const ShowMoreContainer = styled.div`
         span  {
             display: flex;
             align-items: center;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 700;
             padding: 5px 15px;
             margin: 0 10px;

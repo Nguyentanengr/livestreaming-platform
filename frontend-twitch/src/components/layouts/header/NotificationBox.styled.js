@@ -9,7 +9,7 @@ export const NotificationBoxContainer = styled.div`
     top: 40px;
     right: -20px;
     background-color: ${Theme.header};
-    width: 500px;
+    width: 400px;
     z-index: 100;
     border-radius: 5px;
     box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.1);
@@ -31,7 +31,7 @@ export const NotificationBoxContainer = styled.div`
 
         .title {
             grid-column: 2;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 600;
             text-align: center;
         }
@@ -49,15 +49,29 @@ export const NotificationBoxContainer = styled.div`
     .notification-container {
         display: flex;
         flex-direction: column;
+        height: 50vh;
+        overflow-y: auto; 
+
+        &::-webkit-scrollbar {
+            width: 0px;
+            background-color: ${Theme.header};
+        }
+
+
 
         .notification-item {
             display: grid;
             grid-template-columns: 50px auto 30px;
             align-items: start;
-            background-color: ${Theme.header};
+            background-color: ${Theme.lightSoft};
             padding: 15px 15px 20px;
-            gap: 10px;
-            cursor: pointer;
+            gap: 10px;  
+
+            &.isRead {
+                background-color: ${Theme.header};
+            }
+
+
 
             .description-container {
                 text-align: left;
@@ -65,7 +79,7 @@ export const NotificationBoxContainer = styled.div`
                 flex-direction: column;
                 gap: 5px;
                 .description {
-                    font-size: 16px;
+                    font-size: 14px;
                 }
                 .time {
                     font-size: 14px;
@@ -79,6 +93,8 @@ export const NotificationBoxContainer = styled.div`
                 align-items: center;
                 justify-content: center;
                 font-size: 20px;
+                cursor: pointer;
+                border-radius: 5px;
             }
 
             &:hover {

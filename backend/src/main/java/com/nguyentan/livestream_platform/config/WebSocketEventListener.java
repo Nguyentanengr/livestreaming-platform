@@ -23,6 +23,5 @@ public class WebSocketEventListener {
         if (username != null) {
             messageTemplate.convertAndSend("/topic/messages", "leave off.");
         }
-
     }
 }

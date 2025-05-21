@@ -3,7 +3,7 @@ import { Theme } from "../../../assets/styles/Theme";
 
 export const StreamContainer = styled.div`
     position: fixed;
-    top: 65px;
+    top: 55px;
     left: 270px;
     bottom: 0;
     right: 0;

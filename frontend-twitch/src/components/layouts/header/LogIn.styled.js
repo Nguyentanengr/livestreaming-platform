@@ -50,7 +50,7 @@ export const LogInContainer = styled.div`
             padding: 10px 0px;
 
             .title-header {
-                font-size: 28px;
+                font-size: 24px;
                 font-weight: 500;
                 display: flex;
                 align-items: center;
@@ -68,7 +68,7 @@ export const LogInContainer = styled.div`
             flex-direction: column;
 
             .title {
-                font-size: 18px;
+                font-size: 16px;
                 font-weight: 500;
             }
 
@@ -84,7 +84,7 @@ export const LogInContainer = styled.div`
 
             .trouble {
                 margin-top: 10px;
-                font-size: 16px;
+                font-size: 14px;
                 color: ${Theme.highlight};
                 font-weight: 500;
                 cursor: pointer;
@@ -105,7 +105,7 @@ export const LogInContainer = styled.div`
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                font-size: 16px;
+                font-size: 14px;
                 font-weight: 600;
                 cursor: pointer;
                 background-color: transparent;

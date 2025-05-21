@@ -7,9 +7,9 @@ import { Theme } from "../../assets/styles/Theme";
 export const EditInputContainer = styled.div`
 
     input {
-        height: 45px;
+        height: 38px;
         width: 100%;
-        font-size: 18px;
+        font-size: 14px;
         background-color: transparent;
         border: 1px solid ${Theme.mediumSoft};
         border-radius: 5px;

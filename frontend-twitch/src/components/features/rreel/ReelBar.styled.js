@@ -38,7 +38,7 @@ export const ReelBarContainer = styled.div`
             cursor: pointer;
 
             .follow-icon {
-                font-size: 26px;
+                font-size: 22px;
                 color: ${Theme.header};
 
             }

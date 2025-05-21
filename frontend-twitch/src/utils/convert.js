@@ -63,3 +63,40 @@ export const convertTimeAgo = (time) => {
     const diffInYears = Math.floor(diffInMonths / 12);
     return `${diffInYears} years ago`;
 };
+
+// convert from 2025-05-19T15:20:20 to 3 seconds ago, 3 minutes ago, 3 hours ago, 3 days ago, 3 months ago, 3 years ago
+
+export const convertTimeToTimeAgo = (time) => {
+    const now = new Date();
+    const inputTime = new Date(time);
+    const diffInSeconds = Math.floor((now - inputTime) / 1000);
+
+    if (diffInSeconds < 5) {
+        return 'just now';
+    } else if (diffInSeconds < 60) {
+        return `${Math.floor(diffInSeconds)} seconds ago`;
+    }
+
+    const diffInMinutes = Math.floor(diffInSeconds / 60);
+    if (diffInMinutes < 60) {
+        return `${diffInMinutes} minutes ago`;
+    }
+
+    const diffInHours = Math.floor(diffInMinutes / 60);
+    if (diffInHours < 24) {
+        return `${diffInHours} hours ago`;
+    }
+
+    const diffInDays = Math.floor(diffInHours / 24);
+    if (diffInDays < 30) {
+        return `${diffInDays} days ago`;
+    }
+
+    const diffInMonths = Math.floor(diffInDays / 30);
+    if (diffInMonths < 12) {
+        return `${diffInMonths} months ago`;
+    }
+
+    const diffInYears = Math.floor(diffInMonths / 12);
+    return `${diffInYears} years ago`;
+}

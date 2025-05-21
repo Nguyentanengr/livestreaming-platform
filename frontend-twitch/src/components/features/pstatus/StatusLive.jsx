@@ -13,20 +13,20 @@ const StatusLive = () => {
 
     const videoRef = useRef(null);
     const navigate = useNavigate();
-    const user = useSelector((state) => state.user.user);
+    const { myProfile } = useSelector((state) => state.profile);
 
     return (
         <StatusLiveContainer>
             <div className="noti-container">
                 <div className="banner">
                     <Thumbnail
-                        src={user.thumbnail}
-                        onclick={() => navigate(`/profile/${user.username}`)}
+                        src={myProfile.avatar}
+                        onclick={() => { }}
                         size="vvlarge"
                     />
                     <div className="text">
-                        <Button styles="medium" color={Theme.dark} title="OFFLINE" />
-                        <div className="noti">Ripcode444 is offline</div>
+                        <Button styles="small" color={myProfile.isStreaming ? Theme.hotRed : Theme.dark} title={`${myProfile.isStreaming ? 'ONLINE' : 'OFFLINE'}`} />
+                        <div className="noti">{myProfile.username} is {`${myProfile.isStreaming ? 'online' : 'offline'}`}</div>
                     </div>
                 </div>
                 <div className="turn-on"><Icons.Notification className="noti-icon" /> Turn on Notifications</div>
@@ -34,7 +34,7 @@ const StatusLive = () => {
             <div className="live-screen">
                 <Screen videoRef={videoRef} isPlay={false} />
                 <div className="banner"><Icons.HotLive className="icon" />
-                    offline
+                    {`${myProfile.isStreaming ? 'online' : 'offline'}`}
                 </div>
             </div>
         </StatusLiveContainer>

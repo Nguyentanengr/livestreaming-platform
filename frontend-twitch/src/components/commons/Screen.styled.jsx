@@ -23,8 +23,8 @@ export const ScreenContainer = styled.div`
             align-items: center;
             justify-content: center;
             color: ${Theme.header};
-            font-size: 30px;
-            padding: 3px;
+            font-size: 24px;
+            padding: 5px;
             cursor: pointer;
             transition: 0.2s;
             border-radius: 3px;
@@ -35,10 +35,10 @@ export const ScreenContainer = styled.div`
         }
 
         .play {
-            bottom: 10px;
+            bottom: 12px;
             left: 10px;
-            font-size: 36px;
-            padding: 2px;
+            font-size: 32px;
+            padding: 0px;
         }
 
         .mute {
@@ -60,7 +60,7 @@ export const ScreenContainer = styled.div`
         }
 
         &.medium {
-            width: 35vw;
+            width: 30vw;
             aspect-ratio: 16 / 9;
             .expand {
                 font-size: 25px;

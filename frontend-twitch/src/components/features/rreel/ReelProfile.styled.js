@@ -18,7 +18,7 @@ export const ReelProfileContainer = styled.div`
             cursor: pointer;
 
             .follow-icon {
-                font-size: 26px;
+                font-size: 20px;
                 color: ${Theme.header};
 
             }

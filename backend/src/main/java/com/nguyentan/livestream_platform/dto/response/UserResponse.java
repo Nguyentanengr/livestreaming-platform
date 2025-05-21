@@ -19,5 +19,6 @@ public record UserResponse(
         LocalDateTime lastLogin,
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
-        Boolean isActive
+        Boolean isActive,
+        String role
 ) {}

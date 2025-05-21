@@ -6,8 +6,10 @@ import com.nguyentan.livestream_platform.service.jwt.JwtBlackList;
 import com.nguyentan.livestream_platform.service.jwt.VerifyJwtRefreshToken;
 import com.nimbusds.jwt.JWTClaimsSet;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserLogoutService {
@@ -19,9 +21,14 @@ public class UserLogoutService {
 
         // verify refresh token, if token is invalid, send 401 Unauthorized to client
         // and clear access & refresh token in local storage
-        JWTClaimsSet claimsSet = verifyJwtRefreshToken.verifyToken(request.token());
+        try {
+            JWTClaimsSet claimsSet = verifyJwtRefreshToken.verifyToken(request.token());
 
-        // disable token if token is verified
-        blackList.cacheItem(claimsSet.getJWTID(), claimsSet.getExpirationTime());
+            // disable token if token is verified
+            blackList.cacheItem(claimsSet.getJWTID(), claimsSet.getExpirationTime());
+            log.info("Push refresh token into blacklist: " + request.token());
+        } catch (Exception e) {
+            log.error("An error occurred while logout user: " + e.getMessage());
+        }
     }
 }

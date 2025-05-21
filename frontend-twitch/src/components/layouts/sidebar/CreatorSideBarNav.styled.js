@@ -5,7 +5,7 @@ export const CreatorSideBarNavContainer = styled.div`
     display: flex;
     align-items: center;
     gap: 15px;
-    font-size: 18px;
+    font-size: 16px;
     background-color: transparent;
     margin: 0 5px;
     padding: 12px 15px; 
@@ -16,10 +16,7 @@ export const CreatorSideBarNavContainer = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 24px;
-    }
-
-    .nav-title {
+        font-size: 22px;
     }
 
     &:hover {

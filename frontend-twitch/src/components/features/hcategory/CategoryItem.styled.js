@@ -11,7 +11,7 @@ const fadeIn = keyframes`
 `;
 
 export const CategoryItemContainer = styled.div`
-    width: calc((100% - 100px) / 4);
+    width: calc((100% - 100px) / 6);
     animation: ${fadeIn} 0.3s ease-out forwards;
 
    .thumbnail-container {
@@ -21,6 +21,7 @@ export const CategoryItemContainer = styled.div`
         background-color: ${Theme.highlight};
         cursor: pointer;
         transition: 0.2s;
+        border-radius: 10px;
 
         img {
             width: 100%;
@@ -28,6 +29,7 @@ export const CategoryItemContainer = styled.div`
             object-fit: cover;
             transition: 0.2s;
             display: block;
+            border-radius: 10px;
         }
 
         .popular-tag {
@@ -35,11 +37,11 @@ export const CategoryItemContainer = styled.div`
             top: 10px;
             right: 10px;
             padding: 4px 8px;
-            font-size: 14px;
-            line-height: 14px;
+            font-size: 12px;
+            line-height: 12px;
             text-transform: uppercase;
             font-weight: 700;
-            color: ${Theme.dark};
+            color: ${Theme.header};
             background-color: ${Theme.pink};
             border-radius: 10px;
             transition: 0.2s;
@@ -51,6 +53,7 @@ export const CategoryItemContainer = styled.div`
             img,
             .popular-tag {
                 transform: translate(8px, -8px);
+               
             }
         }
    }
@@ -64,11 +67,12 @@ export const CategoryItemContainer = styled.div`
         .info-container {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 5px;
             align-items: start;
+           
 
             .title {
-                font-size: 18px;
+                font-size: 16px;
                 font-weight: 600;
                 color: ${Theme.dark};
                 display: -webkit-box; // cut text
@@ -85,7 +89,7 @@ export const CategoryItemContainer = styled.div`
             }
 
             .interested {
-                font-size: 16px;
+                font-size: 14px;
                 font-weight: 400;
                 color: ${Theme.lightDark};
             }

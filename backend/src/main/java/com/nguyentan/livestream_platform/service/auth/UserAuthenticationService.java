@@ -1,8 +1,10 @@
 package com.nguyentan.livestream_platform.service.auth;
 
+import com.nguyentan.livestream_platform.converter.UserConverter;
 import com.nguyentan.livestream_platform.dto.request.UserAuthenticationRequest;
 import com.nguyentan.livestream_platform.dto.response.CodeResponse;
 import com.nguyentan.livestream_platform.dto.response.UserAuthenticationResponse;
+import com.nguyentan.livestream_platform.dto.response.UserResponse;
 import com.nguyentan.livestream_platform.entity.User;
 import com.nguyentan.livestream_platform.exception.BusinessException;
 import com.nguyentan.livestream_platform.service.jwt.JwtTokenGenerator;
@@ -21,6 +23,7 @@ public class UserAuthenticationService {
 
     private final AuthenticationManager authenticationManager;
     private final JwtTokenGenerator tokenGenerator;
+    private final UserConverter userConverter;
 
 
     public UserAuthenticationResponse authenticate(UserAuthenticationRequest request) {
@@ -34,14 +37,18 @@ public class UserAuthenticationService {
             String jwtAccessToken = tokenGenerator.generateAccessToken(user);
             String jwtRefreshToken = tokenGenerator.generateRefreshToken(user);
 
+            UserResponse userResponse = userConverter.mapToUserResponse(user);
+
             return UserAuthenticationResponse.builder()
-                    .isAuthenticated(true)
+                    .user(userResponse)
                     .accessToken(jwtAccessToken)
                     .refreshToken(jwtRefreshToken)
                     .build();
 
-        } catch (UsernameNotFoundException | BadCredentialsException | LockedException e) {
-            return UserAuthenticationResponse.builder().isAuthenticated(false).build();
+        } catch (UsernameNotFoundException | BadCredentialsException e) {
+            throw new BusinessException(CodeResponse.LOGIN_FAIL);
+        } catch (LockedException e) {
+            throw new BusinessException(CodeResponse.ACCOUNT_HAS_BEEN_LOCKED);
         }
     }
 }

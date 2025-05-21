@@ -7,7 +7,7 @@ export const EditTextAreaContainer = styled.div`
         width: 100%;
         border-radius: 5px;
         border: 1px solid ${Theme.mediumSoft};
-        font-size: 18px;
+        font-size: 14px;
         resize: none;
         padding: 10px 10px;
         font-family: sans-serif;

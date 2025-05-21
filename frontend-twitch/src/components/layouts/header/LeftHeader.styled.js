@@ -14,7 +14,7 @@ export const LeftHeaderContainer = styled.div`
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 47px;
+            font-size: 37px;
             color: ${Theme.highlight};
             fill: ${Theme.header};
             stroke: ${Theme.header};
@@ -22,6 +22,7 @@ export const LeftHeaderContainer = styled.div`
             overflow: hidden;
             transition: 0.3s ease-in-out;
             z-index: 10;
+            padding-left: 20px;
 
             .logo-bg {
                 position: absolute;
@@ -39,7 +40,7 @@ export const LeftHeaderContainer = styled.div`
         }
 
         .logo-text {
-            font-size: 25px;
+            font-size: 24px;
             font-weight: 800;
             color: ${Theme.highlight};
         }

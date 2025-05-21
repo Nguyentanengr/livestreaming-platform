@@ -1,144 +1,136 @@
-import { LogInContainer } from "./Login.styled"
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Theme } from "../../../assets/styles/Theme";
 import { Icons } from "../../../assets/icons/Icon";
 import Button from "../../commons/Button";
-import EditInput from "../../commons/EditInput"
+import EditInput from "../../commons/EditInput";
 import ErrorAlert from "../../commons/ErrorAlert";
 import CircleSpinner from "../../commons/CircleSpinner";
-import { loginUser, resetLoginState } from "../../../stores/slices/authSlice";
-
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+import { resetLoginState } from "../../../stores/slices/authSlice";
+import { loginUser } from "../../../service/api/authApi";
+import { LogInContainer } from "./LogIn.styled";
+import { REGEXS } from "../../../utils/regex";
 
 const LogIn = ({ onclose, onSignUp, onResetPass }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user, loginLoading, loginError, accessToken } = useSelector((state) => state.auth);
 
-    const dispatch = useDispatch();
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [isLockLogin, setIsLockLogin] = useState(true);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const [isFormValid, setIsFormValid] = useState(false);
 
-    const { user } = useSelector((state) => state.auth);
-    const { loginLoading, loginSuccess, loginError, loginMessage }
-        = useSelector((state) => state.auth);
+  useEffect(() => {
+    const isValid = REGEXS.EMAIL_REGEX.test(formData.email.trim()) && formData.password.trim() !== "";
+    setIsFormValid(isValid);
+  }, [formData]);
 
-    useEffect(() => {
-        setIsLockLogin(!password || !isValidEmail(email));
-    }, [email, password]);
+  useEffect(() => {
+    if (user) {
 
-    useEffect(() => {
-        if (user) window.location.reload();
-    }, [user]);
-
-    useEffect(() => {
-        dispatch(resetLoginState());
-    }, [dispatch]);
-
-    const handleOnClickSignUp = () => {
-        onclose();
-        onSignUp();
-    };
-
-    const handleOnClickLogin = () => {
-        if (password && isValidEmail(email)) {
-            console.log(email, password);
-            dispatch(loginUser({ email, password }));
-        } else {
-
-        }
+      const intendedRoute = localStorage.getItem('intendedRoute');
+      localStorage.removeItem('intendedRoute'); // Clear after use
+      if (intendedRoute) {
+        navigate(intendedRoute);
+      } else {
+        window.location.reload();
+      }
     }
+    return () => dispatch(resetLoginState());
+  }, [user, dispatch, navigate]);
 
-    const handleOnClickTrouble = () => {
-        onclose();
-        onResetPass();
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value.trim(),
+    }));
+  };
+
+  const handleSubmit = () => {
+    if (isFormValid) {
+      dispatch(loginUser(formData));
     }
+  };
 
-    const handleOnChangeUsername = (e) => {
-        setEmail(e.target.value.trim());
-    };
-
-    const handleOnChangePassword = (e) => {
-        setPassword(e.target.value.trim());
-    };
-
-    const isValidEmail = (email) => {
-        return EMAIL_REGEX.test(email) && email !== "";
-    };
-
-    const handleOnEnterEmail = (e) => {
-        if (e.target.value !== "") {
-            document.querySelector("input[name='password']")?.focus();
-        }
+  const handleKeyPress = (e, nextField) => {
+    if (e.key === "Enter" && e.target.value.trim() !== "") {
+      if (nextField === "submit") {
+        handleSubmit();
+      } else {
+        document.querySelector(`input[name="${nextField}"]`)?.focus();
+      }
     }
+  };
 
-    const handleOnEnterPassword = (e) => {
-        if (e.target.value !== "") {
-            handleOnClickLogin();
-        }
-    }
+  const handleSignUp = () => {
+    onclose();
+    onSignUp();
+  };
 
+  const handleTrouble = () => {
+    onclose();
+    onResetPass();
+  };
 
-    return (
-        <LogInContainer>
-            {loginError && <ErrorAlert message={loginError} />}
-            <div className="login-form">
-                <div className="close-icon" onClick={onclose}>
-                    <Icons.Close />
-                </div>
-                <div className="header-container">
-                    <div className="title-header">
-                        <Icons.TwitchLogo className="t-icon" />
-                        Log in to Twitch
-                    </div>
-                </div>
-                <div className="input-container">
-                    <div className="username-input">
-                        <div className="title">
-                            Email
-                        </div>
-                        <div className="input">
-                            <EditInput
-                                name="email"
-                                value={email}
-                                onchange={handleOnChangeUsername}
-                                onenter={handleOnEnterEmail}
-                            />
-                        </div>
-                    </div>
-                    <div className="password-input">
-                        <div className="title">
-                            Password
-                        </div>
-                        <div className="input">
-                            <EditInput
-                                name="password"
-                                value={password}
-                                onchange={handleOnChangePassword} type="password"
-                                onenter={handleOnEnterPassword}
-                            />
-                        </div>
-                    </div>
-                    <div
-                        className="trouble"
-                        onClick={handleOnClickTrouble}
-                    >
-                        Trouble loggin in?
-                    </div>
-                </div>
-                <div className="footer-container">
-                    <Button
-                        title={loginLoading ? <CircleSpinner size={20} /> : "Log In"}
-                        color={Theme.highlight}
-                        styles={`large ${isLockLogin ? "lock" : ""}`}
-                        onclick={handleOnClickLogin}
-                    />
-                    <div className="sign-up" onClick={handleOnClickSignUp}>
-                        Don't have an account? Sign up
-                    </div>
-                </div>
+  return (
+    <LogInContainer>
+      {loginError && <ErrorAlert message={loginError.message || "Login failed"} />}
+      <div className="login-form">
+        <div className="close-icon" onClick={onclose}>
+          <Icons.Close />
+        </div>
+        <div className="header-container">
+          <div className="title-header">
+            <Icons.TwitchLogo className="t-icon" />
+            Log in to Twitch
+          </div>
+        </div>
+        <div className="input-container">
+          <div className="username-input">
+            <div className="title">Email</div>
+            <div className="input">
+              <EditInput
+                name="email"
+                value={formData.email}
+                onchange={handleInputChange}
+                onenter={(e) => handleKeyPress(e, "password")}
+              />
             </div>
-        </LogInContainer>
-    );
+          </div>
+          <div className="password-input">
+            <div className="title">Password</div>
+            <div className="input">
+              <EditInput
+                name="password"
+                type="password"
+                value={formData.password}
+                onchange={handleInputChange}
+                onenter={(e) => handleKeyPress(e, "submit")}
+              />
+            </div>
+          </div>
+          <div className="trouble" onClick={handleTrouble}>
+            Trouble logging in?
+          </div>
+        </div>
+        <div className="footer-container">
+          <Button
+            title={loginLoading ? <CircleSpinner size={15} /> : "Log In"}
+            color={Theme.highlight}
+            styles={`medium ${!isFormValid ? "lock" : ""}`}
+            onclick={handleSubmit}
+          />
+          <div className="sign-up" onClick={handleSignUp}>
+            Don't have an account? Sign up
+          </div>
+        </div>
+      </div>
+    </LogInContainer>
+  );
 };
 
 export default LogIn;

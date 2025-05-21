@@ -34,7 +34,7 @@ public class SecurityConfig {
             "/api/v1/auth/register", "/api/v1/auth/register/require-otp",
             "/api/v1/auth/reset-password", "api/v1/auth/login",
             "/api/v1/auth/refresh-token", "api/v1/auth/reset-password/require-otp",
-            "/api/v1/auth/reset-password", "api/v1/auth/hello"
+            "/api/v1/auth/logout", "api/v1/auth/hello"
 
     };
 
@@ -87,9 +87,10 @@ public class SecurityConfig {
     @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOrigin("*");
-        corsConfiguration.addAllowedHeader("*");
-        corsConfiguration.addAllowedMethod("*");
+        corsConfiguration.addAllowedOrigin("http://localhost:3000"); // only the given localhost
+        corsConfiguration.addAllowedHeader("*"); // allowed any header
+        corsConfiguration.addAllowedMethod("*"); // allowed any method: GET, POST, ...
+        corsConfiguration.setAllowCredentials(true); // to send refresh token into Http-Only (Cookie)
 
         UrlBasedCorsConfigurationSource urls = new UrlBasedCorsConfigurationSource();
         urls.registerCorsConfiguration("/**", corsConfiguration);

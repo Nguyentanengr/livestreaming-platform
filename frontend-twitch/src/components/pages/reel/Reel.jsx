@@ -1,72 +1,113 @@
-import { useSelector } from "react-redux";
-import { ReelContainer } from "./Reel.styled";
-import { useEffect, useRef } from "react";
-import ScrollReel from "../../features/rscroll/ScrollReel";
-import ReelSlide from "../../features/rreel/ReelSlide";
-import gsap from "gsap"; // library for smooth scroll
+import { useSelector, useDispatch } from 'react-redux';
+import { ReelContainer } from './Reel.styled';
+import { useEffect, useRef, useState } from 'react';
+import ScrollReel from '../../features/rscroll/ScrollReel';
+import ReelSlide from '../../features/rreel/ReelSlide';
+import gsap from 'gsap';
+import { resetActiveComment, resetReels } from '../../../stores/slices/recommendReelSlice';
+import { getRcmReel } from '../../../service/api/reelApi';
 
 const Reel = () => {
-
-    const reels = useSelector((state) => state.reel.reels);
+    const dispatch = useDispatch();
+    const { reels, currentPage, hasMore, isLoading, error } = useSelector((state) => state.recommendReel);
     const containerRef = useRef(null);
     const itemRefs = useRef([]);
+    const [currentReelIndex, setCurrentReelIndex] = useState(0);
 
-    useEffect(() => { // ensure itemRefs is the same length as reels
-        itemRefs.current = itemRefs.current.slice(0, reels.length);
-    }, [reels]);
+    const PAGE_SIZE = 5;
+
+    // Map backend response to frontend reel format, keeping user object
+    const normalizedReels = reels.map((reel) => ({
+        id: reel.id,
+        title: reel.description,
+        videoUrl: reel.video,
+        username: reel.user.username,
+        tags: reel.tagNames.map((tagName) => ({ name: tagName })),
+        thumbnail: reel.thumbnail,
+        likesCount: reel.likesCount,
+        commentsCount: reel.commentsCount,
+        viewsCount: reel.viewsCount,
+        createdAt: reel.createdAt,
+        isLiked: reel.isLiked,
+        user: {
+            id: reel.user.id,
+            username: reel.user.username,
+            avatar: reel.user.avatar,
+            isFollowing: reel.user.isFollowing,
+        },
+    }));
+
+    useEffect(() => {
+        dispatch(resetReels());
+    }, [dispatch]);
+
+    useEffect(() => {
+        itemRefs.current = itemRefs.current.slice(0, normalizedReels.length);
+    }, [normalizedReels]);
 
     useEffect(() => {
         const container = containerRef.current;
         if (!container) return;
-        container.addEventListener("wheel", handleWheel, { passive: false});
 
-        return () => {
-            container.removeEventListener("wheel", handleWheel);
-        };
-    }, []);
-
-    const handleWheel = (e) => {
-
-        const commentContainer = e.target.closest('.comment-list-container');
-
-        if (commentContainer) { // the scroll event originated from the comments section
-            if (commentContainer.scrollHeight == commentContainer.clientHeight) {
-                e.preventDefault(); // disable scroll
+        const handleWheelEvent = (e) => {
+            const commentContainer = e.target.closest('.comment-list-container');
+            if (commentContainer) {
+                if (commentContainer.scrollHeight === commentContainer.clientHeight) {
+                    e.preventDefault();
+                }
+                return;
             }
-            return;
-        } else {
+
             e.preventDefault();
-            if (e.deltaY > 0) { // detect scroll down
+            if (e.deltaY > 0) {
                 handleScrollDown(0);
-            } else { // detect scroll up
+            } else {
                 handleScrollUp(0);
             }
-        }
-    };
+        };
 
-    const handleScrollDown = (offset = 0) => { // offset is the number (+1) of items to scroll down
+        container.addEventListener('wheel', handleWheelEvent, { passive: false });
+
+        return () => {
+            container.removeEventListener('wheel', handleWheelEvent);
+        };
+    }, [normalizedReels]);
+
+    useEffect(() => {
+        if (currentReelIndex >= normalizedReels.length - 2 && hasMore && !isLoading) {
+            dispatch(getRcmReel({ key: '', page: currentPage + 1, size: PAGE_SIZE }));
+        }
+    }, [currentReelIndex, normalizedReels.length, hasMore, isLoading, currentPage, dispatch]);
+
+    const handleScrollDown = (offset = 0) => {
+        setTimeout(() => {
+            dispatch(resetActiveComment());
+        }, 1000);
         const container = containerRef.current;
         const currentScroll = container.scrollTop + 1;
 
         for (let i = 0; i < itemRefs.current.length; i++) {
+            
             const itemTop = itemRefs.current[i].offsetTop;
             if (itemTop > currentScroll) {
                 const targetIndex = Math.min(i + offset, itemRefs.current.length - 1);
-                // container.scrollTo({
-                //     top: itemRefs.current[targetIndex].offsetTop,
-                //     behavior: "smooth",
-                // });
                 gsap.to(container, {
                     scrollTop: itemRefs.current[targetIndex].offsetTop,
-                    duration: 0.3, // Thời gian cuộn (giảm để cuộn nhanh hơn)
-                    ease: "power1.inOut", // Hiệu ứng mượt
+                    duration: 0.3,
+                    ease: 'power1.inOut',
+                    onComplete: () => {
+                        setCurrentReelIndex(targetIndex);
+                    },
                 });
                 break;
             }
         }
-    }
+    };
 
-    const handleScrollUp = (offset = 0) => { // offset is the number (-1) of items to scroll up
+    const handleScrollUp = (offset = 0) => {
+        setTimeout(() => {
+            dispatch(resetActiveComment());
+        }, 1000);
         const container = containerRef.current;
         const currentScroll = container.scrollTop - 1;
 
@@ -74,14 +115,13 @@ const Reel = () => {
             const itemTop = itemRefs.current[i].offsetTop;
             if (itemTop < currentScroll) {
                 const targetIndex = Math.max(i - offset, 0);
-                // container.scrollTo({
-                //     top: itemRefs.current[targetIndex].offsetTop,
-                //     behavior: "smooth",
-                // });
                 gsap.to(container, {
                     scrollTop: itemRefs.current[targetIndex].offsetTop,
-                    duration: 0.3, // Thời gian cuộn (giảm để cuộn nhanh hơn)
-                    ease: "power1.inOut", // Hiệu ứng mượt
+                    duration: 0.3,
+                    ease: 'power1.inOut',
+                    onComplete: () => {
+                        setCurrentReelIndex(targetIndex);
+                    },
                 });
                 break;
             }
@@ -90,8 +130,12 @@ const Reel = () => {
 
     return (
         <ReelContainer>
+            {error && <div className="error-message">Error: {error.message}</div>}
+            {isLoading && normalizedReels.length === 0 && <div>Loading...</div>}
             <ScrollReel scrollUp={handleScrollUp} scrollDown={handleScrollDown} />
-            <ReelSlide reels={reels} itemRefs={itemRefs} containerRef={containerRef}/>
+            <ReelSlide reels={normalizedReels} itemRefs={itemRefs} containerRef={containerRef} />
+            {isLoading && normalizedReels.length > 0 && <div>Loading more reels...</div>}
+            {!hasMore && normalizedReels.length > 0 && <div>No more reels to load.</div>}
         </ReelContainer>
     );
 };

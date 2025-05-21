@@ -8,21 +8,26 @@ export const SideBarNavigationContainer = styled.div`
     width: 70px;
     cursor: pointer;
     padding: 10px;
-    border-radius: 8px;
+
+    &.box.highlight {
+        border-left: 3px solid ${Theme.highlight};
+        width: 60px;
+    }
 
     .icon {
-        font-size: 30px;
+        font-size: 25px;
         transition: all 0.1s ease-in-out; 
+        color: ${Theme.soft};
     }
 
     .icon.highlight {
         color: ${Theme.highlight};
-        font-size: 35px;
     }
 
     .title {
-        font-size: 16px;
+        font-size: 14px;
         transition: all 0.1s ease-in-out;
+        color: ${Theme.soft};
     }
 
     .title.highlight {

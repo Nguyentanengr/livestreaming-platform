@@ -27,7 +27,7 @@ const ChatList = () => {
             {list.map(chat => {
                 return <div className="chat-item" key={chat.id} ref={el => itemRefs.current[chat.id] = el}>
                     <div className="thumbnail">
-                        <Thumbnail src={chat.thumbnail} onclick={() => { navigate(`/profile/${chat.username}`) }} />
+                        <Thumbnail src={chat.thumbnail} onclick={() => { navigate(`/profile/${chat.username}`) }} size={'small'}/>
                     </div>
                     <div className="content">
                         <div className="box">

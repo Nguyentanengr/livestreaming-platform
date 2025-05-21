@@ -1,5 +1,5 @@
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { Icons } from "../../../assets/icons/Icon";
 import { CreatorSideBarContainer } from "./CreatorSideBar.styled";
 import CreatorSideBarNav from "./CreatorSideBarNav";
@@ -7,6 +7,7 @@ import CreatorSideBarNav from "./CreatorSideBarNav";
 const CreatorSideBar = () => {
     const [option, setOption] = useState(1);
     const navigate = useNavigate();
+    const url = useLocation().pathname;
 
     const navigations = [
         {
@@ -29,11 +30,19 @@ const CreatorSideBar = () => {
         },
     ];
 
+    useEffect(() => {
+        const currentNavigation = navigations.find((nav) => url.includes(nav.nav));
+        if (currentNavigation) {
+            setOption(currentNavigation.id);
+        }
+    }, [url])
 
     const handleNavigationClick = (navigation) => {
         setOption(navigation.id);
         navigate(navigation.nav);
     };
+
+
 
     return (
         <CreatorSideBarContainer>

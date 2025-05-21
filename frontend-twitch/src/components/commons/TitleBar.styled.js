@@ -9,10 +9,10 @@ export const TitleBarContainer = styled.div`
     justify-content: space-between;
     background-color: ${Theme.lightSoft};
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-    padding: 5px 15px;
+    padding: 3px 15px;
 
     .title {
-        font-size: 20px;
+        font-size: 16px;
         font-weight: 600;
         color: ${Theme.dark};
     }

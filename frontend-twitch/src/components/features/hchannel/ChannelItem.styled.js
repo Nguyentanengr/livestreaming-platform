@@ -13,7 +13,6 @@ const fadeIn = keyframes`
 export const ChannelItemContainer = styled.div`
     width: calc((100% - 60px) / 4);
     animation: ${fadeIn} 0.3s ease-out forwards;
-    
     .thumbnail-container {
         position: relative;
         cursor: pointer;
@@ -21,6 +20,9 @@ export const ChannelItemContainer = styled.div`
         aspect-ratio: 16 / 9;
         background-color: ${Theme.lightSoft};
         transition: 0.2s;
+        border-radius: 8px;
+        
+
         
         img {
             width: 100%;
@@ -28,6 +30,7 @@ export const ChannelItemContainer = styled.div`
             object-fit: cover;
             transition: 0.2s;
             display: block;
+            border-radius: 8px;
         }
 
         .live-status {
@@ -47,7 +50,7 @@ export const ChannelItemContainer = styled.div`
             position: absolute;
             bottom: 12px;
             left: 10px;
-            font-size: 16px;
+            font-size: 12px;
             font-weight: 500;
             color: ${Theme.header};
             border-radius: 1px;
@@ -98,7 +101,7 @@ export const ChannelItemContainer = styled.div`
                 gap: 10px;
 
                 .title {
-                    font-size: 18px;
+                    font-size: 16px;
                     font-weight: 600;
                     color: ${Theme.dark};
                     display: -webkit-box; // cut text
@@ -110,7 +113,7 @@ export const ChannelItemContainer = styled.div`
                 }
 
                 .username {
-                    font-size: 16px;
+                    font-size: 14px;
                     font-weight: 400;
                     color: ${Theme.lightDark};
                     line-height: 16px;
@@ -128,7 +131,7 @@ export const ChannelItemContainer = styled.div`
                     gap: 10px;
 
                     .tag {
-                        font-size: 16px;
+                        font-size: 14px;
                         line-height: 16px;
                         color: ${Theme.lightDark};
                         padding: 3px 10px;

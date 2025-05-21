@@ -19,11 +19,11 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(value = BusinessException.class)
-    public ResponseEntity<?> handlingBusinessException(BusinessException exception) {
+    public ResponseEntity<DataResponse<?>> handlingBusinessException(BusinessException exception) {
 
         CodeResponse codeResponse = exception.getCodeResponse();
 
-        DataResponse<?> dataResponse = DataResponse.builder()
+        DataResponse<Void> dataResponse = DataResponse.<Void>builder()
                 .code(codeResponse.getCode())
                 .message(codeResponse.getMessage())
                 .build();
@@ -36,13 +36,15 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    public ResponseEntity<?> handlingMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+    public ResponseEntity<DataResponse<?>> handlingMethodArgumentNotValidException
+            (MethodArgumentNotValidException ex) {
+
         ex.getMessage();
 
         log.error(ex.getFieldError().getDefaultMessage());
         CodeResponse codeResponse = CodeResponse.valueOf(ex.getFieldError().getDefaultMessage());
 
-        DataResponse<?> dataResponse = DataResponse.builder()
+        DataResponse<Void> dataResponse = DataResponse.<Void>builder()
                 .code(codeResponse.getCode())
                 .message(codeResponse.getMessage())
                 .build();

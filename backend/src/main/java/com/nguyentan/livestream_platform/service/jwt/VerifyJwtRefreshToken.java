@@ -45,6 +45,7 @@ public class VerifyJwtRefreshToken {
             if (!verified || isExpired || isExistInBlackedList) {
                 throw new BusinessException(CodeResponse.INVALID_REFRESH_TOKEN);
             }
+
             return signedJWT.getJWTClaimsSet();
 
         } catch (ParseException | JOSEException e) {

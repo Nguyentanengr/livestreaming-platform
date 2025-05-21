@@ -4,7 +4,7 @@ import { Theme } from "../../../assets/styles/Theme";
 export const CreatorSideBarContainer = styled.div`
     position: fixed;
     left: 0;
-    top: 65px;
+    top: 55px;
     bottom: 0;
     width: 270px;
     background-color: ${Theme.header};

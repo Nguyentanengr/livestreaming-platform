@@ -4,7 +4,7 @@ import { useState } from "react";
 import ChannelItem from "./ChannelItem";
 import ShowMore from "../../commons/ShowMore";
 
-const ChannelList = ({ title, type }) => {
+const ChannelList = ({ title, type, itemToShow=4 }) => {
 
     const [showMore, setShowMore] = useState(false);
     var items = null;
@@ -30,7 +30,7 @@ const ChannelList = ({ title, type }) => {
 
     }
            
-    const itemsToShow = showMore ? items : items.slice(0, 4);
+    const itemsToShow = showMore ? items : items.slice(0, itemToShow);
     const handleShowMore = () => {
         setShowMore(!showMore);
     }

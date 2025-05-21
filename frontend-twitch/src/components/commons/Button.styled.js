@@ -5,15 +5,16 @@ export const ButtonContainer = styled.div`
     .btn {
         padding: 8px 25px;
         border-radius: 7px;
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 600;
-        line-height: 18px;
+        line-height: 16px;
         background-color: ${props => props.color};
         color: ${Theme.header};
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
+        min-height: 32px;
     }
 
     .btn.large {

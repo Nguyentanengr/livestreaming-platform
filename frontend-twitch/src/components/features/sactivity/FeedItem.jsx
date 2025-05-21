@@ -8,7 +8,7 @@ const FeedItem = ({ feed }) => {
     return (
         <FeedItemContainer>
             <div className="feed-icon">
-                <Icons.LikeFill />
+                <Icons.HeartFill />
             </div>
             <div className="content">
                 <div className="username">{feed.user}</div>
@@ -26,7 +26,7 @@ const FeedItem = ({ feed }) => {
                     </div>
                 </div>
             </div>
-            <ActionButton icon={<Icons.More />} />
+            {/* <ActionButton icon={<Icons.More />} /> */}
         </FeedItemContainer>
     );
 };

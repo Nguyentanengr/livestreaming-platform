@@ -9,9 +9,9 @@ export const TooltipContainer = styled.div`
         .tooltip-content {
             position: absolute;
             transform: translateX(-50%);
-            font-size: 16px;
+            font-size: 12px;
             line-height: 16px;
-            padding: 6px 10px;
+            padding: 2px 10px;
             text-align: center;
             color: ${Theme.header};
             white-space: nowrap;

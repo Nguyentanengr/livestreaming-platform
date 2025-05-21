@@ -5,6 +5,7 @@ import com.nguyentan.livestream_platform.converter.UserConverter;
 import com.nguyentan.livestream_platform.dto.request.UserRegistrationRequest;
 import com.nguyentan.livestream_platform.dto.response.CodeResponse;
 import com.nguyentan.livestream_platform.dto.response.UserRegistrationResponse;
+import com.nguyentan.livestream_platform.dto.response.UserResponse;
 import com.nguyentan.livestream_platform.entity.Role;
 import com.nguyentan.livestream_platform.entity.User;
 import com.nguyentan.livestream_platform.exception.BusinessException;
@@ -57,9 +58,13 @@ public class UserRegistrationService {
         String jwtAccessToken = jwtTokenGenerator.generateAccessToken(user);
         String jwtRefreshToken = jwtTokenGenerator.generateRefreshToken(user);
 
+        UserResponse userResponse = userConverter.mapToUserResponse(user);
+
+
         return UserRegistrationResponse.builder()
                 .accessToken(jwtAccessToken)
                 .refreshToken(jwtRefreshToken)
+                .user(userResponse)
                 .build();
 
     }

@@ -1,170 +1,152 @@
-import { SignUpContainer } from "./SignUp.styled";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Theme } from "../../../assets/styles/Theme";
 import { Icons } from "../../../assets/icons/Icon";
-import { onChangeCode, onChangeEmail, onChangePassword } from "../../../stores/slices/inputSignUpSlice";
-import { registerUser, requestOTP, resetOtpState, resetRegisterState } from "../../../stores/slices/authSlice";
-
+import {resetOtpRegisterState, resetRegisterState } from "../../../stores/slices/authSlice";
 import ErrorAlert from "../../commons/ErrorAlert";
 import CircleSpinner from "../../commons/CircleSpinner";
 import Button from "../../commons/Button";
+import { SignUpContainer } from "./SignUp.styled";
+import { REGEXS } from "../../../utils/regex";
+import { otpRegister, registerUser } from "../../../service/api/authApi";
 
-
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const PASSWORD_REGEX = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-const CODE_REGEX = /^\d{6}$/;
 
 const SignUp = ({ onclose, onLogin }) => {
-
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [isSignUp, setIsSignUp] = useState(false);
-    const [isSendedCode, setIsSendedCode] = useState(false);
+    const { user, otpRegisterLoading, otpRegisterError, registerLoading, registerError } = useSelector((state) => state.auth);
+
+    const [formData, setFormData] = useState({
+        email: "",
+        password: "",
+        code: "",
+    });
+    const [isFormValid, setIsFormValid] = useState(false);
+    const [isCodeSent, setIsCodeSent] = useState(false);
     const [counter, setCounter] = useState(60);
     const [highlights, setHighlights] = useState({
         email: "",
         password: "",
-        code: ""
+        code: "",
     });
-    const { user } = useSelector((state) => state.auth);
-    const { email, password, code } = useSelector((state) => state.inputSignUp);
-    const { otpLoading, otpSuccess, otpError, otpMessage } = useSelector((state) => state.auth);
-    const { registerLoading, registerSusscess, registerError, registerMessage } = useSelector((state) => state.auth);
-
 
     useEffect(() => {
-        if (otpError) {
-            setIsSendedCode(false);
-            startCount(60);  
-        }
-    }, [otpError]);
+        const isValid = REGEXS.EMAIL_REGEX.test(formData.email.trim()) &&
+                       REGEXS.PASSWORD_REGEX.test(formData.password.trim()) &&
+                       REGEXS.CODE_REGEX.test(formData.code.trim());
+        setIsFormValid(isValid);
+    }, [formData]);
 
     useEffect(() => {
-        dispatch(resetOtpState());
-        dispatch(resetRegisterState());
-    }, [dispatch]);
+        if (user) {
+            window.location.reload();
+        }
+        return () => {
+            dispatch(resetOtpRegisterState());
+            dispatch(resetRegisterState());
+        };
+    }, [user, dispatch]);
 
     useEffect(() => {
-        if (user) window.location.reload();
-    }, [user])
-
-    useEffect(() => {
-        console.log(otpLoading, otpSuccess, otpError, otpMessage);  
-    }, [otpLoading, otpSuccess, otpError, otpMessage])
-
-
-    const handleOnClickSendCode = () => {
-        if (isValidEmail(email)) {
-            if (!isSendedCode) {
-                setIsSendedCode(true);
-                startCount();
-                // fetch
-                dispatch(requestOTP({email}));
-            }
-        } else {
-            setHighlights((prev) => ({ ...prev, ["email"]: "highlight" }))
+        if (otpRegisterError) {
+            setIsCodeSent(false);
+            setCounter(60);
         }
-    };
+    }, [otpRegisterError]);
 
-    const handleOnClickSignUp = () => {
-        if (isValidEmail(email) && isValidCode(code) && isValidPassword(password)) {
-            // fetch
-            dispatch(registerUser({email, password, code}));
-        }
-    }
-
-    const handleOnClickLogin = () => {
-        onclose();
-        onLogin();
-    };
-
-    // handle input action
-    const handleOnKeyDown = (e) => {
-
-        if (e.key === "Enter" && e.target.value !== "") {
-            e.preventDefault();
-            let named = e.target.name === "email" ? "password"
-                : e.target.name === "password" ? "code" : "";
-            if (named === "") {
-                handleOnClickSignUp();
-            }
-
-            let selector = `input[name='${named}']`;
-            document.querySelector(selector)?.focus();
-        }
-    };
-    const handleOnBlurInput = (e) => {
-        const { name, value } = e.target;
-
-        setHighlights((prev) => {
-            let highlightClass = "";
-            let isValid = false;
-
-            switch (name) {
-                case "email":
-                    isValid = EMAIL_REGEX.test(value) || !value || !value.trim();
-                    highlightClass = isValid ? "" : "highlight";
-                    break;
-                case "password":
-                    isValid = PASSWORD_REGEX.test(value) || !value || !value.trim();
-                    highlightClass = isValid ? "" : "highlight";
-                    break;
-                case "code":
-                    isValid = CODE_REGEX.test(value) || !value || !value.trim();
-                    highlightClass = isValid ? "" : "highlight";
-                    break;
-            };
-            return { ...prev, [name]: highlightClass };
-        });
-    };
-    const handleOnFocusInput = (e) => {
-        const { name } = e.target;
-        setHighlights((prev) => ({ ...prev, [name]: "" }))
-    };
-
-    // handle validate input
-    const isValidEmail = (email) => {
-        return EMAIL_REGEX.test(email) && email !== "";
-    };
-    const isValidPassword = (password) => {
-        return PASSWORD_REGEX.test(password) && password !== "";
-    };
-    const isValidCode = (code) => {
-        return CODE_REGEX.test(code) && code !== "";
-    };
-    const handleConstraintInputCode = (e) => {
-        console.log(e.target.value);
-
-        if (!e.target.value || /^\d+$/.test(e.target.value)) {
-            dispatch(onChangeCode(e.target.value))
-        }
-    }
-    const handleOnMouseEnterSignup = (e) => {
-        setIsSignUp(isValidEmail(email) && isValidCode(code) && isValidPassword(password));
-    }
-    const startCount = () => {
+    const startCountdown = () => {
         setCounter(60);
         const interval = setInterval(() => {
             setCounter((prev) => {
                 if (prev <= 1) {
                     clearInterval(interval);
-                    setIsSendedCode(false);
+                    setIsCodeSent(false);
                     return 0;
                 }
                 return prev - 1;
             });
         }, 1000);
-    }
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        let newValue = value.trim();
+        if (name === "code" && newValue && !/^\d+$/.test(newValue)) {
+            return;
+        }
+        setFormData((prev) => ({
+            ...prev,
+            [name]: newValue,
+        }));
+    };
+
+    const handleInputBlur = (e) => {
+        const { name, value } = e.target;
+        let isValid = true;
+        switch (name) {
+            case "email":
+                isValid = REGEXS.EMAIL_REGEX.test(value.trim()) || !value;
+                break;
+            case "password":
+                isValid = REGEXS.PASSWORD_REGEX.test(value.trim()) || !value;
+                break;
+            case "code":
+                isValid = REGEXS.CODE_REGEX.test(value.trim()) || !value;
+                break;
+        }
+        setHighlights((prev) => ({
+            ...prev,
+            [name]: isValid ? "" : "highlight",
+        }));
+    };
+
+    const handleInputFocus = (e) => {
+        const { name } = e.target;
+        setHighlights((prev) => ({
+            ...prev,
+            [name]: "",
+        }));
+    };
+
+    const handleKeyPress = (e) => {
+        if (e.key !== "Enter" || !e.target.value.trim()) return;
+        e.preventDefault();
+        const fieldOrder = ["email", "password", "code"];
+        const currentIndex = fieldOrder.indexOf(e.target.name);
+        if (currentIndex === fieldOrder.length - 1) {
+            handleSignUp();
+        } else {
+            const nextField = fieldOrder[currentIndex + 1];
+            document.querySelector(`input[name="${nextField}"]`)?.focus();
+        }
+    };
+
+    const handleSendCode = () => {
+        if (REGEXS.EMAIL_REGEX.test(formData.email.trim()) && !isCodeSent) {
+            setIsCodeSent(true);
+            startCountdown();
+            dispatch(otpRegister({ email: formData.email }));
+        } else {
+            setHighlights((prev) => ({ ...prev, email: "highlight" }));
+        }
+    };
+
+    const handleSignUp = () => {
+        if (isFormValid) {
+            dispatch(registerUser(formData));
+        }
+    };
+
+    const handleLogin = () => {
+        onclose();
+        onLogin();
+    };
 
     return (
         <SignUpContainer>
-            {otpError && <ErrorAlert message={otpError} ></ErrorAlert>}
-            {otpSuccess && <ErrorAlert message={otpMessage} type="success" ></ErrorAlert>}
-            {registerError && <ErrorAlert message={registerError} ></ErrorAlert>}
-            {registerSusscess && <ErrorAlert message={registerMessage} type="success" ></ErrorAlert>}
+            {otpRegisterError && <ErrorAlert message={otpRegisterError.message || "Failed to send OTP"} />}
+            {registerError && <ErrorAlert message={registerError.message || "Registration failed"} />}
             <div className="sign-up-form">
                 <div className="close-icon" onClick={onclose}>
                     <Icons.Close />
@@ -176,104 +158,80 @@ const SignUp = ({ onclose, onLogin }) => {
                     </div>
                 </div>
                 <div className="input-container">
-
-
                     <div className="email-input">
-                        <div className="title"> 
-                            Email
-                        </div>
+                        <div className="title">Email</div>
                         <div className="input">
                             <input
                                 name="email"
-                                onBlur={handleOnBlurInput}
-                                onFocus={handleOnFocusInput}
                                 type="text"
                                 placeholder="Email address"
                                 spellCheck={false}
-                                value={email}
-                                onChange={(e) => dispatch(onChangeEmail(e.target.value.trim()))}
-                                onKeyDown={(e) => handleOnKeyDown(e)}
+                                value={formData.email}
+                                onChange={handleInputChange}
+                                onBlur={handleInputBlur}
+                                onFocus={handleInputFocus}
+                                onKeyDown={handleKeyPress}
                             />
                         </div>
                     </div>
                     <div className={`error-email ${highlights.email}`}>
                         Enter a valid email address
                     </div>
-
-
-
                     <div className="password-input">
-                        <div className="title">
-                            Password
-                        </div>
+                        <div className="title">Password</div>
                         <div className="input">
                             <input
                                 name="password"
-                                onBlur={handleOnBlurInput}
-                                onFocus={handleOnFocusInput}
                                 type="password"
                                 placeholder="Password"
                                 spellCheck={false}
-                                value={password}
-                                onChange={(e) => dispatch(onChangePassword(e.target.value.trim()))}
-                                onKeyDown={(e) => handleOnKeyDown(e)}
+                                value={formData.password}
+                                onChange={handleInputChange}
+                                onBlur={handleInputBlur}
+                                onFocus={handleInputFocus}
+                                onKeyDown={handleKeyPress}
                             />
                         </div>
                     </div>
                     <div className={`error-password ${highlights.password}`}>
                         Please enter a stronger password (8 - 20 characters)
                     </div>
-
-
-
                     <div className="otp-input">
-                        <div className="title">
-                            OTP
-                        </div>
+                        <div className="title">OTP</div>
                         <div className="input-send">
                             <div className="input">
                                 <input
                                     name="code"
-                                    onBlur={handleOnBlurInput}
-                                    onFocus={handleOnFocusInput}
                                     type="text"
                                     placeholder="Enter 6-digit code"
                                     spellCheck={false}
-                                    value={code}
-                                    onChange={(e) => handleConstraintInputCode(e)}
-                                    onKeyDown={(e) => handleOnKeyDown(e)}
+                                    value={formData.code}
+                                    onChange={handleInputChange}
+                                    onBlur={handleInputBlur}
+                                    onFocus={handleInputFocus}
+                                    onKeyDown={handleKeyPress}
                                 />
                             </div>
-                            <div className={`send ${isSendedCode ? "lock" : ""}`} onClick={handleOnClickSendCode}>
-                                {otpLoading ? <CircleSpinner size={30} /> : isSendedCode ? `Resend ${counter}s` : "Send code"}
+                            <div className={`send ${isCodeSent ? "lock" : ""}`} onClick={handleSendCode}>
+                                {otpRegisterLoading ? <CircleSpinner size={15} /> : isCodeSent ? `Resend ${counter}s` : "Send code"}
                             </div>
                         </div>
                     </div>
-
-
                     <div className={`error-code ${highlights.code}`}>
                         Enter 6-digit code
                     </div>
-
-
                     <div className="term">
                         By clicking Sign Up, you are agreeing to Twitch’s <h4>Terms of Service</h4> and are acknowledging our <h4>Privacy Notice</h4> applies.
                     </div>
                 </div>
-
-
                 <div className="footer-container">
                     <Button
-                        title={registerLoading ? <CircleSpinner size={20}/> : "Sign Up"}
+                        title={registerLoading ? <CircleSpinner size={15} /> : "Sign Up"}
                         color={Theme.highlight}
-                        styles={`large ${isSignUp ? "" : "lock"}`}
-                        onMouseEnter={handleOnMouseEnterSignup}
-                        onclick={handleOnClickSignUp}
+                        styles={`medium ${isFormValid ? "" : "lock"}`}
+                        onclick={handleSignUp}
                     />
-                    <div
-                        className="login"
-                        onClick={handleOnClickLogin}
-                    >
+                    <div className="login" onClick={handleLogin}>
                         Have an account? Log in
                     </div>
                 </div>

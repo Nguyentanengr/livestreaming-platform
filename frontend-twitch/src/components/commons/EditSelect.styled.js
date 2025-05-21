@@ -16,8 +16,8 @@ export const EditSelectContainer = styled.div`
         cursor: pointer;
 
         .text {
-            font-size: 18px;
-            font-weight: 500;
+            font-size: 14px;
+            /* font-weight: 500; */
         }
 
         .dropdown-icon {
@@ -45,8 +45,8 @@ export const EditSelectContainer = styled.div`
         right: 0;
         background-color: ${Theme.header};
         padding: 10px 0px;
-        font-size: 18px;
-        font-weight: 500;
+        font-size: 14px;
+        /* font-weight: 500; */
         border-radius: 10px;
         box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.1);
         z-index: 15;

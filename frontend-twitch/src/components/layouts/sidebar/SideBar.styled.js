@@ -8,10 +8,10 @@ export const SideBarContainer = styled.div`
     align-items: center;
     gap: 10px;
     left: 0;
-    top: 65px;
+    top: 55px;
     bottom: 0;
-    width: 80px;
-    background-color: ${Theme.sideBar};
+    width: 60px;
+    background-color: ${Theme.header};
     z-index: 15;
     padding-top: 40px;
 `

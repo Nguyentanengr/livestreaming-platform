@@ -1,0 +1,30 @@
+.custom-toast {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px; /* Font chữ nhỏ hơn */
+    font-family: -apple-system, sans-serif;
+    color: #333;
+}
+
+.toast-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.toast-content {
+    flex: 1;
+    line-height: 1.4;
+}
+
+.toast-progress {
+    background: #9147ff; /* Màu thanh tiến trình (tím giống Twitch) */
+    height: 4px; /* Thanh tiến trình mỏng hơn */
+}
+
+/* Điều chỉnh vị trí của ToastContainer */
+.Toastify__toast-container--top-right {
+    top: 100px !important; /* Dịch xuống thấp hơn */
+}

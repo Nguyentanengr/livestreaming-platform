@@ -18,7 +18,7 @@ public enum CodeResponse {
     LOGOUT_SUCCESSFULLY(1000, HttpStatus.OK, "Logout successfully"),
     RESET_PASSWORD_SUCCESSFULLY(1000, HttpStatus.OK, "Reset password successfully"),
 
-
+    AMBIGUOUS_TOKEN(9037, HttpStatus.BAD_REQUEST, "Refresh token not found in cookie"),
     OTP_INVALID_SIZE(9035, HttpStatus.BAD_REQUEST, "OTP must be exactly 6 digits"),
     OTP_IS_BLANK(9035, HttpStatus.BAD_REQUEST, "OTP cannot be blank"),
     PASSWORD_NO_STRONG(9033, HttpStatus.BAD_REQUEST, "Password must be stronger. Try using a mix of uppercase, lowercase, numbers, and symbols"),
@@ -30,7 +30,7 @@ public enum CodeResponse {
     EMAIL_IS_BLANK(9021, HttpStatus.BAD_REQUEST, "Email cannot be blank"),
     INVALID_REFRESH_TOKEN(9019, HttpStatus.BAD_REQUEST, "Refresh token is invalid or expired"),
     LOGIN_FAIL(9017, HttpStatus.UNAUTHORIZED, "Login failed"),
-    ACCOUNT_HAS_BEEN_LOCKED(9015, HttpStatus.BAD_REQUEST, "Account has been locked"),
+    ACCOUNT_HAS_BEEN_LOCKED(9015, HttpStatus.UNAUTHORIZED, "Account has been locked"),
     JWT_TOKEN_CANNOT_GENERATE(9013, HttpStatus.BAD_REQUEST, "An error occurred while serialize jwt object"),
     ROLE_NOT_FOUND(9011, HttpStatus.NOT_FOUND, "Could not find role by name: USER"),
     OTP_INCORRECT_OR_EXPIRED(9009, HttpStatus.BAD_REQUEST, "OTP is incorrect or expired"),

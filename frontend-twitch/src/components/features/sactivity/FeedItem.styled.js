@@ -8,7 +8,8 @@ export const FeedItemContainer = styled.div`
     padding: 15px 0;
 
     .feed-icon {
-        font-size: 20px;
+        margin-top: 2px;
+        font-size: 16px;
         color: ${Theme.violet};
     }
 
@@ -19,7 +20,7 @@ export const FeedItemContainer = styled.div`
         gap: 5px;
 
         .username {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 500;
             cursor: pointer;
 
@@ -32,12 +33,12 @@ export const FeedItemContainer = styled.div`
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 18px;
+            font-size: 14px;
 
             .dot-icon {
                 display: flex;
                 align-items: center;
-                font-size: 6px;
+                font-size: 4px;
                 color: ${Theme.soft}
             }
 

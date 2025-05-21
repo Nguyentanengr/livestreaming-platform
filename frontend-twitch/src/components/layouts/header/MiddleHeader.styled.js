@@ -6,9 +6,9 @@ export const MiddleHeaderContainer = styled.div`
         display: flex;
         align-items: center;
         margin: 0 auto;
-        max-width: 450px;
+        max-width: 360px;
         width: 100%;
-        height: 45px;
+        height: 38px;
         border-radius: 8px;
         background-color: ${Theme.lightSoft};
         overflow: hidden;
@@ -18,9 +18,9 @@ export const MiddleHeaderContainer = styled.div`
             width: 450px;
             height: 100%;
             background-color: ${Theme.header};
-            font-size: 20px;
+            font-size: 16px;
             color: ${Theme.text};
-            border: 2px solid ${Theme.mediumSoft};
+            border: 1px solid ${Theme.lightSoft};
             border-top-left-radius: 8px;
             border-bottom-left-radius: 8px;
             transition: 0.1s ease-in-out;
@@ -30,17 +30,18 @@ export const MiddleHeaderContainer = styled.div`
             }
 
             &:focus {
-                border: 5px solid ${Theme.highlight};
+                border: 4px solid ${Theme.highlight};
             }
+
         }
 
         .search-icon {
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 55px;
+            width: 50px;
             height: 100%;
-            font-size: 30px;
+            font-size: 24px;
             background-color: ${Theme.border};
             cursor: pointer;
         }

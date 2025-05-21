@@ -16,7 +16,7 @@ const slideIn = keyframes`
 export const ReelItemContainer = styled.div`
     background-color: transparent;
     height: calc(100vh - 65px);
-    padding: 120px 0px 120px 40px;
+    padding: 100px 0px 100px 40px;
     display: flex;
     justify-content: center;
 

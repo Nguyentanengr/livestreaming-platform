@@ -1,23 +1,26 @@
-import styled from "styled-components";
-import { Theme } from "../../../assets/styles/Theme";
+import styled from 'styled-components';
+import { Theme } from '../../../assets/styles/Theme';
 
 export const VideoDetailContainer = styled.div`
     height: 100%;
+    max-width: 100%;
     border: 1px solid ${Theme.hover};
     border-radius: 15px;
     padding: 20px;
 
     .title {
-        font-size: 22px;
+        font-size: 18px;
         font-weight: 700;
         margin-bottom: 15px;
     }
 
     .detail-container {
+        max-width: 100%;
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: 1fr 1fr 1fr;
-        column-gap: 50px;
+        grid-template-columns: 1fr 1fr; /* Two equal-width columns */
+        grid-template-rows: 1fr 1fr 1fr; /* Three equal-height rows */
+        column-gap: 30px;
+        row-gap: 20px;
 
         .file-name,
         .file-size,
@@ -28,17 +31,16 @@ export const VideoDetailContainer = styled.div`
             display: flex;
             align-items: center;
             gap: 20px;
-            padding: 20px 0px;
-            font-size: 20px;
+            padding: 10px 0;
+            font-size: 16px;
             font-weight: 500;
-            
         }
 
         .f-name,
-        .f-size, 
-        .v-duration, 
-        .a-ratio, 
-        .b, 
+        .f-size,
+        .v-duration,
+        .a-ratio,
+        .b,
         .r {
             flex: 1;
             font-weight: 400;
@@ -46,16 +48,18 @@ export const VideoDetailContainer = styled.div`
             border-radius: 8px;
             padding: 8px 20px;
             cursor: not-allowed;
-            color: ${Theme.lightDark}
+            color: ${Theme.lightDark};
+            white-space: nowrap; /* Prevent text wrapping */
+            overflow: hidden; /* Hide overflow */
+            text-overflow: ellipsis; /* Add ellipsis for overflow */
+            max-width: 100%; /* Ensure it respects the container width */
+            box-sizing: border-box; /* Include padding in width calculation */
         }
 
         .file-name {
             grid-column: 1;
             grid-row: 1;
-
-            .f-name {
-                
-            }
+            max-width: 300px;
         }
 
         .file-size {
@@ -83,4 +87,4 @@ export const VideoDetailContainer = styled.div`
             grid-row: 3;
         }
     }
-`
+`;

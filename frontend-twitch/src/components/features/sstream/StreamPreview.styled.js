@@ -23,16 +23,16 @@ export const StreamPreviewContainer = styled.div`
             
 
             .description {
-                font-size: 18px;
+                font-size: 16px;
                 font-weight: 500;
             }
 
             .on-webcam-btn {
-                padding: 8px 20px;
+                padding: 6px 20px;
                 background-color: ${Theme.lightHover};
                 border-radius: 3px;
                 cursor: pointer;
-                font-size: 18px;
+                font-size: 16px;
                 font-weight: 600;
                 transition: 0.1s;
 
@@ -73,7 +73,7 @@ export const StreamPreviewContainer = styled.div`
 
         .counter-container {
             display: flex;
-            gap: 20px;
+            gap: 15px;
             align-items: center;
         }
 
@@ -81,9 +81,9 @@ export const StreamPreviewContainer = styled.div`
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 500;
-            padding: 10px 20px;
+            padding: 10px 10px;
             background-color: ${Theme.hover};
             color: ${Theme.dark};
             border-radius: 5px;

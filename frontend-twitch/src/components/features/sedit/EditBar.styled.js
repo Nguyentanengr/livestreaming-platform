@@ -49,7 +49,7 @@ export const EditBarContainer = styled.div`
                 cursor: pointer;
 
                 .text {
-                    font-size: 18px;
+                    font-size: 16px;
                     color: ${Theme.soft};
                 }
 
@@ -84,8 +84,8 @@ export const EditBarContainer = styled.div`
 
                 .thumbnail {
                     img {
-                        width: 70px;
-                        height: 95px;
+                        width: 50px;
+                        height: 67px;
                         object-fit: cover;
                         display: block;
                         border-top-left-radius: 5px;
@@ -98,19 +98,19 @@ export const EditBarContainer = styled.div`
                     background-color: transparent;
                     display: flex;
                     flex-direction: column;
-                    gap: 10px;
+                    gap: 5px;
                     padding-top: 10px;
                     color: ${Theme.dark};
 
                     .name { 
-                        font-size: 20px;
+                        font-size: 16px;
                         font-weight: 600;
                     }
 
                     .interested {
                         display: flex;
                         gap: 5px;
-                        font-size: 18px;
+                        font-size: 14px;
                         font-weight: 500;
                         
                         .text {
@@ -122,7 +122,7 @@ export const EditBarContainer = styled.div`
                 }
                 .close-icon {
                     padding: 5px;
-                    font-size: 35px;
+                    font-size: 30px;
                     cursor: pointer;
                     border-radius: 5px;
                     transition: 0.2s;
@@ -151,6 +151,7 @@ export const EditBarContainer = styled.div`
                     border-radius: 5px;
                     display: flex;
                     align-items: center;
+                    font-size: 14px;
 
                     .text {
                         padding: 0 10px;
@@ -160,8 +161,8 @@ export const EditBarContainer = styled.div`
                         display: flex;
                         align-items: center;
                         justify-content: center;
-                        width: 20px;
-                        height: 35px;
+                        width: 15px;
+                        height: 30px;
                         cursor: pointer;
                         color: ${Theme.dark};
                         transition: 0.2s;
