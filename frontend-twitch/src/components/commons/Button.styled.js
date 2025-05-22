@@ -9,7 +9,7 @@ export const ButtonContainer = styled.div`
         font-weight: 600;
         line-height: 16px;
         background-color: ${props => props.color};
-        color: ${Theme.header};
+        color: ${props => props.text ? props.text : Theme.header};
         cursor: pointer;
         display: flex;
         align-items: center;

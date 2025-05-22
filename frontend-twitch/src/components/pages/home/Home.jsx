@@ -7,8 +7,8 @@ const Home = () => {
     return (
         <HomeContainer>
             <SlideScreen />
-            <ChannelList title="Recommended for you" type="recommended" itemToShow={4}/>
-            <ChannelList title="Recent lives" type="recent"/>
+            <ChannelList title="Recommended for you" type="recommended" itemToShow={8}/>
+            <ChannelList title="Recent lives" type="recent" itemToShow={8}/>
             <CategoryList title="Favorite Categories" />
 
             

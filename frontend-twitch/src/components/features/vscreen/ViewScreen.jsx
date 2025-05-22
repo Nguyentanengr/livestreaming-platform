@@ -1,22 +1,30 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
 import Screen from "../../commons/Screen";
-import { ViewScreenContainer } from "./ViewScreen.styled"
-import video from "/videos/streamvideo11.mp4";
-import { useRef } from "react";
-
+import { ViewScreenContainer } from "./ViewScreen.styled";
 
 const ViewScreen = () => {
-
     const videoRef = useRef(null);
+    const { selectedStream } = useSelector((state) => state.stream);
 
     useEffect(() => {
-        videoRef.current.src = video;
-    }, []);
+        if (selectedStream && videoRef.current) {
+            if (selectedStream.endedAt) {
+                // Ended stream: play video
+                videoRef.current.src = selectedStream.video || "";
+                videoRef.current.autoplay = true;
+            } else {
+                // Live stream: show thumbnail
+                videoRef.current.poster = selectedStream.thumbnail || "";
+                videoRef.current.autoplay = false;
+            }
+        }
+    }, [selectedStream]);
 
     return (
         <ViewScreenContainer>
             <div className="screen-box">
-                <Screen videoRef={videoRef} size="auto" />
+                <Screen videoRef={videoRef} size="auto" isPlay={selectedStream?.endedAt} />
             </div>
         </ViewScreenContainer>
     );

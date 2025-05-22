@@ -4,7 +4,6 @@ import authReducer from "./slices/authSlice";
 import recentReducer from "./slices/recentSlice";
 import recommendReducer from "./slices/recommendSlice";
 import outstandingReducer from "./slices/outstandingSlice";
-import categoryReducer from "./slices/categorySlice";
 import reelReducer from "./slices/reelSlice";
 import commentReducer from "./slices/commentSlice";
 import editStreamReducer from "./slices/editStreamSlice";
@@ -17,6 +16,8 @@ import myReelReducer from "./slices/myReelSlice";
 import createReudcer from "./slices/createReelSlice";
 import recommendReelReducer from "./slices/recommendReelSlice";
 import notiReducer from "./slices/notiSlice";
+import streamReducer from "./slices/streamSlice";
+import categoryReducer from "./slices/categorySlice";
 
 export default configureStore({
     reducer: {
@@ -37,7 +38,9 @@ export default configureStore({
         myReel: myReelReducer,
         createReel: createReudcer,
         recommendReel: recommendReelReducer,
-        notifications: notiReducer
+        notifications: notiReducer,
+        stream: streamReducer,
+        category: categoryReducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

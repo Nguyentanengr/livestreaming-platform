@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { Theme } from "../../../assets/styles/Theme";
 
-
 export const ViewChatContainer = styled.div`
     height: 100%;
     display: flex;
@@ -29,4 +28,11 @@ export const ViewChatContainer = styled.div`
     .chat-send {
         padding: 20px 0;
     }
-`
+
+    .no-chat {
+        padding: 20px;
+        text-align: center;
+        color: ${Theme.textSecondary};
+        font-style: italic;
+    }
+`;

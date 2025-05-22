@@ -13,6 +13,7 @@ export const ViewContainer = styled.div`
     .live-container {
         margin-right: 27vw;
         background-color: transparent;
+        padding-bottom: 200px;
     }
 
     .chat-container {

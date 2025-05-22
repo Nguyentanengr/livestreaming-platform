@@ -1,49 +1,92 @@
-import { useSelector } from "react-redux";
-import { ChannelListContainer } from "./ChannelList.styled"
-import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { ChannelListContainer } from "./ChannelList.styled";
+import { useState, useEffect } from "react";
 import ChannelItem from "./ChannelItem";
 import ShowMore from "../../commons/ShowMore";
+import { getRecentStreams, getRecommendedStreams } from "../../../service/api/streamApi";
 
-const ChannelList = ({ title, type, itemToShow=4 }) => {
-
+const ChannelList = ({ title, type, itemToShow = 4 }) => {
+    const dispatch = useDispatch();
     const [showMore, setShowMore] = useState(false);
-    var items = null;
-    var typeItem = null;
-    
+    let items = [];
+    let typeItem = null;
+
+    // Fetch data based on type
+    useEffect(() => {
+        if (type === "recommended") {
+            dispatch(getRecommendedStreams({ status: 1, key: '', page: 0, size: 16 }));
+        } else if (type === "recent") {
+            dispatch(getRecentStreams({ status: 0, key: '', page: 0, size: 16 }));
+        }
+    }, [dispatch, type]);
+
+    const { recommendedStreams, recentStreams, loading, error } = useSelector((state) => state.stream);
+    const recentVideos = useSelector((state) => state.recent.videos);
+
     switch (type) {
         case "recommended":
-            items = useSelector((state) => state.recommend.lives);
+            items = recommendedStreams.map((stream) => ({
+                id: stream.id,
+                title: stream.title,
+                username: stream.user.username,
+                thumbnail: stream.thumbnail,
+                views: stream.viewersCount,
+                avatar: stream.user.avatar,
+                tags: stream.tagNames.map((tag) => ({ id: tag, tag })),
+            }));
             typeItem = "live";
             break;
         case "recent":
-            items = useSelector((state) => state.recent.videos);
+            items = recentStreams.map((stream) => {
+                const duration = stream.endedAt && stream.startedAt
+                    ? Math.floor((new Date(stream.endedAt) - new Date(stream.startedAt)) / 1000)
+                    : 0;
+                return {
+                    id: stream.id,
+                    title: stream.title,
+                    username: stream.user.username,
+                    thumbnail: stream.thumbnail,
+                    views: stream.totalViewers,
+                    avatar: stream.user.avatar,
+                    tags: stream.tagNames.map((tag) => ({ id: tag, tag })),
+                    duration,
+                    createdAt: stream.endedAt,
+                };
+            });
             typeItem = "video";
             break;
         case "related":
-            items = useSelector((state) => state.recent.videos);
+            items = recentVideos;
             typeItem = "live";
             break;
         case "recent-related":
-            items = useSelector((state) => state.recent.videos);
+            items = recentVideos;
             typeItem = "video";
             break;
-
+        default:
+            items = [];
     }
-           
+
     const itemsToShow = showMore ? items : items.slice(0, itemToShow);
     const handleShowMore = () => {
         setShowMore(!showMore);
+    };
+
+    if (loading && (type === "recommended" || type === "recent")) {
+        return <ChannelListContainer>Loading...</ChannelListContainer>;
     }
-    
+
+    if (error && (type === "recommended" || type === "recent")) {
+        return <ChannelListContainer>Error: {error.message}</ChannelListContainer>;
+    }
+
     return (
         <ChannelListContainer>
             <div className="title-heading">{title}</div>
             <div className="recommend-live-container">
-                {itemsToShow.map((item) => {
-                    return (
-                        <ChannelItem key={item.id} item={item} type={typeItem}/>
-                    );
-                })}
+                {itemsToShow.map((item) => (
+                    <ChannelItem key={item.id} item={item} type={typeItem} />
+                ))}
             </div>
             <ShowMore title={showMore ? "Show Less" : "Show More"} onclick={handleShowMore} />
         </ChannelListContainer>

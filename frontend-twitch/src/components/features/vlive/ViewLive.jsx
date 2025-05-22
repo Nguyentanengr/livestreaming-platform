@@ -1,115 +1,109 @@
+import { useDispatch, useSelector } from "react-redux";
 import { Icons } from "../../../assets/icons/Icon";
 import { Theme } from "../../../assets/styles/Theme";
 import Button from "../../commons/Button";
 import Thumbnail from "../../commons/Thumbnail";
-import { ViewLiveContainer } from "./ViewLive.styled"
+import { ViewLiveContainer } from "./ViewLive.styled";
+import { convertView, convertDuration } from "../../../utils/convert";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { followUserInStream, unfollowUserInStream } from "../../../service/api/userApi";
 
 const ViewLive = () => {
+    const { selectedStream } = useSelector((state) => state.stream);
+    const { profile } = useSelector((state) => state.user);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    const links = [
-        { id: 1, icon: Icons.Youtube, name: "Youtube", link: "http://youtube.com" },
-        { id: 2, icon: Icons.Discord, name: "Discord", link: "http://discord.com" },
-        { id: 3, icon: Icons.Tiktok, name: "Tiktok", link: "http://tiktok.com" },
-    ];
+    const links = profile?.link
+        ? Object.entries(profile.link)
+            .filter(([_, url]) => url)
+            .map(([name, url], index) => ({
+                id: index + 1,
+                icon: Icons[name.charAt(0).toUpperCase() + name.slice(1)] || Icons.Link,
+                name: name.charAt(0).toUpperCase() + name.slice(1),
+                link: url,
+            }))
+        : [];
+
+    const duration = selectedStream?.endedAt && selectedStream?.startedAt
+        ? Math.floor((new Date(selectedStream.endedAt) - new Date(selectedStream.startedAt)) / 1000)
+        : 0;
+
+    const handleClickFollow = () => {
+        if (profile?.isFollowing) {
+            console.log("dispatch unfollow")
+            dispatch(unfollowUserInStream({ username: profile.username}));
+        } else {
+            console.log("dispath follow")
+            dispatch(followUserInStream({ username: profile.username}));
+        }
+    };
 
     return (
         <ViewLiveContainer>
             <div className="about-live">
                 <div className="thumb-title">
                     <div className="thumb-container">
-                        <Thumbnail src={"/images/categories/game11.jpg"} size="vlarge" />
-                        <div className="span-live">Live</div>
+                        <Thumbnail src={selectedStream?.thumbnail || ""} size="vlarge" />
+                        {!selectedStream?.endedAt && <div className="span-live">LIVE</div>}
                     </div>
                     <div className="title-container">
-                        <div className="title">
-                            [DROPS] ✖ Grinding for GM ✖ Rank: PLAT 3 [Last Season: Diamond 2] 💎 ✖ !split !latestvideo
-                        </div>
+                        <div className="title">{selectedStream?.title || "Loading..."}</div>
                         <div className="username">
-                            LeolNatdo
-                            <div className="check-icon">
-                                <Icons.FollowedPlus />
-                            </div>
+                            {selectedStream?.user?.username || "Unknown"}
+                            {(
+                                <div className="check-icon">
+                                    <Icons.FollowedPlus />
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
                 <div className="follow-container">
                     <div className="view-time">
                         <div className="view">
-                            106,090 Viewers
+                            {selectedStream
+                                ? convertView(selectedStream.endedAt ? selectedStream.totalViewers : selectedStream.viewersCount)
+                                : 0} {selectedStream?.endedAt ? "Views" : "Viewers"}
                         </div>
                         <Icons.HotLive className="dot" />
                         <div className="time">
-                            3:24:46
+                            {selectedStream?.endedAt ? convertDuration(duration) : "Live"}
                         </div>
                     </div>
                     <div className="btn-container">
-                        <Button color={Theme.highlight} title="Follow" onclick={() => { }} />
+                        {profile?.isFollowing ? <Button
+                            color={Theme.hover}
+                            title={"Unfollow"}
+                            text={Theme.dark}
+                            onclick={handleClickFollow}
+                        /> : <Button
+                            color={Theme.highlight}
+                            title={"Follow"}
+                            onclick={handleClickFollow}
+                        />}
                     </div>
                 </div>
             </div>
             <div className="about-user">
                 <div className="description">
                     <div className="fol-vid">
-                        <div className="fol">
-                            448K Follow
-                        </div>
+                        <div className="fol">{convertView(profile?.followersCount || 0)} Followers</div>
                         <Icons.HotLive className="dot" />
-                        <div className="vid">
-                            About stream
-                        </div>
+                        <div className="vid">About {selectedStream?.user?.username || "user"}</div>
                     </div>
-                    <div className="des">
-                        Vua về nhì Độ Mixi giữ vững phong độ trước kèo Liar's bar bít tết cuối năm cùng anh em.
-                        <hr />
-                        Lịch Live:
-                        <hr />
-                        22:15-23:59 hàng ngày trên Youtube.
-                        <hr />
-                        0:01-03:00 hàng ngày trên: https://svip.nimo.tv/mixi
-                        <hr />
-                        (Thứ Bảy & Chủ Nhật chỉ live bên nimo.tv/mixi vào 23:00 )
-                        <hr />
-                        -------------------------------------------------------------------------------------------------------------
-                        <hr />
-                        DONATE:
-                        <hr />
-                        https://streamlabs.com/mixigamingoffi...
-                        <hr />
-                        https://playerduo.net/mixigaming
-                        <hr />
-                        https://qr.wescan.vn/Mixi
-                        <hr />
-                        ►Trang web chính thức để các bạn xem lại video và livestream: https://mixigaming.com/
-                        <hr />
-                        ► Fanpage chính thức:   / mixigaming
-                        <hr />
-                        ► Facebook cá nhân:   / dophung89
-                        <hr />
-                        ► Instagram:   / dochet1989
-                        <hr />
-                        ► Link Discord giao lưu:   / discord
-                        <hr />
-                        ► Link Group FB:    / mixigaming
-                        <hr />
-                        ► Email liên hệ công việc: works@mixigaming.com
-                        <hr />
-                        -----------------------------------------------------------------------------------------------------------------
-                        <hr />
-                        ► Shop game bản quyền số 1 Việt Nam: divineshop.vn
-                    </div>
+                    <div className="des">{profile?.bio || "No bio available."}</div>
                 </div>
                 <div className="links">
-                    {links.map((link, index) => {
-                        return <div className="link-item" key={index}>
+                    {links.map((link) => (
+                        <a className="link-item" key={link.id} href={link.link} target="_blank" rel="noopener noreferrer">
                             <link.icon className="link-icon" />
                             {link.name}
-                        </div>
-                    })}
-
+                        </a>
+                    ))}
                 </div>
             </div>
-
-
         </ViewLiveContainer>
     );
 };

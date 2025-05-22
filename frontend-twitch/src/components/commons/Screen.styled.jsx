@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { Theme } from "../../assets/styles/Theme";
 
 export const ScreenContainer = styled.div`
-
     .screen-container {
         position: relative;
         background-color: ${Theme.dark};
@@ -11,13 +10,22 @@ export const ScreenContainer = styled.div`
         justify-content: center;
         overflow: hidden;
 
+        &.expanded {
+            width: 100vw !important;
+            height: 100vh !important;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
         .video {
             width: 100%;
             height: 100%;
             object-fit: contain;
         }
 
-        .play, .mute, .expand {
+        .play, .expand {
             position: absolute;
             display: flex;
             align-items: center;
@@ -35,20 +43,38 @@ export const ScreenContainer = styled.div`
         }
 
         .play {
-            bottom: 12px;
+            bottom: 8px;
             left: 10px;
             font-size: 32px;
             padding: 0px;
         }
 
-        .mute {
-            bottom: 10px;
-            left: 55px;
+        .expand {
+            bottom: 5px;
+            right: 10px;
         }
 
-        .expand {
-            bottom: 10px;
-            right: 10px;
+        .progress-wrapper {
+            position: absolute;
+            bottom: 13px;
+            left: 60px; /* Chừa khoảng trống cho nút Play/Pause */
+            right: 60px; /* Chừa khoảng trống cho nút Expand */
+            height: 20px; /* Tăng vùng ảnh hưởng */
+            display: flex;
+            align-items: center;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 5px; /* Kích thước hiển thị không đổi */
+            background-color: #333;
+            cursor: pointer;
+
+            .progress {
+                height: 100%;
+                background-color: ${Theme.highlight};
+                transition: width 0.1s linear;
+            }
         }
 
         &.small {
@@ -78,7 +104,5 @@ export const ScreenContainer = styled.div`
                 font-size: 25px;
             }
         }
-        
-    } 
-
-`
+    }
+`;

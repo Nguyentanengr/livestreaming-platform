@@ -33,6 +33,11 @@ export const API_URLS = {
     NOTIFICATIONS_READ: `${API_BASE_URL}/notifications/read`,
     NOTIFICATIONS_READ_ALL: `${API_BASE_URL}/notifications/read/all`,
     NOTIFICATIONS_DELETE: `${API_BASE_URL}/notifications/{notificationId}`,
+    STREAM_OUTSTANDING: `${API_BASE_URL}/streams/outstanding?size={size}&page={page}`,
+    STREAM_RECOMMENDED: `${API_BASE_URL}/streams/recommended?status={status}&key={key}&page={page}&size={size}`,
+    CATEGORIES_RECOMMENDED: `${API_BASE_URL}/categories/recommended?key={key}&page={page}&size={size}`,
+    GET_STREAM: `${API_BASE_URL}/streams/{streamId}`,
+    USER_PROFILE: `${API_BASE_URL}/users/{username}/profile`,
 }
 
 

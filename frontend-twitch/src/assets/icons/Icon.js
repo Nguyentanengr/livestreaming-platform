@@ -6,6 +6,7 @@ import { BiChevronDown, BiChevronUp, BiHeart, BiCommentDots, BiShare, BiSolidHea
 import { BiPlus, BiCheck, BiVolumeFull, BiVolumeMute, BiSend, BiPlay, BiFullscreen} from "react-icons/bi";
 import { BiLogoYoutube, BiLogoTiktok, BiLogoDiscord, BiBroadcast, BiCaretRightSquare} from "react-icons/bi";
 import { BiImageAdd, BiMessageAltError, BiUserCheck, BiLogIn, BiEdit, BiStar, BiCheckDouble  } from "react-icons/bi";
+import { BiPause,BiExitFullscreen,  } from "react-icons/bi";
 import { BsXLg, BsHeartFill, BsHeart, BsChatSquareDots } from "react-icons/bs";
 import { HiOutlineXMark } from "react-icons/hi2";
 import { FaTimes } from "react-icons/fa";
@@ -46,6 +47,7 @@ export const Icons = {
     Send: BiSend,
     Play: BiPlay,
     Expand: BiFullscreen,
+    Exist: BiExitFullscreen,
     Youtube: BiLogoYoutube,
     Tiktok: BiLogoTiktok,
     Discord: BiLogoDiscord,
@@ -61,5 +63,6 @@ export const Icons = {
     Edit: BiEdit,
     Star: BiStar,
     CheckDouble: BiCheckDouble,
+    Pause: BiPause,
 
 }
