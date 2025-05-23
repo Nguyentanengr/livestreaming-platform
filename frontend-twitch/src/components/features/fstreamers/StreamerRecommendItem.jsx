@@ -23,15 +23,20 @@ const StreamerRecommendItem = ({ user }) => {
         }
     };
 
-    const handleClickThumbnail = () => {
-        navigate(`/user/${user.id}`); // Điều hướng đến trang profile của user
-    };
+    const handleAvatarClick = (username) => {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user && user.username === username) {
+            navigate('/you')
+        } else {
+            navigate(`/channel/${username}`);
+        }
+    }
 
     return (
         <StreamerRecommendItemContainer>
             <div className="info">
                 <div className="thumbnail">
-                    <Thumbnail src={user.avatar} onClick={handleClickThumbnail} size="large" />
+                    <Thumbnail src={user.avatar} onclick={() => handleAvatarClick(user.username)} size="large" />
                 </div>
                 <div className="info-detail">
                     <div className="username">{user.username}</div>

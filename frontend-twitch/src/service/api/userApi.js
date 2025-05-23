@@ -8,9 +8,17 @@ export const getUserProfile = createAsyncThunk(
         try {
             const TARGET_URL = API_URLS.USER_PROFILE.replace('{username}', username);
 
+             const headers = {
+                "Content-Type": "application/json",
+            };
+            if (localStorage.getItem("accessToken")) {
+                headers["Authorization"] = `Bearer ${localStorage.getItem("accessToken")}`;
+            }
+            
+            console.log("header", headers)
             const response = await fetch(TARGET_URL, {
                 method: 'GET',
-                headers: { "Content-Type": "application/json"},
+                headers
             });
 
             const apiResponse = await response.json();

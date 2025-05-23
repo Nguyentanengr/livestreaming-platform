@@ -20,6 +20,7 @@ import streamReducer from "./slices/streamSlice";
 import categoryReducer from "./slices/categorySlice";
 import categoriesReducer from "./slices/categoriesSlice";
 import followReducer from "./slices/followSlice";
+import channelProfileReducer from "./slices/channelProfileSlice";
 
 export default configureStore({
     reducer: {
@@ -45,6 +46,7 @@ export default configureStore({
         category: categoryReducer,
         categories: categoriesReducer,
         follow: followReducer,
+        channelProfile: channelProfileReducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

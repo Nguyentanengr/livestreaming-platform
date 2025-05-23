@@ -6,18 +6,18 @@ export const profileSlice = createSlice({
     initialState: {
         myProfile: {
             id: 342,
-            username: "ripcode444",
-            avatar: "https://www.bing.com/th/id/OIP.GDzD9q-sQFLKPcjBMUO…HaHa?w=150&h=150&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2",
-            bio: "I am a software engineer",
-            followersCount: 100,
-            streamsCount: 10,
-            reelsCount: 5,
+            username: "",
+            avatar: "",
+            bio: "",
+            followersCount: 0,
+            streamsCount: 0,
+            reelsCount: 0,
             isStreaming: false,
-            isFollowing: null,
+            isFollowing: false,
             link: {
-                youtube: "https://www.youtube.com",
-                tiktok: "https://www.tiktok.com",
-                discord: "https://www.discord.com",
+                youtube: "",
+                tiktok: "",
+                discord: "",
             }
         },
         selectedNav: 1,

@@ -12,9 +12,18 @@ const ChannelItem = ({ item, type }) => {
         navigate(`/live/${item.username}?streamId=${item.id}`);
     };
 
+    const handleAvatarClick = (username) => {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user && user.username === username) {
+            navigate('/you')
+        } else {
+            navigate(`/channel/${username}`);
+        }
+    }
+
     return (
-        <ChannelItemContainer onClick={handleOnClickItem}>
-            <div className="thumbnail-container">
+        <ChannelItemContainer >
+            <div className="thumbnail-container" onClick={handleOnClickItem}>
                 <img src={item.thumbnail} alt={item.title} />
                 {type === "live" && <div className="live-status">LIVE</div>}
                 {type === "live" && <div className="viewers-count">{convertView(item.views)} viewers</div>}
@@ -22,7 +31,7 @@ const ChannelItem = ({ item, type }) => {
             </div>
             <div className="description-container">
                 <div className="info-container">
-                    <Thumbnail src={item.avatar} onClick={() => navigate(`/my-channel/${item.username}`)} />
+                    <Thumbnail src={item.avatar} onclick={() => handleAvatarClick(item.username)} />
                     <div className="profile-info">
                         <div className="title">{item.title}</div>
                         <div className="username">{item.username}</div>

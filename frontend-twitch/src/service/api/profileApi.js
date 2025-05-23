@@ -28,6 +28,38 @@ export const getMyProfile = createAsyncThunk("getMyProfile",
         }
     });
 
+export const getProfile = createAsyncThunk("getProfile",
+    async ({ username }, { rejectWithValue }) => {
+        try {
+
+            const TARGET_API = API_URLS.GET_PROFILE.replace('{username}', username);
+            const headers = {
+                "Content-Type": "application/json",
+            }
+            if (localStorage.getItem("accessToken")) {
+                headers["Authorization"] = `Bearer ${localStorage.getItem("accessToken")}`;
+            }
+            
+            const response = await fetch(TARGET_API, {
+                method: "GET",
+                headers
+            });
+            const apiResponse = await response.json();
+
+            if (apiResponse.status != 'success') {
+                return rejectWithValue(handleErrorResponse(apiResponse.error));
+            };
+            return apiResponse.data;
+        } catch (error) {
+            return rejectWithValue(handleErrorResponse(
+                {
+                    code: 'NETWORK_ERROR',
+                    message: "Network error"
+                }
+            ));
+        }
+    });
+
 export const getMyStreams = createAsyncThunk("getMyStreams",
     async ({ username, page, size }, { rejectWithValue }) => {
         try {

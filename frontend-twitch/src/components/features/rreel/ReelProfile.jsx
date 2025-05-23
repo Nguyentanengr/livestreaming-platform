@@ -25,12 +25,21 @@ const ReelProfile = ({ reel }) => {
         }
     };
 
+    const handleAvatarClick = (username) => {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user && user.username === username) {
+            navigate('/you')
+        } else {
+            navigate(`/channel/${username}`);
+        }
+    }
+
     return (
         <ReelProfileContainer>
             <div className="profile-container">
                 <Thumbnail
                     src={reel.user?.avatar || reel.thumbnail}
-                    onclick={() => navigate(`/profile/${reel.user.username}`)}
+                    onclick={() => handleAvatarClick(reel.user.username)}
                     size="medium"
                 />
                 <div

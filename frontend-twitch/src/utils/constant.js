@@ -13,6 +13,7 @@ export const API_URLS = {
     LOG_OUT: `${API_BASE_URL}/auth/logout`,
     REFRESH_TOKEN: `${API_BASE_URL}/auth/refresh-token`,
     GET_MY_PROFILE: `${API_BASE_URL}/users/me/profile`,
+    GET_PROFILE: `${API_BASE_URL}/users/{username}/profile`,
     GET_MY_STREAMS: `${API_BASE_URL}/users/{username}/streams?page={page}&size={size}`,
     GET_MY_REELS: `${API_BASE_URL}/users/{username}/reels?page={page}&size={size}`,
     UPDATE_MY_PROFILE: `${API_BASE_URL}/users/me/profile`,
@@ -44,6 +45,7 @@ export const API_URLS = {
     GET_ALL_CATEGORIES: `${API_BASE_URL}/categories?key={key}&page={page}&size={size}`,
     GET_INTERESTED_CATEGORIES: `${API_BASE_URL}/categories/interested?key={key}&page={page}&size={size}`,
     GET_FOLLOWED_USERS: `${API_BASE_URL}/users/followed?key={key}&page={page}0&size={size}`,
+    GET_FOLLOWED_STREAMS: `${API_BASE_URL}/streams/followed?status={status}&key={key}&page={page}&size={size}`,
 }
 
 

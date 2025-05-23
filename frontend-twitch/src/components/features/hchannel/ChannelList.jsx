@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import ChannelItem from "./ChannelItem";
 import ShowMore from "../../commons/ShowMore";
 import { getRecentStreams, getRecommendedStreams } from "../../../service/api/streamApi";
+import { getFollowedRecentStreams, getFollowedStreams } from "../../../service/api/followApi";
 
 const ChannelList = ({ title, type, itemToShow = 4 }) => {
     const dispatch = useDispatch();
@@ -17,11 +18,21 @@ const ChannelList = ({ title, type, itemToShow = 4 }) => {
             dispatch(getRecommendedStreams({ status: 1, key: '', page: 0, size: 16 }));
         } else if (type === "recent") {
             dispatch(getRecentStreams({ status: 0, key: '', page: 0, size: 16 }));
+        } else if (type === "followed-stream") {
+            dispatch(getFollowedStreams({ page: 0, size: 16 }));
+        } else if (type === "recent-stream") {
+            dispatch(getFollowedRecentStreams({ page: 0, size: 16 }))
         }
     }, [dispatch, type]);
 
     const { recommendedStreams, recentStreams, loading, error } = useSelector((state) => state.stream);
     const { categoryStreams } = useSelector((state) => state.category);
+    const { followedStreams } = useSelector((state) => state.follow);
+    const { recentFollowedStreams } = useSelector((state) => state.follow);
+
+    useEffect(() => {
+        console.log(recentFollowedStreams);
+    }, [recentFollowedStreams])
 
     switch (type) {
         case "recommended":
@@ -71,6 +82,42 @@ const ChannelList = ({ title, type, itemToShow = 4 }) => {
             break;
         case "recent-related":
             items = categoryStreams
+                .filter((stream) => stream.endedAt) // Chỉ lấy stream đã kết thúc
+                .map((stream) => {
+                    const duration = stream.endedAt && stream.startedAt
+                        ? Math.floor((new Date(stream.endedAt) - new Date(stream.startedAt)) / 1000)
+                        : 0;
+                    return {
+                        id: stream.id,
+                        title: stream.title,
+                        username: stream.user.username,
+                        thumbnail: stream.thumbnail,
+                        views: stream.totalViewers,
+                        avatar: stream.user.avatar,
+                        tags: stream.tagNames.map((tag) => ({ id: tag, tag })),
+                        duration,
+                        createdAt: stream.endedAt,
+                    };
+                });
+            typeItem = "video";
+            break;
+
+        case "followed-stream":
+            items = followedStreams
+                .filter((stream) => !stream.endedAt) // Chỉ lấy stream đang live
+                .map((stream) => ({
+                    id: stream.id,
+                    title: stream.title,
+                    username: stream.user.username,
+                    thumbnail: stream.thumbnail,
+                    views: stream.viewersCount,
+                    avatar: stream.user.avatar,
+                    tags: stream.tagNames.map((tag) => ({ id: tag, tag })),
+                }));
+            typeItem = "live";
+            break;
+        case "recent-stream":
+            items = recentFollowedStreams
                 .filter((stream) => stream.endedAt) // Chỉ lấy stream đã kết thúc
                 .map((stream) => {
                     const duration = stream.endedAt && stream.startedAt

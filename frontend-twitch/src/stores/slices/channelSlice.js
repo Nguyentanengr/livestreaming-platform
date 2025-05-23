@@ -5,8 +5,8 @@ export const channelSlice = createSlice({
     initialState: {
         channel: {
             id: 102,
-            username: "HizukiNozomi",
-            description: "It's moonnin' time. la lúnica luna de @vdreamrail ഒ creadora de #pendejosdub",
+            username: "",
+            description: "",
             socialLinks: [
                 {
                     id: "twitter",
