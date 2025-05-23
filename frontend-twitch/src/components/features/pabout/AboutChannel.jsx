@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AboutChannelContainer } from "./AboutChannel.styled"
 
 import { Link, useNavigate } from "react-router-dom";
@@ -10,15 +10,15 @@ import EditProfileModal from "./EditProfileModal";
 import { convertView } from "../../../utils/convert";
 import StreamList from "./StreamList";
 import ReelList from "./ReelList";
+import { setSelectedNav } from "../../../stores/slices/profileSlice";
 
 
 const AboutChannel = () => {
 
-    const [selectNav, setSelectNav] = useState(1);
     const [showEditModal, setShowEditModal] = useState(false);
     const [showSettingModal, setShowSettingModal] = useState(false);
 
-    const { myProfile } = useSelector((state) => state.profile);
+    const { myProfile, selectedNav} = useSelector((state) => state.profile);
 
     const { myStream } = useSelector((state) => state.myStream);
     const streamsToShow = myStream.streams?.slice(0, myProfile.streamsCount);
@@ -27,6 +27,7 @@ const AboutChannel = () => {
     const reelsToShow = myReel.reels?.slice(0, myProfile.reelsCount);
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const navigations = [
         { id: 1, name: "Videos" },
@@ -103,12 +104,12 @@ const AboutChannel = () => {
             <div className="store">
                 <div className="navigations">
                     {navigations.map(navigation => {
-                        let cl = navigation.id == selectNav ? "highlight" : "";
+                        let cl = navigation.id == selectedNav ? "highlight" : "";
                         return (
                             <div
                                 className={`navigation ${cl}`}
                                 key={navigation.id}
-                                onClick={() => { setSelectNav(navigation.id) }}
+                                onClick={() => { dispatch(setSelectedNav(navigation.id)) }}
                             >
                                 {navigation.name}
                                 <div className={cl}></div>
@@ -117,14 +118,14 @@ const AboutChannel = () => {
                     })}
                 </div>
                 <div className="list">
-                    {selectNav == 1 && (
+                    {selectedNav == 1 && (
                         <div className="stream-collection">
                             <StreamList
                                 itemsToShow={streamsToShow}
                             />
                         </div>
                     )}
-                    {selectNav == 2 && (
+                    {selectedNav == 2 && (
                         <div className="reel-collection">
                             <ReelList
                                 itemsToShow={reelsToShow}

@@ -9,12 +9,12 @@ const CategoryItem = ({ item }) => {
 
     const handleClickThumbnail = () => {
         console.log('thumbnail');
-        navigate(`/categories/${item.name}`);
+        navigate(`/categories/${item.id}`);
     }
 
     const handleClickCategoryName = () => {
         console.log('category-name');
-        navigate(`/categories/${item.name}`);
+        navigate(`/categories/${item.id}`);
     }
 
     return (

@@ -1,19 +1,22 @@
-import { useSelector } from "react-redux";
-import { useState } from "react";
-import StreamItem from "./StreamItem";
-import { ReelListContainer } from "./ReelList.styled";
+import { useState, useMemo } from "react";
 import ReelItem from "./ReelItem";
+import { ReelListContainer } from "./ReelList.styled";
 
 const ReelList = ({ itemsToShow }) => {
-    
+    const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+
+    const memoizedItems = useMemo(() => itemsToShow, [itemsToShow]);
+
     return (
-        <ReelListContainer>
+        <ReelListContainer isVideoPlaying={isVideoPlaying}>
             <div className="recommend-live-container">
-                {itemsToShow.map((item) => {
-                    return (
-                        <ReelItem key={item.id} item={item}/>
-                    );
-                })}
+                {memoizedItems.map((item) => (
+                    <ReelItem
+                        key={item.id}
+                        item={item}
+                        onVideoOpen={setIsVideoPlaying}
+                    />
+                ))}
             </div>
         </ReelListContainer>
     );

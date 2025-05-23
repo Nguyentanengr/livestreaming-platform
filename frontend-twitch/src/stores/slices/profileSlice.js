@@ -20,6 +20,7 @@ export const profileSlice = createSlice({
                 discord: "https://www.discord.com",
             }
         },
+        selectedNav: 1,
         getProfileLoading: false,
         getProfileError: null,
         updateProfileLoading: false,
@@ -27,7 +28,11 @@ export const profileSlice = createSlice({
         changePasswordLoading: false,
         changePasswordError: null,
     },
-    reducers: {},
+    reducers: {
+        setSelectedNav: (state, action) => {
+            state.selectedNav = action.payload;
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getMyProfile.pending, (state) => {
@@ -68,5 +73,5 @@ export const profileSlice = createSlice({
     }
 });
 
-export const {} = profileSlice.actions;
+export const { setSelectedNav } = profileSlice.actions;
 export default profileSlice.reducer;

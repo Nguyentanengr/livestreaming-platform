@@ -1,22 +1,33 @@
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { CategoryContainer } from './Category.styled';
-import { useState } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import CategoryList from '../../features/hcategory/CategoryList';
 import CategoryInfo from '../../features/cainfo/CategoryInfo';
 import ChannelList from '../../features/hchannel/ChannelList';
+import { getCategoryById, getCategoryStreams } from '../../../service/api/categoryApi';
 
 const Category = () => {
+    const { categoryId } = useParams();
+    const dispatch = useDispatch();
+    const { selectedCategory, loading, error } = useSelector((state) => state.category);
 
-    const { category } = useParams();
+    useEffect(() => {
+        console.log("categoryId ", categoryId);
+        if (categoryId) {
+            
+            dispatch(getCategoryById(categoryId));
+            dispatch(getCategoryStreams({ categoryId, key: '', page: 0, size: 16 }));
+        }
+    }, [dispatch, categoryId]);
 
-    const item = useState({
-        id: 6,
-        name: "EA Sports",
-        description: 'Valorant is a free-to-play first-person tactical hero shooter developed and published by Riot Games. Players play as one of a set of Agents, characters based on several countries and cultures around the world.',
-        thumbnail: "https://static-cdn.jtvnw.net/ttv-boxart/2011938005_IGDB-285x380.jpg",
-        interested: 558903,
-        isFollowed: false,
-    });
+    if (loading) {
+        return <CategoryContainer>Loading...</CategoryContainer>;
+    }
+
+    if (error) {
+        return <CategoryContainer>Error: {error.message}</CategoryContainer>;
+    }
 
     return (
         <CategoryContainer>
@@ -24,7 +35,7 @@ const Category = () => {
                 <CategoryInfo />
             </div>
             <div className="lives-cnt">
-                <ChannelList title={`${category}'s lives`} type={'related'} />
+                <ChannelList title={`${selectedCategory?.name || 'Category'}'s lives`} type={'related'} />
             </div>
             {/* <div className="similar-cate">
                 <CategoryList title={'Similar Categories'} onSeeAll={false} />

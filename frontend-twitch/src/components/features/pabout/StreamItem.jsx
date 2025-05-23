@@ -11,7 +11,7 @@ const StreamItem = ({ item }) => {
     const navigate = useNavigate();
 
     const handleOnClickItem = () => {
-        navigate(`/live/${item.username}`);
+        navigate(`/live/${item.user.username}?streamId=${item.id}`);
     }
     return (
         <StreamItemContainer onClick={handleOnClickItem}>

@@ -1,64 +1,32 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { StreamerRecommendListContainer } from './StreamerRecommendList.styled';
-import Button from '../../commons/Button';
-import { Theme } from '../../../assets/styles/Theme';
-import Thumbnail from '../../commons/Thumbnail';
 import StreamerRecommendItem from './StreamerRecommendItem';
+import { getFollowedUsers } from '../../../service/api/followApi';
 
 const StreamerRecommendList = ({ title }) => {
+    const dispatch = useDispatch();
+    const { followedUsers, loading, error } = useSelector((state) => state.follow);
 
-    const [users, setUsers] = useState([
-        {
-            userId: 1,
-            username: "ProGamer123",
-            followers: "245K",
-            thumbail: "/images/avatar-default.jpeg",
-        },
-        {
-            userId: 2,
-            username: "StreamQueen",
-            followers: "1.2M",
-            thumbail: "/images/avatar-default.jpeg",
-        },
-        {
-            userId: 3,
-            username: "GameMaster",
-            followers: " 567K",
-            thumbail: "/images/avatar-default.jpeg",
-        },
-        {
-            userId: 4,
-            username: "EpicStreams",
-            followers: "89K",
-            thumbail: "/images/avatar-default.jpeg",
-        },
-        {
-            userId: 5,
-            username: "StreamQueen",
-            followers: "1.2M",
-            thumbail: "/images/avatar-default.jpeg",
-        },
-        {
-            userId: 6,
-            username: "StreamQueen",
-            followers: "1.2M",
-            thumbail: "/images/avatar-default.jpeg",
-        },
-    ]);
+    useEffect(() => {
+        dispatch(getFollowedUsers({ page: 0, size: 10 }));
+    }, [dispatch]);
 
+    if (loading) {
+        return <StreamerRecommendListContainer>Loading...</StreamerRecommendListContainer>;
+    }
 
-
+    if (error) {
+        return <StreamerRecommendListContainer>Error: {error.message}</StreamerRecommendListContainer>;
+    }
 
     return (
         <StreamerRecommendListContainer>
-            <div className="title">
-                {title}
-            </div>
+            <div className="title">{title}</div>
             <div className="recomment-area">
-                {users.map((user) => (
-                    <StreamerRecommendItem user={user} key={user.userId} />
+                {followedUsers.map((user) => (
+                    <StreamerRecommendItem user={user} key={user.id} />
                 ))}
-
             </div>
         </StreamerRecommendListContainer>
     );

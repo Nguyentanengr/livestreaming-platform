@@ -29,7 +29,7 @@ export const userSlice = createSlice({
             })
             .addCase(followUserInStream.pending, (state) => {
                 if (state.profile) {
-                    state.profile = { ...state.profile, isFollowing: true };
+                    state.profile = { ...state.profile, isFollowing: true, followersCount: state.profile.followersCount + 1 };
                 }
             })
             .addCase(followUserInStream.fulfilled, (state) => {
@@ -37,12 +37,12 @@ export const userSlice = createSlice({
             })
             .addCase(followUserInStream.rejected, (state) => {
                 if (state.profile) {
-                    state.profile = { ...state.profile, isFollowing: false };
+                    state.profile = { ...state.profile, isFollowing: false, followersCount: state.profile.followersCount -1 };
                 }
             })
             .addCase(unfollowUserInStream.pending, (state) => {
                 if (state.profile) {
-                    state.profile = { ...state.profile, isFollowing: false };
+                    state.profile = { ...state.profile, isFollowing: false, followersCount: state.profile.followersCount - 1};
                 }
             })
             .addCase(unfollowUserInStream.fulfilled, (state) => {
@@ -50,7 +50,7 @@ export const userSlice = createSlice({
             })
             .addCase(unfollowUserInStream.rejected, (state) => {
                 if (state.profile) {
-                    state.profile = { ...state.profile, isFollowing: true };
+                    state.profile = { ...state.profile, isFollowing: true, followersCount: state.profile.followersCount + 1};
                 }
             });
     },

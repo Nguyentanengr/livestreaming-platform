@@ -1,44 +1,71 @@
 import { useParams } from 'react-router-dom';
 import { CategoryInfoContainer } from './CategoryInfo.styled';
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Icons } from '../../../assets/icons/Icon';
 import { convertView } from '../../../utils/convert';
+import { categoryInterest, categoryUninterest } from '../../../service/api/categoryApi';
 
 const CategoryInfo = () => {
+    const { categoryId } = useParams();
+    const dispatch = useDispatch();
+    const { selectedCategory, loading, error } = useSelector((state) => state.category);
 
-    const { category } = useParams();
+    const handleToggleInterest = () => {
+        if (selectedCategory && localStorage.getItem("accessToken")) {
+            if (selectedCategory.isInterested) {
+                dispatch(categoryUninterest({
+                    categoryId: selectedCategory.id,
+                    isInterested: selectedCategory.isInterested,
+                }));
+            } else {
+                dispatch(categoryInterest({
+                    categoryId: selectedCategory.id,
+                    isInterested: selectedCategory.isInterested,
+                }));
+            }
+        } else {
+            console.log('Please log in to follow this category');
+        }
+    };
 
-    const [item, setItem] = useState({
-        id: 6,
-        name: "EA Sports",
-        description: 'Valorant is a free-to-play first-person tactical hero shooter developed and published by Riot Games. Players play as one of a set of Agents, characters based on several countries and cultures around the world.',
-        thumbnail: "https://static-cdn.jtvnw.net/ttv-boxart/2011938005_IGDB-285x380.jpg",
-        interested: 558903,
-        isFollowed: false,
-    });
+    if (loading) {
+        return <CategoryInfoContainer>Loading...</CategoryInfoContainer>;
+    }
+
+    if (error) {
+        return <CategoryInfoContainer>Error: {error.message}</CategoryInfoContainer>;
+    }
+
+    if (!selectedCategory) {
+        return <CategoryInfoContainer>No category data available</CategoryInfoContainer>;
+    }
 
     return (
         <CategoryInfoContainer>
             <div className="info-detail">
                 <div className="thumbnail">
-                    <img src={item.thumbnail} alt="" />
+                    <img src={selectedCategory.thumbnail} alt={selectedCategory.name} />
                 </div>
                 <div className="detail">
                     <div className="name">
-                        {category}
+                        {selectedCategory.name}
                     </div>
                     <div className="interested">
-                        <Icons.Star /> {convertView(item.interested)}  interested
+                        <Icons.Star /> {convertView(selectedCategory.interestedCount)} interested
                     </div>
                     <div className="des">
-                        {item.description}
+                        {selectedCategory.description}
                     </div>
-                    <div className="follow-btn">
-                        <Icons.HeartFill className='icon' /> Interested
-                    </div>
+                    {selectedCategory.isInterested ? <div className="unfollow-btn" onClick={handleToggleInterest}>
+                        <Icons.HeartEmpty className="icon" />
+                        Uninterested
+                    </div> : <div className="follow-btn" onClick={handleToggleInterest}>
+                        <Icons.HeartFill className="icon" />
+                        Interested
+                    </div>}
+                    {error && <div className="error">Error: {error.message}</div>}
                 </div>
             </div>
-
         </CategoryInfoContainer>
     );
 };

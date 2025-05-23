@@ -15,6 +15,7 @@ import Category from "./components/pages/category/Category";
 import LogIn from "./components/layouts/header/LogIn";
 import SignUp from "./components/layouts/header/SignUp";
 import ResetPassword from "./components/layouts/header/ResetPassword";
+import ReelViewer from "./components/features/pabout/ReelViewer";
 
 const WS_BASE_URL = (import.meta.env.VITE_WS_BASE_URL || 'wss://localhost:8080/ws');
 console.log('WebSocket URL:', WS_BASE_URL);
@@ -84,7 +85,8 @@ const App = () => {
               }
             />
             <Route path="/categories" element={<Categories />} />
-            <Route path="/categories/:category" element={<Category />} />
+            <Route path="/categories/:categoryId" element={<Category />} />
+            <Route path="/reel/:reelId" element={<ReelViewer />} />
             <Route
               path="/following"
               element={

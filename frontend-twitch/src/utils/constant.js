@@ -38,6 +38,12 @@ export const API_URLS = {
     CATEGORIES_RECOMMENDED: `${API_BASE_URL}/categories/recommended?key={key}&page={page}&size={size}`,
     GET_STREAM: `${API_BASE_URL}/streams/{streamId}`,
     USER_PROFILE: `${API_BASE_URL}/users/{username}/profile`,
+    CATEGORY_STREAMS: `${API_BASE_URL}/categories/{categoryId}/streams?key={key}&page={page}&size={size}`,
+    INTERESTED_CATEGORY: `${API_BASE_URL}/categories/{categoryId}/interested`,
+    GET_CATEGORY: `${API_BASE_URL}/categories/{categoryId}`,
+    GET_ALL_CATEGORIES: `${API_BASE_URL}/categories?key={key}&page={page}&size={size}`,
+    GET_INTERESTED_CATEGORIES: `${API_BASE_URL}/categories/interested?key={key}&page={page}&size={size}`,
+    GET_FOLLOWED_USERS: `${API_BASE_URL}/users/followed?key={key}&page={page}0&size={size}`,
 }
 
 

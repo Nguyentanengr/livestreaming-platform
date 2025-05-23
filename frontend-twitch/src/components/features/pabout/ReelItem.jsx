@@ -1,28 +1,20 @@
-
 import { useNavigate } from "react-router-dom";
-import { Icons } from "../../../assets/icons/Icon";
-import { convertDuration, convertView, convertTimeAgo } from "../../../utils/convert";
-import Thumbnail from "../../commons/Thumbnail";
-import ActionButton from "../../commons/ActionButton";
 import { ReelItemContainer } from "./ReelItem.styled";
-
 
 const ReelItem = ({ item }) => {
     const navigate = useNavigate();
 
+    // Xử lý khi nhấn vào reel để xem video
     const handleOnClickItem = () => {
-        navigate(`/live/${item.username}`);
-    }
+        // Chuyển hướng đến trang xem video, truyền URL video qua query parameter
+        navigate(`/reel/${item.id}?videoUrl=${encodeURIComponent(item.video)}`);
+    };
+
     return (
         <ReelItemContainer onClick={handleOnClickItem}>
             <div className="thumbnail-container">
-                <img src={item.thumbnail} alt={item.title} />
-                <div className="like-count-container">
-                    <Icons.HeartFill className="like-icon" />
-                    <div className="like-count">{convertView(item.likesCount)}</div>
-                </div>
+                <img src={item.thumbnail} alt={item.description || "Reel"} />
             </div>
-           
         </ReelItemContainer>
     );
 };

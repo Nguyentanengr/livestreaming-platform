@@ -42,7 +42,7 @@ const CategoryList = ({ title, onSeeAll = true, list = undefined }) => {
                 )}
             </div>
             <div className="category-list-container">
-                {displayCategories.map((category) => (
+                {displayCategories?.map((category) => (
                     <CategoryItem
                         key={category.id}
                         item={{

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Theme } from "../../../assets/styles/Theme"
+import { Theme } from "../../../assets/styles/Theme";
 
 export const ReelListContainer = styled.div`
     display: flex;
@@ -19,5 +19,8 @@ export const ReelListContainer = styled.div`
         gap: 20px;
         justify-content: start;
         align-items: start;
+        opacity: ${({ isVideoPlaying }) => (isVideoPlaying ? 0 : 1)};
+        pointer-events: ${({ isVideoPlaying }) => (isVideoPlaying ? "none" : "auto")};
+        transition: opacity 0.3s ease;
     }
 `;

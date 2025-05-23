@@ -18,6 +18,8 @@ import recommendReelReducer from "./slices/recommendReelSlice";
 import notiReducer from "./slices/notiSlice";
 import streamReducer from "./slices/streamSlice";
 import categoryReducer from "./slices/categorySlice";
+import categoriesReducer from "./slices/categoriesSlice";
+import followReducer from "./slices/followSlice";
 
 export default configureStore({
     reducer: {
@@ -41,6 +43,8 @@ export default configureStore({
         notifications: notiReducer,
         stream: streamReducer,
         category: categoryReducer,
+        categories: categoriesReducer,
+        follow: followReducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

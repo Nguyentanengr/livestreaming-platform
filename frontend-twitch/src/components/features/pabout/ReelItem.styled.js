@@ -13,6 +13,7 @@ const fadeIn = keyframes`
 export const ReelItemContainer = styled.div`
     width: calc((100% - 60px) / 3);
     animation: ${fadeIn} 0.3s ease-out forwards;
+
     .thumbnail-container {
         position: relative;
         cursor: pointer;
@@ -22,43 +23,6 @@ export const ReelItemContainer = styled.div`
         transition: 0.2s;
         border-radius: 8px;
 
-        .like-count-container {
-            display: flex;
-            align-items: center;
-            position: absolute;
-            bottom: 12px;
-            right: 10px;
-            font-size: 14px;
-            font-weight: 500;
-            color: ${Theme.header};
-            border-radius: 1px;
-            padding: 2px 8px;
-            background-color: ${Theme.boldShadow};
-            transition: 0.2s;
-            border-radius: 4px;
-
-            .like-icon {
-                width: 16px;
-                height: 16px;
-                margin-right: 4px;
-                fill: ${Theme.header};
-            }
-        }
-
-
-        &:hover {
-            background-color: ${Theme.highlight};
-
-            img,
-            .live-status,
-            .viewers-count,
-            .like-count-container,
-            .duration {
-                transform: translate(8px, -8px);
-            }
-        }
-
-        
         img {
             width: 100%;
             height: 100%;
@@ -68,11 +32,12 @@ export const ReelItemContainer = styled.div`
             border-radius: 8px;
         }
 
-       
-       
+        &:hover {
+            background-color: ${Theme.highlight};
 
-        .option {
-
+            img {
+                transform: translate(8px, -8px);
+            }
         }
     }
 `;

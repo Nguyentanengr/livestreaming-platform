@@ -12,7 +12,7 @@ export const CategoryInfoContainer = styled.div`
         .thumbnail {
             img {
                 width: 220px;
-                height: auto;
+                height: 280px;
                 object-fit: cover;
                 border-radius: 5px;
             }
@@ -50,6 +50,26 @@ export const CategoryInfoContainer = styled.div`
         padding: 8px 20px;
         background-color: ${Theme.highlight};
         color: ${Theme.header};
+        font-weight: 700;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 20px;
+        width: 200px;
+
+        .icon {
+            font-size: 16px;
+        }
+    }
+
+
+    .unfollow-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 8px 20px;
+        background-color: ${Theme.hover};
+        color: ${Theme.dark};
         font-weight: 700;
         border-radius: 5px;
         cursor: pointer;

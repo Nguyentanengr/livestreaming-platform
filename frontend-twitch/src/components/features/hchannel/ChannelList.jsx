@@ -21,7 +21,7 @@ const ChannelList = ({ title, type, itemToShow = 4 }) => {
     }, [dispatch, type]);
 
     const { recommendedStreams, recentStreams, loading, error } = useSelector((state) => state.stream);
-    const recentVideos = useSelector((state) => state.recent.videos);
+    const { categoryStreams } = useSelector((state) => state.category);
 
     switch (type) {
         case "recommended":
@@ -56,11 +56,38 @@ const ChannelList = ({ title, type, itemToShow = 4 }) => {
             typeItem = "video";
             break;
         case "related":
-            items = recentVideos;
+            items = categoryStreams
+                .filter((stream) => !stream.endedAt) // Chỉ lấy stream đang live
+                .map((stream) => ({
+                    id: stream.id,
+                    title: stream.title,
+                    username: stream.user.username,
+                    thumbnail: stream.thumbnail,
+                    views: stream.viewersCount,
+                    avatar: stream.user.avatar,
+                    tags: stream.tagNames.map((tag) => ({ id: tag, tag })),
+                }));
             typeItem = "live";
             break;
         case "recent-related":
-            items = recentVideos;
+            items = categoryStreams
+                .filter((stream) => stream.endedAt) // Chỉ lấy stream đã kết thúc
+                .map((stream) => {
+                    const duration = stream.endedAt && stream.startedAt
+                        ? Math.floor((new Date(stream.endedAt) - new Date(stream.startedAt)) / 1000)
+                        : 0;
+                    return {
+                        id: stream.id,
+                        title: stream.title,
+                        username: stream.user.username,
+                        thumbnail: stream.thumbnail,
+                        views: stream.totalViewers,
+                        avatar: stream.user.avatar,
+                        tags: stream.tagNames.map((tag) => ({ id: tag, tag })),
+                        duration,
+                        createdAt: stream.endedAt,
+                    };
+                });
             typeItem = "video";
             break;
         default:
@@ -84,11 +111,17 @@ const ChannelList = ({ title, type, itemToShow = 4 }) => {
         <ChannelListContainer>
             <div className="title-heading">{title}</div>
             <div className="recommend-live-container">
-                {itemsToShow.map((item) => (
-                    <ChannelItem key={item.id} item={item} type={typeItem} />
-                ))}
+                {itemsToShow.length > 0 ? (
+                    itemsToShow.map((item) => (
+                        <ChannelItem key={item.id} item={item} type={typeItem} />
+                    ))
+                ) : (
+                    <div>No live streams available</div>
+                )}
             </div>
-            <ShowMore title={showMore ? "Show Less" : "Show More"} onclick={handleShowMore} />
+            {items.length > itemToShow && (
+                <ShowMore title={showMore ? "Show Less" : "Show More"} onclick={handleShowMore} />
+            )}
         </ChannelListContainer>
     );
 };
