@@ -38,6 +38,7 @@ export const API_URLS = {
     STREAM_RECOMMENDED: `${API_BASE_URL}/streams/recommended?status={status}&key={key}&page={page}&size={size}`,
     CATEGORIES_RECOMMENDED: `${API_BASE_URL}/categories/recommended?key={key}&page={page}&size={size}`,
     GET_STREAM: `${API_BASE_URL}/streams/{streamId}`,
+    CREATE_STREAM: `${API_BASE_URL}/streams`,
     USER_PROFILE: `${API_BASE_URL}/users/{username}/profile`,
     CATEGORY_STREAMS: `${API_BASE_URL}/categories/{categoryId}/streams?key={key}&page={page}&size={size}`,
     INTERESTED_CATEGORY: `${API_BASE_URL}/categories/{categoryId}/interested`,

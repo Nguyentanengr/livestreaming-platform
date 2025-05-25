@@ -3,12 +3,11 @@ import { Theme } from "../../assets/styles/Theme";
 
 export const ErrorAlertContainer = styled.div`
     position: fixed;
-    top: ${(props) => (props.show ? "20px" : "-100px")};
+    top: ${(props) => (props.show ? "60px" : "-100px")};
     left: 50%;
     transform: translateX(-50%);
     width: 350px;
     background:${(props) => (props.type === "error" ? Theme.hotRed : Theme.success)};
-    color: white;
     padding: 16px; 
     border-radius: 8px;
     display: flex;

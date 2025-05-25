@@ -4,35 +4,28 @@ import SendComment from "../../commons/SendComment";
 import ChatList from "../schat/ChatList";
 import { addChat } from "../../../stores/slices/chatSlice";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
+import { chatMessage, onChatMessage } from "../../../service/websocket/chatSocketService";
 
 const ViewChat = () => {
     const dispatch = useDispatch();
     const { selectedStream } = useSelector((state) => state.stream);
     const { chats } = useSelector((state) => state.chat);
-    const user = useSelector((state) => state.user.user);
+    const {user} = useSelector((state) => state.auth);
 
     const isLive = !selectedStream?.endedAt;
     const isChatEnabled = isLive && selectedStream?.commentEnabled;
 
     const handleSendChat = (input) => {
         if (isChatEnabled && user) {
-            dispatch(addChat({
-                id: chats.length + 1,
-                username: user.username,
-                thumbnail: user.thumbnail,
-                content: input,
-            }));
-        } else if (!isLive) {
-            // toast.error("Cannot chat on ended stream.", {
-            //     position: "top-right",
-            //     autoClose: 2000,
-            //     hideProgressBar: false,
-            //     closeOnClick: true,
-            //     pauseOnHover: true,
-            //     draggable: true,
-            // });
+            chatMessage(input);
         }
     };
+
+    useEffect(() => {
+        console.log('Starting subscribe /topic/chat/', selectedStream.id);
+        onChatMessage('/topic/chat/' + selectedStream.id, dispatch);
+    }, [dispatch, selectedStream]);
 
     return (
         <ViewChatContainer>

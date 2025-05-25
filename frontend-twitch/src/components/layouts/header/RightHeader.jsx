@@ -14,9 +14,11 @@ import ResetPassword from "./ResetPassword";
 import { RightHeaderContainer } from "./RightHeader.styled";
 import { logoutUser } from "../../../service/api/authApi";
 import { fetchUnreadNotificationCount } from "../../../service/api/notiApi";
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import WebSocketService from "../../../service/websocket/WebSocketService";
+import { getNotification } from "../../../service/websocket/notiSocketService";
+import { setUnreadCount } from "../../../stores/slices/notiSlice";
 
 const RightHeader = () => {
     const dispatch = useDispatch();
@@ -79,6 +81,55 @@ const RightHeader = () => {
     useEffect(() => {
         dispatch(fetchUnreadNotificationCount());
     }, [dispatch, user]);
+
+    useEffect(() => {
+        setTimeout(() => {
+            if (user) getNotification((message) => {
+                try {
+                    console.log("Receive message on notification topic ", message);
+                    const notification = JSON.parse(message.body);
+                    if (notification.type === 'LIKE_REEL' || notification.type === 'COMMENT'
+                        || notification.type === 'LIKE_COMMENT' || notification.type === 'FOLLOW') {
+                        // Tăng unreadCount
+                        console.log('current unreadCount:', unreadCount);
+                        dispatch((dispatch, getState) => {
+                            const { notifications: { unreadCount } } = getState();
+                            console.log('Current unreadCount:', unreadCount);
+                            dispatch(setUnreadCount(unreadCount + 1));
+                        });
+
+                        // Hiển thị toast
+                        toast.info(
+                            ({ closeToast }) => (
+                                <div className="custom-toast">
+                                    <img
+                                        src={notification.user.avatar || '/images/avatar-default.jpeg'}
+                                        alt="User avatar"
+                                        className="toast-avatar"
+                                    />
+                                    <div className="toast-content">
+                                        {notification.content}
+                                    </div>
+                                </div>
+                            ),
+                            {
+                                position: 'top-right',
+                                autoClose: 3000,
+                                hideProgressBar: false, // Hiển thị thanh tiến trình
+                                progressClassName: 'toast-progress', // Class tùy chỉnh cho thanh tiến trình
+                                closeOnClick: true,
+                                pauseOnHover: true,
+                                draggable: true,
+                                icon: false,
+                            }
+                        );
+                    }
+                } catch (error) {
+                    console.error('Error parsing WebSocket message:', error);
+                }
+            })
+        }, 1000);
+    }, [])
 
     return (
         <RightHeaderContainer>
@@ -184,7 +235,6 @@ const RightHeader = () => {
                     )}
                 </div>
             </div>
-            {user && <WebSocketService />}
             <ToastContainer
                 position="top-right"
                 autoClose={3000}

@@ -163,3 +163,39 @@ export const getStreamById = createAsyncThunk(
 );
 
 
+
+export const createStream = createAsyncThunk(
+    'stream/createStream',
+    async ({ streamData, thumbnailFile }, { rejectWithValue }) => {
+        try {
+            const formData = new FormData();
+            formData.append('stream', new Blob([JSON.stringify(streamData)], { type: 'application/json' }));
+            formData.append('thumbnail', thumbnailFile);
+
+            const response = await fetch(API_URLS.CREATE_STREAM, {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                },
+                body: formData,
+            });
+
+            const apiResponse = await response.json();
+
+            if (apiResponse.status !== 'success') {
+                return rejectWithValue(handleErrorResponse(apiResponse.error));
+            }
+
+            return apiResponse.data;
+        } catch (error) {
+            return rejectWithValue(
+                handleErrorResponse({
+                    code: 'NETWORK_ERROR',
+                    message: 'Network error',
+                })
+            );
+        }
+    }
+);
+
+

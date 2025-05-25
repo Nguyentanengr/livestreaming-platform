@@ -33,7 +33,7 @@ const Following = () => {
                 <ChannelList title="Related Lives" type="followed-stream" />
             </div>
             <div className="recomment-streamer">
-                <StreamerRecommendList title="Recommended Channels" />
+                <StreamerRecommendList title="Channels" />
             </div>
             <div className="recent-related-lives">
                 <ChannelList title="Recent Lives" type="recent-stream" />

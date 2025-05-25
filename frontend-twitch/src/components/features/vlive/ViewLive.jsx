@@ -6,14 +6,15 @@ import Thumbnail from "../../commons/Thumbnail";
 import { ViewLiveContainer } from "./ViewLive.styled";
 import { convertView, convertDuration } from "../../../utils/convert";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { followUserInStream, unfollowUserInStream } from "../../../service/api/userApi";
+import { onChatMessage, onViewMessage } from "../../../service/websocket/chatSocketService";
 
 const ViewLive = () => {
     const { selectedStream } = useSelector((state) => state.stream);
     const { profile } = useSelector((state) => state.user);
-    const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [view, setView] = useState(selectedStream.viewersCount || 0);
 
     const links = profile?.link
         ? Object.entries(profile.link)
@@ -40,12 +41,19 @@ const ViewLive = () => {
         }
     };
 
+     useEffect(() => {
+            console.log('[VIEW TOPIC] Starting subscribe /topic/view/', selectedStream.id);
+            onViewMessage('/topic/view/' + selectedStream.id, (message) => {
+                setView(message.viewersCount);
+            });
+        }, [dispatch]);
+
     return (
         <ViewLiveContainer>
             <div className="about-live">
                 <div className="thumb-title">
                     <div className="thumb-container">
-                        <Thumbnail src={selectedStream?.thumbnail || ""} size="vlarge" />
+                        <Thumbnail src={selectedStream?.user.avatar || ""} size="vlarge" />
                         {!selectedStream?.endedAt && <div className="span-live">LIVE</div>}
                     </div>
                     <div className="title-container">
@@ -64,7 +72,7 @@ const ViewLive = () => {
                     <div className="view-time">
                         <div className="view">
                             {selectedStream
-                                ? convertView(selectedStream.endedAt ? selectedStream.totalViewers : selectedStream.viewersCount)
+                                ? convertView(selectedStream.endedAt ? selectedStream.totalViewers : view)
                                 : 0} {selectedStream?.endedAt ? "Views" : "Viewers"}
                         </div>
                         <Icons.HotLive className="dot" />

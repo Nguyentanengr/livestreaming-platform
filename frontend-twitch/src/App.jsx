@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GlobalStyles from "./assets/styles/Global";
 import MainLayout from "./components/layouts/MainLayout";
 import Home from "./components/pages/home/Home";
@@ -17,9 +17,11 @@ import SignUp from "./components/layouts/header/SignUp";
 import ResetPassword from "./components/layouts/header/ResetPassword";
 import ReelViewer from "./components/features/pabout/ReelViewer";
 import ChannelProfile from "./components/pages/channel/ChannelProfile";
+import { connectSocket, disconnectSocket } from "./service/websocket/socketService";
 
 const WS_BASE_URL = (import.meta.env.VITE_WS_BASE_URL || 'wss://localhost:8080/ws');
-console.log('WebSocket URL:', WS_BASE_URL);
+
+
 const PrivateRoute = ({ children, setModals }) => {
   const user = localStorage.getItem('user')
     ? JSON.parse(localStorage.getItem('user'))
@@ -47,6 +49,13 @@ const App = () => {
       resetPassword: modalName === 'resetPassword' ? !prev.resetPassword : false,
     }));
   };
+
+  useEffect(() => {
+    connectSocket(WS_BASE_URL);
+    return () => {
+      disconnectSocket();
+    }
+  }, []);
 
   return (
     <>

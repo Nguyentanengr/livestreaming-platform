@@ -1,55 +1,108 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-
+import { getAllCategoryByKey } from "../../service/api/categoryApi";
+import { createStream } from "../../service/api/streamApi";
 
 const editStreamSlice = createSlice({
-    name: "editStream",
-    initialState: {
-        titleInput: "This is my stream channel",
-        notificationInput: "Welcome to my channel!",
-        categoryInput: "",
-        tagInput: "",
-        commentInput: ["ON", "OFF"],
-        visibilityInput: ["All everyone", "Who are following me", "Friendly (Follow along with)"],
-        tagSelects: [],
-        categorySelect: undefined,
-        commentSelect: "ON", // {value: "ON" / "OFF"}
-        visibilitySelect: "All everyone", // {value: "All..." / "Who ..."}
-        categories: [
-            { id: 1, name: "Dota2", thumbnail: "/images/categories/game1.jpg", interested: "24400" },
-            { id: 2, name: "Valorant", thumbnail: "/images/categories/game2.jpg", interested: "57944" },
-            { id: 3, name: "MineCraft", thumbnail: "/images/categories/game3.jpg", interested: "2360009" },
-            { id: 4, name: "Pubg Mobile", thumbnail: "/images/categories/game4.jpg", interested: "57000" },
-            { id: 5, name: "EA Sports", thumbnail: "/images/categories/game5.jpg", interested: "78000" },
-            { id: 6, name: "Lien Quan", thumbnail: "/images/categories/game6.jpg", interested: "23456" },
-            { id: 7, name: "Free Fire", thumbnail: "/images/categories/game7.jpg", interested: "68434" },
-            { id: 8, name: "Snip Counter", thumbnail: "/images/categories/game8.jpg", interested: "28439" },
-            { id: 9, name: "Action Thumb", thumbnail: "/images/categories/game9.jpg", interested: "83858" },
-            { id: 10, name: "Killer Snip", thumbnail: "/images/categories/game10.jpg", interested: "13924" },
-        ]
-    },
+  name: "editStream",
+  initialState: {
+    id: null,
+    titleInput: "This is my stream channel",
+    notificationInput: "Welcome to my channel!",
+    categoryInput: "",
+    tagInput: "",
+    commentInput: ["ON", "OFF"],
+    visibilityInput: ["All everyone", "Who are following me", "Only me"],
+    tagSelects: [],
+    categorySelect: undefined,
+    commentSelect: "ON",
+    visibilitySelect: "All everyone",
+    categories: [],
+    thumbnail: null,
+    thumbnailFile: null, // Thêm để lưu file gốc
+    loading: false,
+    error: null,
+    currentPage: 0,
+    totalPages: 1,
+    isVideoLoaded: false,
+    isLive: false,
+    createLoading: false,
+    viewersCount: 0,
+  },
+  reducers: {
 
-    reducers: {
-        setInput: (state, action) => {
-            state[action.payload.key] = action.payload.value;
-        },
-        addTag: (state, action) => {
-            if (!state.tagSelects.find(each => each === action.payload)
-                && state.tagSelects.length < 3)
-                state.tagSelects.push(action.payload);
-        },
-        removeTag: (state, action) => { // action.payload is Id
-            state.tagSelects = state.tagSelects
-                .filter((each, index) => index != action.payload);
-        },
+    setIsVideoLoaded: (state, action) => {
+      state.isVideoLoaded = action.payload;
     },
+    setIsLive: (state, action) => {
+      state.isLive = action.payload;
+    },
+    setInput: (state, action) => {
+      state[action.payload.key] = action.payload.value;
+    },
+    addTag: (state, action) => {
+      if (!state.tagSelects.find(each => each === action.payload) && state.tagSelects.length < 3) {
+        state.tagSelects.push(action.payload);
+      }
+    },
+    removeTag: (state, action) => {
+      state.tagSelects = state.tagSelects.filter((_, index) => index !== action.payload);
+    },
+    setThumbnail: (state, action) => {
+      state.thumbnail = action.payload; // Lưu base64 để hiển thị
+    },
+    setThumbnailFile: (state, action) => {
+      state.thumbnailFile = action.payload; // Lưu file gốc
+    },
+    resetThumbnail: (state) => {
+      state.thumbnail = null;
+      state.thumbnailFile = null;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getAllCategoryByKey.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getAllCategoryByKey.fulfilled, (state, action) => {
+        state.loading = false;
+        state.categories = action.payload.categoryList.map(category => ({
+          id: category.id,
+          name: category.name,
+          thumbnail: category.thumbnail,
+          interested: category.interestedCount,
+        }));
+        state.currentPage = action.payload.currentPage;
+        state.totalPages = action.payload.totalPages;
+      })
+      .addCase(getAllCategoryByKey.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload?.message || "Failed to fetch categories";
+      })
+      .addCase(createStream.pending, (state) => {
+        state.createLoading = true;
+      })
+      .addCase(createStream.fulfilled, (state, action) => {
+        state.createLoading = false;
+        state.id = action.payload?.streamId;
+      })
+      .addCase(createStream.rejected, (state, action) => {
+        state.createLoading = false;
+        state.error = action.payload?.message || "Failed to create stream";
+      });
+  },
 });
 
-export const {
-    setInput,
-    setItem,
-    addTag,
-    removeTag,
+export const { 
+  setInput, 
+  addTag, 
+  removeTag, 
+  setThumbnail, 
+  setThumbnailFile, 
+  resetThumbnail,
+  setIsVideoLoaded,
+  setIsLive,
+  setViewersPresentCount,
 } = editStreamSlice.actions;
 
 export default editStreamSlice.reducer;

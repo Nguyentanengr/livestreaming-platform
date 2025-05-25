@@ -3,34 +3,43 @@ import { useDispatch, useSelector } from "react-redux";
 import { addChat } from "../../../stores/slices/chatSlice";
 import TitleBar from "../../commons/TitleBar";
 import ChatList from "./ChatList";
-import SendChat from "./SendChat";
 import SendComment from "../../commons/SendComment";
-import Thumbnail from "../../commons/Thumbnail";
+import { v4 as uuidv4 } from "uuid";
+import { chatMessage, onChatMessage } from "../../../service/websocket/chatSocketService";
+
+var isPresent = false;
+var dispatch = null;
+
+export const setOnChatMessage = (streamId) => {
+    isPresent = true;
+    console.log('on chat message');
+    onChatMessage('/topic/chat/' + streamId, dispatch);
+}
 
 const ChatPreview = () => {
 
-    const dispatch = useDispatch();
+    dispatch = useDispatch();
     const list = useSelector((state) => state.chat.chats);
-    const user = useSelector((state) => state.user.user);
+    const { user } = useSelector((state) => state.auth);
 
     const handleSendChat = (input) => {
-        dispatch(addChat({
-            id: list.length + 1,
-            username: user.username,
-            thumbnail: user.thumbnail,
-            content: input,
-        }));
+        if (input.trim()) {
+            if (isPresent) {
+                console.log("send chat message to server ! ");
+                chatMessage(input);
+            }
+        }
     };
 
 
     return (
         <ChatPreviewContainer>
-            <TitleBar title="Chat Preview"/>
+            <TitleBar title="Chat Preview" />
             <div className="chat-list">
                 <ChatList />
             </div>
             <div className="send-chat">
-                <SendComment ph="Send chat ..." onSendComment={handleSendChat} highlight={true}/>
+                <SendComment ph="Send chat ..." onSendComment={handleSendChat} highlight={true} />
             </div>
         </ChatPreviewContainer>
     );

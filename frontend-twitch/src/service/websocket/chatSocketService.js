@@ -1,9 +1,30 @@
 import { useDispatch } from "react-redux";
 import { getSocket, getUserSession } from "./socketService"
-import { getLiveSession } from "./streamSocketService";
-import { setChatMessages } from "../../store/chatMessage";
+import { getStreamId } from "./streamSocketService";
+import { addChat } from "../../stores/slices/chatSlice";
+import { setViewersCount } from "../../stores/slices/streamSlice";
+
 
 let stompClient = null;
+
+
+export const onViewMessage = (destination, callback) => {
+    stompClient = getSocket();
+    console.log(stompClient);
+
+    if (stompClient && stompClient.connected) {
+        console.log('Ready receive message from client ' + destination);
+
+        stompClient.subscribe(destination, (response) => {
+            const message = JSON.parse(response.body);
+            console.log('[VIEW MESSAGE] receive message: ' + message);
+            callback(message);
+        });
+    }
+}
+
+
+
 
 export const onChatMessage = (destination, dispatch) => {
     stompClient = getSocket();
@@ -11,29 +32,22 @@ export const onChatMessage = (destination, dispatch) => {
 
     if (stompClient && stompClient.connected) {
         console.log('Ready receive message from client ' + destination);
+
         stompClient.subscribe(destination, (response) => {
             const message = JSON.parse(response.body);
             console.log('receive message: ' + message);
-            switch (message.action) {
-                case 'JOIN_ROOM':
-                    break;
-                case 'NOTIS_SYSTEM':
-                    break;
-                case 'CHAT_MESSAGE':
-                    receiveChatMessage(message, dispatch);
-                    break;
-            }
+            receiveChatMessage(message, dispatch);
         });
     }
 }
 
 export const chatMessage = (content) => {
-    const liveSession = getLiveSession();
+    const streamId = getStreamId();
 
-    if (liveSession) {
+    if (streamId) {
         var message = {
-            liveSessionId: liveSession,
-            username: getUserSession(),
+            streamId: streamId,
+            userSessionId: getUserSession(),
             content: content,
         }
         console.log('Send chat message to server', message);
@@ -44,14 +58,14 @@ export const chatMessage = (content) => {
 export const receiveChatMessage = (message, dispatch) => {
     const chatMessage = {
         id: message.id,
-        username: message.username,
         content: message.content,
-        pp: message.pp,
-        timestamp: message.timestamp,
+        createdAt: message.createdAt,
+        user: message.user
     }
     console.log('Receive message from server', chatMessage);
-    dispatch(setChatMessages(chatMessage))
+    dispatch(addChat(chatMessage));
 }
+
 
 export const sendMessage = (message, destination) => {
     const stompClient = getSocket();
@@ -59,6 +73,7 @@ export const sendMessage = (message, destination) => {
         stompClient.publish({
             destination: destination,
             body: JSON.stringify(message),
+            headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
         });
     }
 }

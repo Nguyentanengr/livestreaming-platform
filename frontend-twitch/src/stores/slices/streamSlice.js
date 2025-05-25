@@ -31,6 +31,9 @@ export const streamSlice = createSlice({
             state.recentCurrentPage = 0;
             state.recentTotalPages = 0;
         },
+        setViewersCount: (state, action) => {
+            state.selectedStream.viewersCount = action.payload.viewersCount;
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -95,6 +98,6 @@ export const streamSlice = createSlice({
     },
 });
 
-export const { clearStreams } = streamSlice.actions;
+export const { clearStreams, setViewersCount } = streamSlice.actions;
 
 export default streamSlice.reducer;

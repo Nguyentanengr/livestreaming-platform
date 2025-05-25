@@ -266,3 +266,42 @@ export const getInterestedCategories = createAsyncThunk(
         }
     }
 );
+
+
+
+
+export const getAllCategoryByKey = createAsyncThunk(
+    'category/getAllCategoryByKey',
+    async ({ key = '', page = 0, size = 100 }, { rejectWithValue }) => {
+        try {
+            const TARGET_URL = API_URLS.GET_ALL_CATEGORIES
+                .replace('{key}', key).replace('{page}', page).replace('{size}', size);
+
+            const response = await fetch(TARGET_URL, {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            });
+
+            const apiResponse = await response.json();
+
+            if (apiResponse.status !== 'success') {
+                return rejectWithValue(handleErrorResponse(apiResponse.error));
+            }
+
+            return {
+                categoryList: apiResponse.data.categories,
+                currentPage: apiResponse.data.currentPage,
+                totalPages: apiResponse.data.totalPages,
+            };
+        } catch (error) {
+            return rejectWithValue(
+                handleErrorResponse({
+                    code: 'NETWORK_ERROR',
+                    message: 'Network error',
+                })
+            );
+        }
+    }
+);
