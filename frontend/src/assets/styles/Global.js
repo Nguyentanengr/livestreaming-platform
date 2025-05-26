@@ -1,15 +1,26 @@
 import { createGlobalStyle } from "styled-components";
+import { Theme } from "./Theme";
 
 const GlobalStyles = createGlobalStyle`
-    
+
+@keyframes anim {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  background: ${(props) => props.theme.body};
-  color: ${(props) => props.theme.text};
+  background: ${Theme.body};
+  color: ${Theme.text};
 }
+
 body::-webkit-scrollbar {
   width: 5px;
 }
@@ -20,49 +31,31 @@ body::-webkit-scrollbar-thumb {
 }
 
 body.no-scroll {
-  overflow: hidden; /* Tắt cuộn */
+  overflow: hidden; /* Disable scroll when adding class "no-scroll"*/
 }
 
+
 a {
-  color: ${(props) => props.theme.text};
+  color: ${Theme.text};
+  text-decoration: none;
+  cursor: pointer;
+}
+
+img {
+  width: 100%;
+}
+
+ul li {
+    list-style: none;
+}
+
+p {
+    opacity: 0.75;
 }
 
 .app {
   display: block;
 }
-
-.main-ex {
-  padding: 55px 0px 55px 75px;
-}
-
-@media (min-width: 768px) {
-  .app {
-    .main {
-      padding: 55px 15px 55px 75px;
-
-      &.sidebar-open {
-        padding-left: 265px;
-      }
-    }  
-  }
-}
-
-  
-
-@media (min-width: 768px) {
-  body {
-    background: ${(props) => props.theme.bodyDesktop};
-  }
-}
-
-@keyframes pageAnim {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
 `;
 
 export default GlobalStyles;

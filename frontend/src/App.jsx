@@ -1,51 +1,132 @@
-import { ThemeProvider } from "styled-components";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import GlobalStyles from "./assets/styles/Global";
-import Header from "./components/Header/Header"
-import { connect, useSelector } from "react-redux";
-import { lightTheme, darkTheme } from "./assets/styles/Theme";
-import { useState } from "react";
-import { useEffect } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
-import Home from "./views/Home/Home";
-import LiveRoom from "./views/LiveRoom/LiveRoom";
-import PresentRoom from "./views/PresentRoom/PresentRoom";
-import { connectSocket, disconnectSocket } from "./services/socketServices/socketService";
+import MainLayout from "./components/layouts/MainLayout";
+import Home from "./components/pages/home/Home";
+import Reel from "./components/pages/reel/Reel";
+import Profile from "./components/pages/profile/Profile";
+import CreatorLayout from "./components/layouts/CreatorLayout";
+import Stream from "./components/pages/stream/Stream";
+import Creator from "./components/pages/creator/Creator";
+import View from "./components/pages/view/View";
+import Following from "./components/pages/following/Following";
+import Categories from "./components/pages/categories/Categories";
+import Category from "./components/pages/category/Category";
+import LogIn from "./components/layouts/header/LogIn";
+import SignUp from "./components/layouts/header/SignUp";
+import ResetPassword from "./components/layouts/header/ResetPassword";
+import ReelViewer from "./components/features/pabout/ReelViewer";
+import ChannelProfile from "./components/pages/channel/ChannelProfile";
+import { connectSocket, disconnectSocket } from "./service/websocket/socketService";
+
+const WS_BASE_URL = (import.meta.env.VITE_WS_BASE_URL || 'wss://localhost:8080/ws');
+
+
+const PrivateRoute = ({ children, setModals }) => {
+  const user = localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user'))
+    : null;
+
+  if (!user) {
+    setModals((prev) => ({ ...prev, login: true }));
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
+};
 
 const App = () => {
+  const [modals, setModals] = useState({
+    login: false,
+    signUp: false,
+    resetPassword: false,
+  });
 
-  const [mySize, setMySize] = useState(window.innerWidth);
-  const { darkStatus, sideBarStatus } = useSelector((state) => state.site);
+  const toggleModal = (modalName) => {
+    setModals((prev) => ({
+      login: modalName === 'login' ? !prev.login : false,
+      signUp: modalName === 'signUp' ? !prev.signUp : false,
+      resetPassword: modalName === 'resetPassword' ? !prev.resetPassword : false,
+    }));
+  };
 
   useEffect(() => {
-    const socketUrl = "ws://localhost:8080/ws";
-    connectSocket(socketUrl);
+    connectSocket(WS_BASE_URL);
     return () => {
       disconnectSocket();
     }
   }, []);
 
-  useEffect(() => {
-    const changeSize = () => {
-      return setMySize(window.innerWidth);
-    };
-    window.addEventListener("resize", changeSize);
-    return () => window.removeEventListener("resize", changeSize);
-  }, [mySize]);
-
   return (
-    <ThemeProvider theme={darkStatus ? darkTheme : lightTheme}>
+    <>
       <GlobalStyles />
+      {modals.login && (
+        <LogIn
+          onclose={() => toggleModal('login')}
+          onSignUp={() => toggleModal('signUp')}
+          onResetPass={() => toggleModal('resetPassword')}
+        />
+      )}
+      {modals.signUp && (
+        <SignUp
+          onclose={() => toggleModal('signUp')}
+          onLogin={() => toggleModal('login')}
+        />
+      )}
+      {modals.resetPassword && (
+        <ResetPassword
+          onclose={() => toggleModal('resetPassword')}
+          onLogin={() => toggleModal('login')}
+          onSignUp={() => toggleModal('signUp')}
+        />
+      )}
       <div className="app">
-        <Header mySize={mySize} />
-        <div className={`main ${sideBarStatus && mySize > 1199 ? "sidebar-open" : ""}`}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/:id" element={<LiveRoom />} />
-            <Route path="/:username/creator-dashboard" element={<PresentRoom />} />
-          </Routes>
-        </div>
+        <Routes>
+          {/* Apply MainLayout */}
+          <Route element={<MainLayout setModals={setModals} />}>
+            <Route index element={<Home />} />
+            <Route path="/reels" element={<Reel />} />
+            <Route
+              path="/you"
+              element={
+                <PrivateRoute setModals={setModals}>
+                  <Profile />
+                </PrivateRoute>
+              }
+            />
+            <Route path="/categories" element={<Categories />} />
+            <Route path="/categories/:categoryId" element={<Category />} />
+            <Route path="/reel/:reelId" element={<ReelViewer />} />
+            <Route path="/channel/:username" element={<ChannelProfile />} />
+
+            <Route
+              path="/following"
+              element={
+                <PrivateRoute setModals={setModals}>
+                  <Following />
+                </PrivateRoute>
+              }
+            />
+            <Route path="/live/:username" element={<View />} />
+          </Route>
+          <Route
+            path="/creator"
+            element={
+              <PrivateRoute setModals={setModals}>
+                <CreatorLayout />
+              </PrivateRoute>
+            }
+          >
+            <Route index element={<Stream />} />
+            <Route path="stream" element={<Stream />} />
+            <Route path="content" element={<Creator />} />
+            <Route path="analytics" element={<Profile />} />
+          </Route>
+          {/* Not layout applied */}
+          <Route path="*" element={<div>Page Error Not Found</div>} />
+        </Routes>
       </div>
-    </ThemeProvider>
+    </>
   );
 };
 

@@ -15,20 +15,3 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-img {
-    width: 100%;
-}
-
-a {
-    color: #333;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-ul li {
-    list-style: none;
-}
-
-p {
-    opacity: 0.75;
-}
