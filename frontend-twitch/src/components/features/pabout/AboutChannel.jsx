@@ -80,20 +80,20 @@ const AboutChannel = () => {
                     </div>
                 </div>
                 <div className="links">
-                    {myProfile.link.youtube && (
-                        <Link to={myProfile.link.youtube} target="_blank" className="link-item">
+                    {myProfile.link?.youtube && (
+                        <Link to={myProfile.link?.youtube} target="_blank" className="link-item">
                             <Icons.Youtube className="link-icon" />
                             Youtube
                         </Link>
                     )}
-                    {myProfile.link.tiktok && (
-                        <Link to={myProfile.link.tiktok} target="_blank" className="link-item">
+                    {myProfile.link?.tiktok && (
+                        <Link to={myProfile.link?.tiktok} target="_blank" className="link-item">
                             <Icons.Tiktok className="link-icon" />
                             TikTok
                         </Link>
                     )}
-                    {myProfile.link.discord && (
-                        <Link to={myProfile.link.discord} target="_blank" className="link-item">
+                    {myProfile.link?.discord && (
+                        <Link to={myProfile.link?.discord} target="_blank" className="link-item">
                             <Icons.Discord className="link-icon" />
                             Discord
                         </Link>
