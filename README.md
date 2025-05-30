@@ -24,7 +24,7 @@
 </div>
 
 ## Features
-<hr>
+
 
 - **Sign-up and Login**: Authentication via email with OTP verification.
 - **Live Streaming**: Create and join live streaming sessions with real-time interaction.
