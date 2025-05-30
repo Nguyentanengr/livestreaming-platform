@@ -1,5 +1,6 @@
 <div align="center">
   <img src="preview/logo.jpeg" alt="" />
+  <img src="https://freelogopng.com/images/all_img/1656151360twitch-logo-png.png" alt="Twitch Logo" width="150">
 </div>
 
 ##
