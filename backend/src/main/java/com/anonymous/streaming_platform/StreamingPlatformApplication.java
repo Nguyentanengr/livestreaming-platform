@@ -16,10 +16,18 @@ public class StreamingPlatformApplication {
 	public static void main(String[] args) {
 
 		// Tải tệp .env từ thư mục gốc
-		Dotenv dotenv = Dotenv.configure().load();
-		// Đưa các biến từ .env vào môi trường hệ thống
-		dotenv.entries().forEach(entry -> System.setProperty(entry.getKey(), entry.getValue()));
-
+		try {
+			Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
+			dotenv.entries().forEach(entry -> {
+				// Chỉ đặt System property nếu chưa có trong môi trường
+				if (System.getProperty(entry.getKey()) == null && System.getenv(entry.getKey()) == null) {
+					System.setProperty(entry.getKey(), entry.getValue());
+					log.info("Set system property from .env: {}={}", entry.getKey(), entry.getValue());
+				}
+			});
+		} catch (Exception e) {
+			log.warn("Could not load .env file, using environment variables instead: {}", e.getMessage());
+		}
 		// Lấy ApplicationContext
 		ApplicationContext context = SpringApplication.run(StreamingPlatformApplication.class, args);
 
