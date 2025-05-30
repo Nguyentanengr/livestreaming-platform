@@ -1,7 +1,6 @@
 <div align="center">
   <img src="preview/logo.jpeg" alt="" />
 </div>
-
 <hr>
 
 <h3 align="center">The livestreaming & short video platform</h3>
@@ -22,8 +21,7 @@
 Streaming Platform is a web application that enables users to live stream, create and watch short videos (reels), interact through likes, comments, follows, and receive real-time notifications. The application is designed to be simple, user-friendly, and entertaining.
 
 ### Features
-
----
+<hr>
 
 - **Sign-up and Login**: Authentication via email with OTP verification.
 - **Live Streaming**: Create and join live streaming sessions with real-time interaction.
@@ -33,8 +31,7 @@ Streaming Platform is a web application that enables users to live stream, creat
 - **Real-time Notifications**: Receive notifications for actions like likes, comments, or follows.
 
 ### Demo
-
----
+<hr>
 
 <img src="preview/preview.gif" alt="Preview GIF" style="width: 100%;" />
 
