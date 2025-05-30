@@ -1,7 +1,8 @@
-<p style="text-align: center; color: #9146FF; font-size: 40px; font-weight: 800">Twitch</p>
+<h1 align="center">Twitch</h1>
 
----
-<p style="text-align: center; color: #000000; font-size: 22px; font-weight: 700">The livestreaming & short video platform</p>
+<hr>
+
+<h3 align="center">The livestreaming & short video platform</h3>
 
 
 
