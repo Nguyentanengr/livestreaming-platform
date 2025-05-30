@@ -1,4 +1,6 @@
-<h1 align="center">Twitch</h1>
+<div align="center">
+  <img src="preview/logo.jpeg" alt="" />
+</div>
 
 <hr>
 
