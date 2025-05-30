@@ -22,7 +22,7 @@
   Streaming Platform is a web application that enables users to live stream, create and watch short videos (reels), interact through likes, comments, follows, and receive real-time notifications. The application is designed to be simple, user-friendly, and entertaining.
 </div>
 
-### Features
+## Features
 <hr>
 
 - **Sign-up and Login**: Authentication via email with OTP verification.
@@ -32,7 +32,7 @@
 - **Real-time Chat**: Send messages during live streams.
 - **Real-time Notifications**: Receive notifications for actions like likes, comments, or follows.
 
-### Demo
+## Demo
 <hr>
 
 <div align="center">
@@ -40,23 +40,12 @@
 </div>
 
 
-### Tech Stack
+## Tech Stack
 
----
+<hr>
 
-- **Frontend**:
-  - JavaScript
-  - React.js
-  - HTML & CSS
-- **Backend**:
-  - Java 17
-  - Spring Boot 3.4
-  - Spring Data JPA
-  - Spring Security with OAuth2 JWT
-  - WebSocket
-  - Kafka 
-  - Kurento Media Server (WebRTC)
-  - Mailjet
+- **Frontend**: JavaScript, React.js, HTML & CSS
+- **Backend**: Java 17, Spring Boot 3.4, Spring Data JPA, Spring Security, JWT, WebSocket, Kurento Media Server (WebRTC), Kafka, Mailjet
 - **Database**: MySQL, MongoDB
 - **Object Storage**: AWS S3
 - **Cache**: Redis
