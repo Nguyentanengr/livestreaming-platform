@@ -8,7 +8,7 @@
 
 
 
-<div style="text-align: center;">
+<div align="center">
   <img src="https://img.shields.io/badge/Java-17-blue?logo=java" alt="Java" />
   <img src="https://img.shields.io/badge/Spring%20Boot-3.4-green?logo=spring" alt="Spring Boot" />
   <img src="https://img.shields.io/badge/React-18-blue?logo=react" alt="React" />
