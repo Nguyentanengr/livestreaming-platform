@@ -18,7 +18,9 @@
   <img src="https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=white" alt="MySQL" />
 </div>
 
-Streaming Platform is a web application that enables users to live stream, create and watch short videos (reels), interact through likes, comments, follows, and receive real-time notifications. The application is designed to be simple, user-friendly, and entertaining.
+<div align="center">
+  Streaming Platform is a web application that enables users to live stream, create and watch short videos (reels), interact through likes, comments, follows, and receive real-time notifications. The application is designed to be simple, user-friendly, and entertaining.
+</div>
 
 ### Features
 <hr>
@@ -33,7 +35,7 @@ Streaming Platform is a web application that enables users to live stream, creat
 ### Demo
 <hr>
 
-<img src="preview/preview.gif" alt="Preview GIF" style="width: 100%;" />
+<img src="preview/preview.gif" alt="Preview GIF" style="width: 100%;" /> <img src="preview/stream.gif" alt="Preview GIF" style="width: 100%;" />
 
 
 
