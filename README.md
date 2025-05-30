@@ -1,7 +1,8 @@
 <div align="center">
   <img src="preview/logo.jpeg" alt="" />
 </div>
-<hr>
+
+---
 
 <h3 align="center">The livestreaming & short video platform</h3>
 
