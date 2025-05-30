@@ -35,8 +35,9 @@
 ### Demo
 <hr>
 
+<div align="center">
 <img src="preview/preview.gif" alt="Preview GIF" style="width: 100%;" /> <img src="preview/stream.gif" alt="Preview GIF" style="width: 100%;" />
-
+</div>
 
 
 ### Tech Stack
