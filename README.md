@@ -34,7 +34,6 @@
 - **Real-time Notifications**: Receive notifications for actions like likes, comments, or follows.
 
 ## Demo
-<hr>
 
 <div align="center">
 <img src="preview/preview.gif" alt="Preview GIF" style="width: 100%;" /> <img src="preview/stream.gif" alt="Preview GIF" style="width: 100%;" />
@@ -42,8 +41,6 @@
 
 
 ## Tech Stack
-
-<hr>
 
 - **Frontend**: JavaScript, React.js, HTML & CSS
 - **Backend**: Java 17, Spring Boot 3.4, Spring Data JPA, Spring Security, JWT, WebSocket, Kurento Media Server (WebRTC), Kafka, Mailjet
